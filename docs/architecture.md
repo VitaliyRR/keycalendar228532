@@ -4,6 +4,15 @@
 
 KeyCalendar starts as a modular monolith. This keeps booking, availability, payments, and audit updates transactional while preserving module boundaries that can later become services.
 
+## Confirmed product rules
+
+- the launch market is Russia, with RUB as the base currency, Russian time zones, documents and personal-data requirements;
+- the SaaS subscription is billed per management company, without domain-level limits on properties, units or staff;
+- every property can use its own owner-settlement formula: fixed amount, revenue share, net-revenue share, hybrid or custom rules;
+- profitability includes channel commissions, owner payouts, cleaning, supplies, utilities, taxes, payroll, repairs and other categorized expenses;
+- direct booking is a first-class channel with a public booking page, live availability, online payment and guest communications;
+- payment processing is provider-independent and begins with adapters for YooKassa, T-Bank, SBP and CloudPayments.
+
 ```text
 Browser
   -> Web application (React + TypeScript)
@@ -73,6 +82,14 @@ Guest profiles are organization-scoped. A reservation can have a primary guest a
 The booking total is not treated as the payment balance. Charges, payments, refunds, platform commissions, cleaning costs, taxes and manual expenses are separate immutable transactions. Corrections are reversals rather than destructive edits.
 
 This supports revenue, net operating income, occupancy, ADR, RevPAR, average booking value, channel cost, outstanding balance, property profitability and cash-flow reports.
+
+Reports support both accrual and cash views. An owner agreement is versioned by validity period so historical statements never change when commercial terms are updated. Each statement stores its calculated inputs, formula version, adjustments and approval status.
+
+### Direct booking and payments
+
+The public booking flow reads availability from the same reservation source of truth as the operational calendar. A short-lived hold is created before payment and expires automatically. Price quotes are immutable snapshots of the rate plan, discounts, services, taxes and cancellation policy shown to the guest.
+
+Payment providers implement one contract for intent creation, confirmation, refunds and webhook verification. Provider webhooks enter an idempotent inbox before changing a reservation or ledger entry. KeyCalendar never stores full bank-card details.
 
 ### Channel integrations
 

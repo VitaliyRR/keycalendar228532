@@ -65,6 +65,16 @@ const stats = [
 
 const navigation = ["Обзор", "Шахматка", "Бронирования", "Гости", "Финансы", "Объекты", "Команда"];
 
+const navigationRoutes: Record<string, string> = {
+  "Обзор": "/overview",
+  "Шахматка": "/",
+  "Бронирования": "/bookings",
+  "Гости": "/guests",
+  "Финансы": "/finance",
+  "Объекты": "/properties",
+  "Команда": "/team",
+};
+
 type Booking = { start: number; span: number; name: string; meta: string; tone: string; channel: string };
 
 function CalendarTrack({ bookings, onSelect }: { bookings: Booking[]; onSelect: (booking: Booking) => void }) {
@@ -120,14 +130,14 @@ export default function Home() {
 
         <nav className="main-nav" aria-label="Основная навигация">
           {navigation.map((item) => (
-            <a className={item === "Шахматка" ? "active" : ""} href={item === "Шахматка" ? "/" : `/${item.toLocaleLowerCase("ru")}`} key={item}>
+            <a className={item === "Шахматка" ? "active" : ""} href={navigationRoutes[item]} key={item}>
               <span className="nav-indicator" />{item}
             </a>
           ))}
         </nav>
 
         <div className="sidebar-bottom">
-          <a href="/интеграции">Интеграции</a><a href="/настройки">Настройки</a>
+          <a href="/booking">Прямое бронирование</a><a href="/integrations">Интеграции</a><a href="/settings">Настройки</a>
           <div className="profile-card">
             <span className="profile-avatar">ВР</span>
             <span><strong>Виталий Романов</strong><small>Владелец</small></span>

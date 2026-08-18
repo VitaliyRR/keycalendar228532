@@ -21,6 +21,12 @@ Delivered foundation:
 - audit events;
 - server-driven calendar filters and cursor pagination.
 
+Current prototype progress:
+
+- financial dashboard with period, property, source and accounting-method filters;
+- property profitability, expense structure and individual owner settlements;
+- public direct-booking experience with availability search and payment-provider selection.
+
 Acceptance criteria:
 
 - two organizations cannot access each other's data;
@@ -38,6 +44,10 @@ Acceptance criteria:
 - notifications and scheduled reminders;
 - CSV/XLSX exports and management reports;
 - configurable rate plans and additional services.
+- owner agreements with versioned fixed, percentage, hybrid and custom formulas;
+- accrual and cash accounting views;
+- public booking page, short-lived availability holds and payment links;
+- YooKassa, T-Bank, SBP and CloudPayments adapters.
 
 ## Slice 4 — channel manager
 

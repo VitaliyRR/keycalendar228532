@@ -4,6 +4,9 @@ CREATE TYPE membership_role AS ENUM ('owner', 'admin', 'manager', 'accountant', 
 CREATE TYPE reservation_status AS ENUM ('pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled', 'blocked');
 CREATE TYPE reservation_source AS ENUM ('direct', 'avito', 'sutochno', 'booking', 'ical', 'other');
 CREATE TYPE money_entry_kind AS ENUM ('charge', 'payment', 'refund', 'commission', 'expense', 'tax', 'reversal');
+CREATE TYPE owner_agreement_kind AS ENUM ('fixed', 'revenue_share', 'net_revenue_share', 'hybrid', 'custom');
+CREATE TYPE payment_provider AS ENUM ('yookassa', 'tbank', 'sbp', 'cloudpayments', 'other');
+CREATE TYPE payment_intent_status AS ENUM ('created', 'pending', 'succeeded', 'failed', 'cancelled', 'refunded');
 
 CREATE TABLE organizations (
   id uuid PRIMARY KEY,
@@ -105,6 +108,79 @@ CREATE TABLE money_entries (
   FOREIGN KEY (organization_id, reversed_entry_id) REFERENCES money_entries(organization_id, id)
 );
 
+CREATE TABLE property_owners (
+  id uuid PRIMARY KEY,
+  organization_id uuid NOT NULL REFERENCES organizations(id),
+  display_name text NOT NULL,
+  phone text,
+  email text,
+  tax_identifier text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (organization_id, id)
+);
+
+CREATE TABLE owner_agreements (
+  id uuid PRIMARY KEY,
+  organization_id uuid NOT NULL REFERENCES organizations(id),
+  property_id uuid NOT NULL,
+  owner_id uuid NOT NULL,
+  kind owner_agreement_kind NOT NULL,
+  fixed_amount_minor bigint CHECK (fixed_amount_minor IS NULL OR fixed_amount_minor >= 0),
+  share_basis_points integer CHECK (share_basis_points IS NULL OR share_basis_points BETWEEN 0 AND 10000),
+  formula jsonb,
+  valid_from date NOT NULL,
+  valid_to date,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  CHECK (valid_to IS NULL OR valid_to > valid_from),
+  UNIQUE (organization_id, id),
+  FOREIGN KEY (organization_id, property_id) REFERENCES properties(organization_id, id),
+  FOREIGN KEY (organization_id, owner_id) REFERENCES property_owners(organization_id, id)
+);
+
+CREATE TABLE rate_plans (
+  id uuid PRIMARY KEY,
+  organization_id uuid NOT NULL REFERENCES organizations(id),
+  unit_id uuid NOT NULL,
+  name text NOT NULL,
+  base_price_minor bigint NOT NULL CHECK (base_price_minor >= 0),
+  currency char(3) NOT NULL DEFAULT 'RUB',
+  cancellation_policy jsonb NOT NULL,
+  is_public boolean NOT NULL DEFAULT false,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (organization_id, id),
+  FOREIGN KEY (organization_id, unit_id) REFERENCES units(organization_id, id)
+);
+
+CREATE TABLE booking_pages (
+  id uuid PRIMARY KEY,
+  organization_id uuid NOT NULL REFERENCES organizations(id),
+  slug text NOT NULL,
+  title text NOT NULL,
+  settings jsonb NOT NULL DEFAULT '{}'::jsonb,
+  published_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (organization_id, id),
+  UNIQUE (slug)
+);
+
+CREATE TABLE payment_intents (
+  id uuid PRIMARY KEY,
+  organization_id uuid NOT NULL REFERENCES organizations(id),
+  reservation_id uuid NOT NULL,
+  provider payment_provider NOT NULL,
+  provider_reference text,
+  idempotency_key text NOT NULL,
+  status payment_intent_status NOT NULL DEFAULT 'created',
+  amount_minor bigint NOT NULL CHECK (amount_minor > 0),
+  currency char(3) NOT NULL DEFAULT 'RUB',
+  expires_at timestamptz,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (organization_id, id),
+  UNIQUE (organization_id, provider, idempotency_key),
+  FOREIGN KEY (organization_id, reservation_id) REFERENCES reservations(organization_id, id)
+);
+
 CREATE TABLE integration_inbox (
   id uuid PRIMARY KEY,
   organization_id uuid NOT NULL REFERENCES organizations(id),
@@ -143,5 +219,8 @@ CREATE TABLE audit_events (
 CREATE INDEX reservations_calendar_idx ON reservations (organization_id, unit_id, check_in, check_out);
 CREATE INDEX reservations_guest_idx ON reservations (organization_id, primary_guest_id);
 CREATE INDEX money_entries_report_idx ON money_entries (organization_id, occurred_at, kind);
+CREATE INDEX owner_agreements_period_idx ON owner_agreements (organization_id, property_id, valid_from, valid_to);
+CREATE INDEX rate_plans_unit_idx ON rate_plans (organization_id, unit_id, is_public);
+CREATE INDEX payment_intents_reservation_idx ON payment_intents (organization_id, reservation_id, status);
 CREATE INDEX integration_outbox_pending_idx ON integration_outbox (available_at) WHERE delivered_at IS NULL;
 CREATE INDEX audit_events_aggregate_idx ON audit_events (organization_id, aggregate_type, aggregate_id, occurred_at DESC);
