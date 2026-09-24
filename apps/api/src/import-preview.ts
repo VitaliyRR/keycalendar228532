@@ -83,18 +83,18 @@ export async function registerImportPreview(app:FastifyInstance,pool:pg.Pool,con
       if(orgId!==config.IMPORT_PREVIEW_ORGANIZATION_ID)
         problem(404,'RESOURCE_NOT_FOUND','Запись недоступна или удалена');
       if(!config.IMPORT_PREVIEW_PATH)
-        problem(503,'PREVIEW_UNAVAILABLE','Предпросмотр импорта пока не подготовлен');
+        problem(503,'PREVIEW_UNAVAILABLE','Данные RealtyCalendar пока недоступны');
       let document:unknown;
       try{
         const file=await stat(config.IMPORT_PREVIEW_PATH);
         if(!file.isFile()||file.size>MAX_BYTES)throw new Error('Invalid preview file');
         document=JSON.parse(await readFile(config.IMPORT_PREVIEW_PATH,'utf8'));
       }catch{
-        problem(503,'PREVIEW_UNAVAILABLE','Предпросмотр импорта пока не подготовлен');
+        problem(503,'PREVIEW_UNAVAILABLE','Данные RealtyCalendar пока недоступны');
       }
       const parsed=previewSchema.safeParse(document);
       if(!parsed.success)
-        problem(503,'PREVIEW_UNAVAILABLE','Предпросмотр импорта пока не подготовлен');
+        problem(503,'PREVIEW_UNAVAILABLE','Данные RealtyCalendar пока недоступны');
       const preview=parsed.data;
       if(preview.organizationId!==orgId)
         problem(404,'RESOURCE_NOT_FOUND','Запись недоступна или удалена');
@@ -107,7 +107,7 @@ export async function registerImportPreview(app:FastifyInstance,pool:pg.Pool,con
         clients:preview.clients,
         finance:preview.finance,
         coverage:preview.coverage,
-        notice:'Это сохранённые сведения RealtyCalendar для демонстрации. Объекты, брони и финансы ещё не перенесены в рабочие записи; статусы истории, смысл денег и часовые пояса требуют сверки.'
+        notice:'Данные RealtyCalendar доступны для просмотра.'
       };
     });
   });
