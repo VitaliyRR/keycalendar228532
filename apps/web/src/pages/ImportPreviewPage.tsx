@@ -43,18 +43,18 @@ export function ImportPreviewPage({orgId}:{orgId:string}) {
   const visibleProperties=properties.filter(item=>!term||[item.sourceLotId,item.label,item.city||''].some(value=>value.toLocaleLowerCase('ru').includes(term)));
 
   return <>
-    <PageHeader eyebrow="Перенос · доступ владельца и администратора" title="Предпросмотр импорта" description="Исходные объекты и брони RealtyCalendar, сохранённые для сверки перед переносом." actions={<Button onClick={resource.reload} disabled={resource.loading}>Обновить</Button>}/>
-    <div className="notice notice-warning" role="status"><strong>Это предпросмотр исходных данных.</strong> Эти записи ещё не созданы в рабочих объектах и календаре Кей Календаря. Изменения здесь не выполняются.</div>
+    <PageHeader eyebrow="RealtyCalendar · доступ владельца и администратора" title="Данные RealtyCalendar" description="Объекты и брони из RealtyCalendar." actions={<Button onClick={resource.reload} disabled={resource.loading}>Обновить</Button>}/>
+    <div className="notice notice-warning" role="status"><strong>Только чтение.</strong> Изменение объектов и бронирований здесь недоступно.</div>
     {resource.loading&&<Loading label="Загружаем сохранённые исходные данные…"/>}
     {Boolean(resource.error)&&<ErrorBox error={resource.error} retry={resource.reload}/>}
     {data&&data.mode==='source_preview'&&<>
-      <div className="import-preview-metrics" aria-label="Покрытие предпросмотра">
+      <div className="import-preview-metrics" aria-label="Состав данных RealtyCalendar">
         <div className="import-preview-metric"><strong>{data.coverage.propertyCount}</strong><span>текущих объектов</span></div>
-        <div className="import-preview-metric"><strong>{data.coverage.reservationCount}</strong><span>броней в снимке</span></div>
-        <div className="import-preview-metric import-preview-metric-note"><strong>Только чтение</strong><span>состояние на {new Date(data.asOf).toLocaleString('ru-RU')}</span></div>
+        <div className="import-preview-metric"><strong>{data.coverage.reservationCount}</strong><span>броней</span></div>
+        <div className="import-preview-metric import-preview-metric-note"><strong>Только чтение</strong><span>данные на {new Date(data.asOf).toLocaleString('ru-RU')}</span></div>
       </div>
       <p className="import-preview-caption">Даты заезда и выезда показаны как локальные календарные даты источника. Часовые пояса объектов ещё сверяются.</p>
-      <div className="import-preview-tabs" role="tablist" aria-label="Состав предпросмотра">
+      <div className="import-preview-tabs" role="tablist" aria-label="Состав данных RealtyCalendar">
         <button type="button" role="tab" aria-selected={view==='reservations'} className={view==='reservations'?'current':''} onClick={()=>{setView('reservations');setSearch('');}}>Брони <span>{reservations.length}</span></button>
         <button type="button" role="tab" aria-selected={view==='properties'} className={view==='properties'?'current':''} onClick={()=>{setView('properties');setSearch('');}}>Объекты <span>{properties.length}</span></button>
       </div>
@@ -68,7 +68,6 @@ export function ImportPreviewPage({orgId}:{orgId:string}) {
       </Panel>:<Panel title="Объекты RealtyCalendar">
         {visibleProperties.length?<div className="table-scroll"><table className="import-preview-table"><thead><tr><th scope="col">Объект</th><th scope="col">ID в источнике</th><th scope="col">Город</th><th scope="col">Часовой пояс</th></tr></thead><tbody>{visibleProperties.map(item=><tr key={item.sourceLotId}><td><strong>{item.label}</strong></td><td>{item.sourceLotId}</td><td>{item.city||'—'}</td><td>На сверке</td></tr>)}</tbody></table></div>:<Empty title="По фильтрам ничего не найдено" detail="Измените поисковый запрос."/>}
       </Panel>}
-      <p className="muted">{data.notice}</p>
     </>}
   </>;
 }

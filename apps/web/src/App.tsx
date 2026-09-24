@@ -42,8 +42,8 @@ function SourcePreviewRibbon({orgId}:{orgId:string}) {
   const preview=useResource<{coverage:{propertyCount:number;reservationCount:number}}>(orgPath(orgId,'import-preview'));
   if(!preview.data)return null;
   return <div className="notice notice-warning" role="status">
-    <strong>Данные RealtyCalendar для сверки:</strong> {preview.data.coverage.propertyCount} объектов, {preview.data.coverage.reservationCount} броней.{' '}
-    <Link to="/import-preview">Открыть предпросмотр</Link>. Эти записи ещё не являются рабочими данными Кей Календаря.
+    <strong>Данные RealtyCalendar:</strong> {preview.data.coverage.propertyCount} объектов, {preview.data.coverage.reservationCount} броней.{' '}
+    <Link to="/import-preview">Смотреть данные</Link>. Только чтение.
   </div>;
 }
 
@@ -77,7 +77,7 @@ function WorkspaceRoute() {
     <a className="skip-link" href="#main-content">К содержимому</a>
     <aside className={`sidebar ${menuOpen?'open':''}`} aria-label="Главное меню">
       <Link className="brand" to={screenPath(orgId,'SCR-CAL-01')}><span className="logo-mark" aria-hidden="true">▣</span><span>Кей<br/>Календарь</span></Link>
-      <nav>{canPreview&&<Link className={`nav-item ${screen.id==='SCR-MIG-02'?'active':''}`} to="/import-preview">Предпросмотр импорта</Link>}{primaryScreens.map(({group,id})=><Link key={group} className={`nav-item ${screen.group===group&&screen.id!=='SCR-MIG-02'?'active':''}`} to={screenPath(orgId,id)}>{group}</Link>)}</nav>
+      <nav>{canPreview&&<Link className={`nav-item ${screen.id==='SCR-MIG-02'?'active':''}`} to="/import-preview">Данные RealtyCalendar</Link>}{primaryScreens.map(({group,id})=><Link key={group} className={`nav-item ${screen.group===group&&screen.id!=='SCR-MIG-02'?'active':''}`} to={screenPath(orgId,id)}>{group}</Link>)}</nav>
       <div className="sidebar-footer"><span>{auth.session.user?.display_name||auth.session.user?.name||auth.session.user?.email||auth.session.email||'Пользователь'}</span><small>{role}</small><Button variant="quiet" onClick={()=>void auth.logout().then(()=>navigate('/login')).catch(error=>setShellError(error instanceof Error?error.message:'Не удалось выйти'))}>Выйти</Button></div>
     </aside>
     {menuOpen&&<button className="mobile-scrim" aria-label="Закрыть меню" onClick={()=>setMenuOpen(false)}/>}
@@ -95,7 +95,7 @@ function WorkspaceRoute() {
          screen.id==='SCR-FIN-01'||screen.id==='SCR-FIN-02'?<FinancePage orgId={orgId} manual={screen.id==='SCR-FIN-02'} canWrite={canFinance}/>:
          screen.id.startsWith('SCR-REP-')?<ReportPage orgId={orgId} reportType={screen.id==='SCR-REP-02'?'sources':screen.id==='SCR-REP-03'?'module':'finance'}/>:
          screen.id==='SCR-INT-01'||screen.id==='SCR-INT-02'?<ConnectionsPage orgId={orgId} mapping={screen.id==='SCR-INT-02'} canManage={!readOnly&&(role==='owner'||role==='admin'||permissions.includes('integration.manage'))}/>:
-         screen.id==='SCR-MIG-02'?(canPreview?<ImportPreviewPage orgId={orgId}/>:<Empty title="Нет доступа к предпросмотру" detail="Данные переноса доступны владельцу и администратору организации."/>):
+         screen.id==='SCR-MIG-02'?(canPreview?<ImportPreviewPage orgId={orgId}/>:<Empty title="Нет доступа к данным RealtyCalendar" detail="Данные переноса доступны владельцу и администратору организации."/>):
          screen.id.startsWith('SCR-MIG-')?<MigrationPage orgId={orgId} canPreview={canPreview}/>:
          screen.id.startsWith('SCR-BILL-')?<SubscriptionPage orgId={orgId}/>:
          screen.id==='SCR-ORG-01'||screen.id==='SCR-ORG-02'?<OrganizationPage orgId={orgId}/>:
