@@ -150,7 +150,7 @@ export async function registerReservations(app:FastifyInstance,pool:pg.Pool,conf
       if(confirmed){if(!input.quote_id)problem(422,'QUOTE_REQUIRED','Подтверждение требует свежий расчёт');quote=(await verifiedQuote(c,input,input.quote_id)).fresh;}
       const reservationId=randomUUID(),reference=`KC-${reservationId.slice(0,8).toUpperCase()}`;
       await c.tx.query(`INSERT INTO reservations(id,organization_id,reference,guest_id,guest_display_name,status,source,accepted_quote_id,total_minor,currency,sync_state)
-        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,[reservationId,orgId,reference,input.guest_id??null,input.guest_name??null,input.status,input.source,confirmed?input.quote_id:null,quote?.totalMinor??'0',unit.currency,confirmed?'queued':'local_only']);
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,[reservationId,orgId,reference,input.guest_id??null,input.guest_name??null,input.status,input.source,confirmed?input.quote_id:null,quote?.totalMinor??'0',unit.currency,'local_only']);
       await c.tx.query(`INSERT INTO reservation_stays(organization_id,reservation_id,unit_id,checkin,checkout,adults,children) VALUES($1,$2,$3,$4,$5,$6,$7)`,
         [orgId,reservationId,input.unit_id,input.checkin,input.checkout,input.adults,input.children]);
       if(confirmed){await allocate(c,reservationId,input.unit_id,input.checkin,input.checkout);await chargeQuote(c,reservationId,quote!);await outbox(c,'reservation',reservationId,1,'reservation.confirmed',{reservation_id:reservationId});}
@@ -177,7 +177,7 @@ export async function registerReservations(app:FastifyInstance,pool:pg.Pool,conf
       await c.tx.query('UPDATE reservation_stays SET unit_id=$3,checkin=$4,checkout=$5 WHERE organization_id=$1 AND id=$2',[orgId,old.id,input.unit_id,input.checkin,input.checkout]);
       const confirmed=res.status==='confirmed';
       const row=await one<{version:number}>(c.tx,`UPDATE reservations SET accepted_quote_id=$3,total_minor=$4,version=version+1,updated_at=now(),sync_state=$5
-        WHERE organization_id=$1 AND id=$2 RETURNING version`,[orgId,reservationId,confirmed?input.quote_id:null,confirmed?quote.totalMinor:'0',confirmed?'queued':'local_only']);
+        WHERE organization_id=$1 AND id=$2 RETURNING version`,[orgId,reservationId,confirmed?input.quote_id:null,confirmed?quote.totalMinor:'0','local_only']);
       if(confirmed){
         // A request has no sale or debt. Only confirmed reservations post charges.
         const oldCharges=await c.tx.query<{id:string;amount_minor:string;kind:string;service_date:string|null}>(`SELECT id,amount_minor::text,kind,service_date::text FROM charges WHERE organization_id=$1 AND reservation_id=$2 AND amount_minor>0 FOR UPDATE`,[orgId,reservationId]);
@@ -229,7 +229,7 @@ export async function registerReservations(app:FastifyInstance,pool:pg.Pool,conf
       }
       if(BigInt(fresh.feeMinor)>0n){const charge=await one<{id:string}>(c.tx,"INSERT INTO charges(organization_id,reservation_id,kind,amount_minor,currency,description) VALUES($1,$2,'fee',$3,$4,$5) RETURNING id",[orgId,reservationId,fresh.feeMinor,res.currency,'Сбор за отмену']);await postFinancial(c,'charge',charge!.id,'fee_charge',fresh.feeMinor,res.currency);}
       await c.tx.query("UPDATE availability_allocations SET state='released' WHERE organization_id=$1 AND reservation_id=$2 AND state='active'",[orgId,reservationId]);
-      await c.tx.query("UPDATE reservations SET status='cancelled',total_minor=$3,version=$4,sync_state='queued',updated_at=now() WHERE organization_id=$1 AND id=$2",[orgId,reservationId,fresh.newChargesMinor,next.version]);
+      await c.tx.query("UPDATE reservations SET status='cancelled',total_minor=$3,version=$4,sync_state='local_only',updated_at=now() WHERE organization_id=$1 AND id=$2",[orgId,reservationId,fresh.newChargesMinor,next.version]);
       await c.tx.query('UPDATE cancellation_previews SET used_at=now() WHERE organization_id=$1 AND id=$2',[orgId,input.preview_id]);
       await audit(c,'reservation.cancelled','reservation',reservationId,input.reason,{preview_hash:fresh.hash});
       await outbox(c,'reservation',reservationId,next.version,'reservation.cancelled',{reservation_id:reservationId});return reservationDto(c,reservationId);
