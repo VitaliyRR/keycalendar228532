@@ -17,6 +17,7 @@ const SOURCE_NAMES={bookings:'RealtyCalendar bookings SpreadsheetML 2003',
   deposits_ui:'RealtyCalendar deposits UI JSON',settings_ui:'RealtyCalendar settings UI JSONL',
   properties_full_ui:'RealtyCalendar full property UI JSONL',
   active_booking_cards_ui:'RealtyCalendar active booking cards UI JSONL',
+  booking_card_facts_ui:'RealtyCalendar booking card facts UI JSONL',
   booking_pages_ui:'RealtyCalendar booking pages UI JSONL',
   property_edit_links_ui:'RealtyCalendar property edit links UI JSONL'} as const;
 export type EvidenceDataset=keyof typeof SOURCE_NAMES;
@@ -26,6 +27,7 @@ const STAGE_FORMAT:Record<EvidenceDataset,string>={bookings:'realtycalendar-book
   deposits_ui:'realtycalendar-deposits-ui-v1',settings_ui:'realtycalendar-settings-ui-v1',
   properties_full_ui:'realtycalendar-properties-full-ui-v1',
   active_booking_cards_ui:'realtycalendar-active-booking-cards-ui-v1',
+  booking_card_facts_ui:'realtycalendar-booking-card-facts-ui-v1',
   booking_pages_ui:'realtycalendar-booking-pages-ui-v1',
   property_edit_links_ui:'realtycalendar-property-edit-links-ui-v1'};
 
@@ -77,12 +79,23 @@ function validateJson(value:unknown,depth=0):asserts value is Json{
   if(isObject(value)){for(const item of Object.values(value))validateJson(item,depth+1);return;}
   throw new StageError('ROW_INVALID_JSON_VALUE');
 }
+function sourceDateOrder(value:unknown):number|null{
+  if(typeof value!=='string')return null;
+  const parts=/^(\d{2})\.(\d{2})\.(\d{4})$/.exec(value);
+  if(!parts)return null;
+  const day=Number(parts[1]),month=Number(parts[2]),year=Number(parts[3]);
+  if(year<1900||year>2100||month<1||month>12)return null;
+  const days=[31,year%4===0&&(year%100!==0||year%400===0)?29:28,
+    31,30,31,30,31,31,30,31,30,31];
+  if(day<1||day>days[month-1]!)return null;
+  return year*10_000+month*100+day;
+}
 function validateRow(value:unknown,sourceChecksum:string,dataset:EvidenceDataset,
   worksheet:string,expectedColumns?:number,physicalLine?:number):StageRow{
   if(!isObject(value))throw new StageError('ROW_INVALID_SHAPE');
   validateJson(value);
   if(dataset==='payments_ui'||dataset==='settings_ui'||dataset==='properties_full_ui'||
-    dataset==='active_booking_cards_ui'||dataset==='booking_pages_ui'||
+    dataset==='active_booking_cards_ui'||dataset==='booking_card_facts_ui'||dataset==='booking_pages_ui'||
     dataset==='property_edit_links_ui'){
     if(!physicalLine)throw new StageError('ROW_INVALID_NUMBER');
     if(dataset==='payments_ui'&&(!Number.isSafeInteger(value.row_index)||typeof value.approved!=='boolean'||
@@ -109,6 +122,18 @@ function validateRow(value:unknown,sourceChecksum:string,dataset:EvidenceDataset
       (typeof value.status!=='string'||typeof value.info!=='string'||
         typeof value.history!=='string'))
       throw new StageError('ROW_INVALID_BOOKING_CARD_EVIDENCE');
+    if(dataset==='booking_card_facts_ui'){
+      const begin=sourceDateOrder(value.begin),end=sourceDateOrder(value.end);
+      if(typeof value.href!=='string'||!/^\/event_calendars\/[1-9]\d*$/.test(value.href)||
+        typeof value.source_lot_id!=='string'||!/^\d+$/.test(value.source_lot_id)||
+        typeof value.lot_in_current_inventory!=='boolean'||
+        typeof value.status!=='string'||!value.status.trim()||
+        begin===null||end===null||end<=begin||
+        typeof value.info!=='string'||!value.info.trim()||
+        typeof value.history!=='string'||!value.history.trim()||
+        (value.target_reservation_id!==undefined&&value.target_reservation_id!==null))
+        throw new StageError('ROW_INVALID_BOOKING_CARD_FACT_EVIDENCE');
+    }
     if(dataset==='property_edit_links_ui'&&
       (!Number.isSafeInteger(value.index)||typeof value.label!=='string'||
         (value.href!==null&&typeof value.href!=='string')))
@@ -360,6 +385,7 @@ export async function stageSnapshot(options:StageOptions):Promise<StageReport>{
           :dataset==='deposits_ui'?['stable_deposit_ids','settlement_evidence','source_status_semantics']
           :dataset==='settings_ui'?['settings_verification','credential_rotation','capability_approval']
           :dataset==='active_booking_cards_ui'?['stable_reservation_ids','status_semantics','financial_reconciliation']
+          :dataset==='booking_card_facts_ui'?['status_semantics','financial_reconciliation','historical_completeness']
           :dataset==='booking_pages_ui'?['stable_reservation_ids','page_coverage','status_semantics']
           :dataset==='property_edit_links_ui'?['stable_property_mapping','full_property_settings']
           :['property_mapping','media_policy','rates_semantics','history_completeness'],

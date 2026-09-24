@@ -22,7 +22,8 @@ function argsFromCommandLine(argv:string[]):Args{
   const dataset=values.get('dataset')??'bookings';
   if(!input||!original||!manifest||!organization||!actor||!['dry-run','stage'].includes(mode)||
     !['bookings','clients','expenses','payments_ui','inventory_ui','deposits_ui','settings_ui',
-      'properties_full_ui','active_booking_cards_ui','booking_pages_ui','property_edit_links_ui'].includes(dataset))
+      'properties_full_ui','active_booking_cards_ui','booking_card_facts_ui',
+      'booking_pages_ui','property_edit_links_ui'].includes(dataset))
     throw new StageError('INVALID_ARGUMENTS');
   return {input,original,manifest,organization,actor,worksheet:values.get('worksheet'),
     dataset:dataset as EvidenceDataset,mode:mode as Args['mode']};

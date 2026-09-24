@@ -16,6 +16,7 @@ import sys
 import tempfile
 
 from package_monthly_booking_evidence import PackageError, months_between, parse_month, validate_file
+from create_json_evidence_manifest import source_date
 
 MAX_FILE_BYTES = 256 * 1024 * 1024
 MAX_LINE_BYTES = 256 * 1024
@@ -35,6 +36,11 @@ SOURCES = (
      "active-booking-cards.jsonl", "raw_jsonl"),
     ("active_booking_cards_ui", "future-booking-cards-extra.jsonl", "future-booking-cards-extra-manifest.json",
      "future-booking-cards-extra.jsonl", "raw_jsonl"),
+    ("booking_card_facts_ui", "historical-lot-card-full.private.jsonl",
+     "historical-lot-card-full.private-manifest.json", "historical-lot-card-full.private.jsonl", "raw_jsonl"),
+    ("booking_card_facts_ui", "monthly-lot-payment-gap-card-full.private.jsonl",
+     "monthly-lot-payment-gap-card-full.private-manifest.json",
+     "monthly-lot-payment-gap-card-full.private.jsonl", "raw_jsonl"),
     ("booking_pages_ui", "booking-ui-pages.jsonl", "booking-ui-pages-manifest.json",
      "booking-ui-pages.jsonl", "raw_jsonl"),
     ("booking_pages_ui", "booking-ui-months-combined.jsonl", "booking-ui-months-combined-manifest.json",
@@ -155,6 +161,34 @@ def booking_card_scope(path: pathlib.Path) -> tuple[set[str], dict[str, int]]:
     return ids, statuses
 
 
+def booking_card_fact_scope(path: pathlib.Path) -> tuple[set[str], dict[str, int], int, int]:
+    ids: set[str] = set()
+    statuses: dict[str, int] = {}
+    current_lots = historical_lots = 0
+    with path.open("rb") as stream:
+        for line in stream:
+            row = json.loads(line)
+            href, status = row.get("href"), row.get("status")
+            begin, end = source_date(row.get("begin")), source_date(row.get("end"))
+            if (not isinstance(href, str) or not re.fullmatch(r"/event_calendars/[1-9][0-9]*", href) or
+                href in ids or not isinstance(row.get("source_lot_id"), str) or
+                not re.fullmatch(r"[0-9]+", row["source_lot_id"]) or
+                type(row.get("lot_in_current_inventory")) is not bool or
+                not isinstance(status, str) or not status.strip() or
+                begin is None or end is None or end <= begin or
+                not isinstance(row.get("info"), str) or not row["info"].strip() or
+                not isinstance(row.get("history"), str) or not row["history"].strip() or
+                row.get("target_reservation_id") is not None):
+                raise CoverageError("BOOKING_CARD_FACT_SCOPE_INVALID")
+            ids.add(href)
+            statuses[status] = statuses.get(status, 0) + 1
+            if row["lot_in_current_inventory"]:
+                current_lots += 1
+            else:
+                historical_lots += 1
+    return ids, statuses, current_lots, historical_lots
+
+
 def booking_month_scope(private_dir: pathlib.Path, combined: pathlib.Path) -> tuple[list[str], set[str]]:
     qa = read_json(private_dir / "booking-ui-months-combined-qa.json")
     if qa.get("format") != "keycalendar-private-monthly-booking-qa-v1" or \
@@ -256,6 +290,11 @@ def main() -> None:
     monthly_ids: set[str] = set()
     card_ids: set[str] = set()
     card_statuses: dict[str, int] = {}
+    historical_fact_ids: set[str] = set()
+    payment_gap_fact_ids: set[str] = set()
+    fact_statuses: dict[str, int] = {}
+    fact_current_lots = 0
+    fact_historical_lots = 0
     property_count: int | None = None
     photo_count: int | None = None
     for dataset, original_name, manifest_name, evidence_name, mode in sources:
@@ -268,6 +307,8 @@ def main() -> None:
                 continue
             raise CoverageError("REQUIRED_DATASET_MISSING")
         manifest = read_json(manifest_path)
+        if dataset == "booking_card_facts_ui" and manifest.get("dataset") != "realtycalendar-booking-card-facts-ui-v1":
+            raise CoverageError("MANIFEST_DATASET_MISMATCH")
         source_sha = digest(original)
         if source_sha != manifest.get("sha256"):
             raise CoverageError("MANIFEST_SOURCE_HASH_MISMATCH")
@@ -304,6 +345,16 @@ def main() -> None:
             card_ids.update(observed_cards)
             for status, count in observed_statuses.items():
                 card_statuses[status] = card_statuses.get(status, 0) + count
+        if dataset == "booking_card_facts_ui":
+            observed_facts, observed_statuses, current_count, historical_count = booking_card_fact_scope(evidence)
+            if original_name == "historical-lot-card-full.private.jsonl":
+                historical_fact_ids = observed_facts
+            else:
+                payment_gap_fact_ids = observed_facts
+            for status, count in observed_statuses.items():
+                fact_statuses[status] = fact_statuses.get(status, 0) + count
+            fact_current_lots += current_count
+            fact_historical_lots += historical_count
         if dataset == "properties_full_ui":
             property_ids, photo_count = property_scope(evidence)
             property_count = len(property_ids)
@@ -338,6 +389,9 @@ def main() -> None:
     overlap_ids = booking_ids & monthly_ids
     if not card_ids.issubset(monthly_ids):
         raise CoverageError("BOOKING_CARD_ID_NOT_IN_MONTHLY_LIST")
+    fact_ids = historical_fact_ids | payment_gap_fact_ids
+    if historical_fact_ids.intersection(payment_gap_fact_ids) or fact_ids.intersection(monthly_ids):
+        raise CoverageError("BOOKING_CARD_FACT_SCOPE_OVERLAP")
     complete = False
     matrix = {"format": "keycalendar-private-stage0-coverage-v2", "batch_count": len(entries),
               "evidence_row_count": total, "live_entity_count_claimed": 0,
@@ -356,6 +410,18 @@ def main() -> None:
               "booking_ids_observed": len(booking_ids | monthly_ids),
               "booking_future_cards_observed": len(card_ids),
               "booking_future_card_status_counts": card_statuses,
+              "booking_card_fact_rows_observed": len(historical_fact_ids) + len(payment_gap_fact_ids),
+              "booking_card_fact_ids_observed": len(fact_ids),
+              "booking_card_fact_historical_rows": len(historical_fact_ids),
+              "booking_card_fact_payment_gap_rows": len(payment_gap_fact_ids),
+              "booking_card_fact_ids_overlap_sources": len(historical_fact_ids & payment_gap_fact_ids),
+              "booking_card_fact_ids_in_monthly_list": len(fact_ids & monthly_ids),
+              "booking_card_fact_ids_outside_monthly_list": len(fact_ids - monthly_ids),
+              "booking_card_fact_ids_overlap_future_cards": len(fact_ids & card_ids),
+              "booking_card_fact_ids_overlap_page_snapshots": len(fact_ids & booking_ids),
+              "booking_card_fact_rows_on_current_lots": fact_current_lots,
+              "booking_card_fact_rows_on_historical_lots": fact_historical_lots,
+              "booking_card_fact_status_counts": fact_statuses,
               "properties_expected": args.expected_properties,
               "properties_observed": property_count,
               "property_photo_thumbnails_observed": photo_count, "batches": entries}

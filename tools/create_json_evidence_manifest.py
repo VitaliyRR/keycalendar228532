@@ -6,10 +6,12 @@ The original JSON/JSONL stays unchanged. No row values, links or hashes are prin
 from __future__ import annotations
 
 import argparse
+import datetime
 import hashlib
 import json
 import os
 import pathlib
+import re
 import sys
 import tempfile
 
@@ -48,6 +50,18 @@ def write_private(path: pathlib.Path, content: bytes) -> None:
     finally:
         if os.path.exists(temporary):
             os.unlink(temporary)
+
+
+def source_date(value: object) -> datetime.date | None:
+    if not isinstance(value, str) or not re.fullmatch(r"[0-9]{2}\.[0-9]{2}\.[0-9]{4}", value):
+        return None
+    day, month, year = (int(part) for part in value.split("."))
+    if year < 1900 or year > 2100:
+        return None
+    try:
+        return datetime.date(year, month, day)
+    except ValueError:
+        return None
 
 
 def jsonl_count(path: pathlib.Path, dataset: str) -> int:
@@ -103,6 +117,19 @@ def jsonl_count(path: pathlib.Path, dataset: str) -> int:
                 not isinstance(row.get("history"), str)
             ):
                 raise ManifestError("ROW_INVALID_SHAPE")
+            if dataset == "booking_card_facts_ui":
+                begin, end = source_date(row.get("begin")), source_date(row.get("end"))
+                if (not isinstance(row.get("href"), str) or
+                    not re.fullmatch(r"/event_calendars/[1-9][0-9]*", row["href"]) or
+                    not isinstance(row.get("source_lot_id"), str) or
+                    not re.fullmatch(r"[0-9]+", row["source_lot_id"]) or
+                    type(row.get("lot_in_current_inventory")) is not bool or
+                    not isinstance(row.get("status"), str) or not row["status"].strip() or
+                    begin is None or end is None or end <= begin or
+                    not isinstance(row.get("info"), str) or not row["info"].strip() or
+                    not isinstance(row.get("history"), str) or not row["history"].strip() or
+                    row.get("target_reservation_id") is not None):
+                    raise ManifestError("ROW_INVALID_BOOKING_CARD_FACT_EVIDENCE")
             if dataset == "property_edit_links_ui" and (
                 type(row.get("index")) is not int or
                 not isinstance(row.get("label"), str) or
@@ -150,7 +177,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", required=True,
       choices=("payments_ui", "inventory_ui", "deposits_ui", "settings_ui", "properties_full_ui",
-               "active_booking_cards_ui", "booking_pages_ui", "property_edit_links_ui"))
+               "active_booking_cards_ui", "booking_card_facts_ui", "booking_pages_ui",
+               "property_edit_links_ui"))
     parser.add_argument("--input", required=True)
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--year", type=int)
@@ -169,10 +197,12 @@ def main() -> None:
         if args.year is not None:
             raise ManifestError("YEAR_NOT_APPLICABLE")
         count = jsonl_count(source, args.dataset) if args.dataset in (
-            "settings_ui", "properties_full_ui", "active_booking_cards_ui", "booking_pages_ui",
+            "settings_ui", "properties_full_ui", "active_booking_cards_ui", "booking_card_facts_ui",
+            "booking_pages_ui",
             "property_edit_links_ui") else document_count(source, args.dataset)
         sheet = {"inventory_ui": "inventory-ui", "deposits_ui": "deposits-ui", "settings_ui": "settings-ui",
                  "properties_full_ui": "properties-full-ui", "active_booking_cards_ui": "active-booking-cards-ui",
+                 "booking_card_facts_ui": "booking-card-facts-ui",
                  "booking_pages_ui": "booking-pages-ui", "property_edit_links_ui": "property-edit-links-ui"}[args.dataset]
     if count != args.expected_rows:
         raise ManifestError("ROW_COUNT_MISMATCH")

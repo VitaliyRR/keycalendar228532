@@ -44,6 +44,7 @@ python tools/create_json_evidence_manifest.py --dataset inventory_ui --input <pr
 python tools/create_json_evidence_manifest.py --dataset deposits_ui --input <private-deposits-ui.json> --manifest <private-deposits-manifest.json> --expected-rows <verified-count>
 python tools/create_json_evidence_manifest.py --dataset settings_ui --input <private-settings-ui.jsonl> --manifest <private-settings-manifest.json> --expected-rows <verified-count>
 python tools/create_json_evidence_manifest.py --dataset active_booking_cards_ui --input <private-active-booking-cards.jsonl> --manifest <private-active-booking-cards-manifest.json> --expected-rows <verified-count>
+python tools/create_json_evidence_manifest.py --dataset booking_card_facts_ui --input <private-booking-card-facts.jsonl> --manifest <private-booking-card-facts-manifest.json> --expected-rows <verified-count>
 python tools/create_json_evidence_manifest.py --dataset booking_pages_ui --input <private-booking-ui-pages.jsonl> --manifest <private-booking-ui-pages-manifest.json> --expected-rows <verified-count>
 python tools/create_json_evidence_manifest.py --dataset property_edit_links_ui --input <private-property-edit-links.jsonl> --manifest <private-property-edit-links-manifest.json> --expected-rows <verified-count>
 python tools/create_json_evidence_manifest.py --dataset properties_full_ui --input <private-properties-full-ui.jsonl> --manifest <private-properties-manifest.json> --expected-rows <verified-count>
@@ -57,7 +58,23 @@ python tools/create_json_evidence_manifest.py --dataset properties_full_ui --inp
 python tools/create_json_evidence_manifest.py --dataset active_booking_cards_ui --input <private-dir/future-booking-cards-extra.jsonl> --manifest <private-dir/future-booking-cards-extra-manifest.json> --expected-rows 5
 ```
 
-Итого есть UI-свидетельства карточек всех 56 будущих броней, но наличие карточки и видимого статуса не разрешает четыре расхождения с Excel и не создаёт бронь в KeyCalendar. На 24.09.2026 в закрытом staging рабочей БД Кей Календаря 17 пакетов / 45 761 физическая строка; повторный dry-run дал ноль новых строк, а действующие объекты, брони и платежи отсутствуют.
+Итого есть UI-свидетельства карточек всех 56 будущих броней. Владелец подтвердил приоритет текущих карточек RealtyCalendar для четырёх расхождений с Excel; исходные ID и решение сохранены только в закрытом наборе. Перед переносом всё ещё нужна финальная дельта. Наличие карточки и видимого статуса само по себе не создаёт бронь в KeyCalendar. На 24.09.2026 в закрытом staging рабочей БД Кей Календаря 19 пакетов / 45 802 физические строки; повторный dry-run дал ноль новых строк, а действующие объекты, брони и платежи отсутствуют.
+
+Два дополнительных неизменяемых пакета `booking_card_facts_ui` содержат полные карточки и историю 25 представителей исторических лотов и 16 отменённых броней с метками действующих лотов. Их исходники и manifest хранятся только в приватном каталоге. Создать manifest отдельно для каждого файла, без объединения пакетов:
+
+```powershell
+python tools/create_json_evidence_manifest.py --dataset booking_card_facts_ui --input <private-dir/historical-lot-card-full.private.jsonl> --manifest <private-dir/historical-lot-card-full.private-manifest.json> --expected-rows 25
+python tools/create_json_evidence_manifest.py --dataset booking_card_facts_ui --input <private-dir/monthly-lot-payment-gap-card-full.private.jsonl> --manifest <private-dir/monthly-lot-payment-gap-card-full.private-manifest.json> --expected-rows 16
+```
+
+Для каждого пакета использовать одинаковый путь файла в `--original` и `--input`; выполнить оба режима отдельно с теми же `--organization` и `--actor`:
+
+```powershell
+node apps/api/dist/import-stage0-cli.js --dataset booking_card_facts_ui --mode dry-run --organization <org-uuid> --actor <owner-user-uuid> --original <private-booking-card-facts.jsonl> --manifest <private-booking-card-facts-manifest.json> --input <private-booking-card-facts.jsonl>
+node apps/api/dist/import-stage0-cli.js --dataset booking_card_facts_ui --mode stage --organization <org-uuid> --actor <owner-user-uuid> --original <private-booking-card-facts.jsonl> --manifest <private-booking-card-facts-manifest.json> --input <private-booking-card-facts.jsonl>
+```
+
+Каждая строка хранит наблюдённые статус, даты, исходный ID лота, информацию и историю карточки. Эти 41 строки подтверждают 25 разных исходных ID исторических лотов и отмену только 16 просмотренных броней; оставшиеся ID из 3 879 видимых лишь через оплаты не классифицированы этим просмотром.
 
 После создания manifest вызвать загрузчик для каждого снимка сначала с `--mode dry-run`, затем с `--mode stage`. Указать его `--dataset`, `--original`, `--manifest`, `--input`, `--organization` и `--actor`. Один и тот же неизменный снимок при повторе даёт `new_rows=0`.
 
@@ -77,7 +94,7 @@ python tools/package_monthly_booking_evidence.py --private-dir <private-dir> --f
 python tools/create_evidence_coverage.py --private-dir <private-dir> --output <private-matrix.json> --allow-missing-properties --expected-booking-pages 226 --expected-properties 34
 ```
 
-Матрица проверяет checksum, число и физические индексы строк, отсутствие повторных ID между отдельными снимками страниц, 51 месячный исходник и точное совпадение объединённого пакета с ними. Пересечение ID между прежними страницами и месячным набором ожидаемо и считается отдельно. Текущая матрица содержит 17 пакетов / 45 761 строку, 61 открытую страницу, 51 месяц, 5 641 уникальный UI ID, 56 карточек будущих броней, 34 карточки объектов и `complete=false`: расхождение с 5 640 строками Excel и статусы броней ещё требуют сверки. Значение `complete` не означает готовность к живому импорту; полнота финансов и вложений оценивается отдельно.
+Матрица проверяет checksum, число и физические индексы строк, отсутствие повторных ID между отдельными снимками страниц, 51 месячный исходник и точное совпадение объединённого пакета с ними. Пересечение ID между прежними страницами и месячным набором ожидаемо и считается отдельно. Текущая матрица содержит 19 пакетов / 45 802 строки, 61 открытую страницу, 51 месяц, 5 641 уникальный UI ID, 56 карточек будущих броней, 41 выборочную карточку броней и 34 карточки объектов; `complete=false`: перед живым импортом нужны финальная дельта, проверка исторических статусов и финансовых смыслов. Отдельная сверка 20 032 строк оплат выявила 9 367 ID по ссылкам; объединение с месячным набором даёт 9 520 ID, из которых 3 879 видны только в оплатах, а 153 только в месячном списке. Ещё 171 строка оплат не имеет ссылки на бронь. Эти числа описывают покрытие свидетельств, а не число подтверждённых броней или проводок. Значение `complete` не означает готовность к живому импорту; полнота финансов и вложений оценивается отдельно.
 
 В 20 карточках раздел фотографий сохранён как `snapshot: null`, `capture_method: css_gallery_dom` и непустая `gallery`: штатный DOM-снимок раздела не открывался, а порядок и URL миниатюр получены из видимой галереи. Валидатор допускает `null` только для этой конкретной формы. Архив 578 доступных JPEG 100×100 хранится отдельно от репозитория; это не исходные изображения полного размера.
 
