@@ -1,0 +1,13 @@
+check_id,scope,source_value,target_value,difference,allowed_reason,evidence_ref,reviewer,status
+REC-001,source_rows,,,,,,,not_run
+REC-002,reviewed_future_reservations,,,,,,,not_run
+REC-003,unmapped_properties,,,,,,,not_run
+REC-004,unknown_active_statuses,,,,,,,not_run
+REC-005,orphan_links,,,,,,,not_run
+REC-006,unresolved_overlaps,,,,,,,not_run
+REC-007,declared_totals_by_currency,,,,,,,not_run
+REC-008,verified_payments_by_currency,,,,,,,not_run
+REC-009,deposit_liabilities,,,,,,,not_run
+REC-010,channel_external_ids,,,,,,,not_run
+REC-011,idempotent_replay_new_records,,,,,,,not_run
+REC-012,rollback_delta_reconciled,,,,,,,not_run

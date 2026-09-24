@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-09-24",
+  "requirements": 107,
+  "rows": 112,
+  "distinct_screens": 77,
+  "design_registry_screens": 77,
+  "source_categories": {
+    "account": 5,
+    "documented": 73,
+    "proposed": 29
+  },
+  "delivery_classes": {
+    "mandatory_parity": 78,
+    "mandatory_platform": 26,
+    "optional_enhancement": 3
+  },
+  "gaps": [],
+  "note": "Проверены ссылки и существование канонических SVG/PNG; это не runtime/визуальная приёмка. Варианты и responsive привязаны через реестр дизайна.",
+  "variants": 20,
+  "variant_links_present": true
+}

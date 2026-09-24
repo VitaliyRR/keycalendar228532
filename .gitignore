@@ -1,41 +1,19 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/.vinext/
-/out/
-
-# misc
+# Local tools and caches, not part of the handoff.
+.artifact-tools/
+node_modules/
+__pycache__/
+*.pyc
+*.log
 .DS_Store
-*.pem
+Thumbs.db
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
+# Client data and credentials must stay outside the repository.
 .env*
-
-# vercel
-.vercel
-
-/dist/
-/.wrangler/
-/outputs/
-/work/
-*.tsbuildinfo
+*.pem
+*.key
+*.pfx
+*credentials*
+*secrets*
+*private*
+bookings.xls
+bookings-staging.jsonl

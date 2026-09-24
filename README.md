@@ -1,34 +1,64 @@
-# KeyCalendar
+# Кей Календарь
 
-KeyCalendar is a multi-tenant SaaS workspace for property managers: availability calendar, reservations, guests, payments, financial analytics, staff permissions, and channel synchronization.
+Комплект исследования, спецификаций, дизайна и плана для создания SaaS управления посуточной арендой. Дата передачи: **24 сентября 2026**. Приложение будет реализовываться отдельным заданием.
 
-## Current product slice
+Начните с [продуктовой спецификации](requirements/product-spec.md), затем откройте [галерею макетов](design/README.md) и [план реализации](plan/README.md). Правила работы следующей модели: [AGENTS.md](AGENTS.md).
 
-The current implementation establishes the visual system and the main operational screen:
+## Что подготовлено
 
-- responsive occupancy calendar for properties and rentable units;
-- booking and payment statuses;
-- today's arrivals, departures, and outstanding payments;
-- booking details drawer and a new-reservation form;
-- company and staff navigation ready for multi-tenant data.
+| Материал | Объем и значение |
+|---|---|
+| Требования | **107**: 78 обязательного паритета, 26 обязательной платформы, 3 дополнительных |
+| Доказательства | Категории требований: 5 проверенных чтением аккаунта, 73 подтвержденных документацией, 29 предложенных для KC |
+| Дизайн | 77 канонических экранов, 6 общих состояний, 20 вариантов, 4 адаптивных листа, библиотека компонентов CMP: всего 108 SVG/PNG |
+| Подключения | 75 паспортов, включая 15 паспортов совместимости кассовых поставщиков |
+| Реализация и проверка | 182 задачи и 182 связанные проверки; это план, а не выполненные тесты приложения |
+| Внутренний API | 56 операций и 74 схемы OpenAPI; контракт будущей реализации |
 
-Representative data is deliberately local in this first interface slice. The production data and service design is documented in [`docs/architecture.md`](docs/architecture.md).
+75 паспортов не означают 75 готовых прямых API-подключений. Они включают native/API-кандидатов, iCal, сообщения, CRM, платежи, кассовую совместимость и неподтвержденные названия, требующие discovery. Доступность каждого механизма и условия его активации указаны отдельно.
 
-## Product principles
+`account` означает точно названное наблюдение. Просмотр формы не доказывает успешное сохранение, платеж, отправку или синхронизацию. `proposed` может обозначать обязательное требование собственной SaaS-платформы: класс поставки задается отдельно полем `delivery_class`.
 
-- Every business record belongs to an organization.
-- A property may contain any number of rentable units.
-- Availability conflicts are rejected by PostgreSQL, not only by the UI.
-- Payments and expenses are recorded as separate ledger entries.
-- External channel events are idempotent and auditable.
-- The UI remains usable with large portfolios through pagination and calendar virtualization.
+## Порядок чтения
 
-## Local development
+1. [Исследование ориентира](research/reference-study.md), [наблюдения аккаунта](research/account-observations.md), [источники](research/reference-evidence.json), [пробелы проверки](research/verification-gaps.csv).
+2. [Продукт](requirements/product-spec.md), [функциональные правила](requirements/functional-spec.md), [реестр ориентира](requirements/reference.json), [SaaS-требования](requirements/saas.json), [паритет](requirements/parity.csv).
+3. [Правила дизайна](design/specification.md), [карта экранов](design/screens.json), [спецификации экранов](design/screen-specs.json), [тексты интерфейса](design/copy.json), [токены](design/tokens.json).
+4. [Архитектура](architecture/README.md), [модель данных](architecture/data-model.md), [цены и ledger](architecture/pricing-ledger.md), [права](architecture/access-control.md), [OpenAPI](architecture/openapi.json).
+5. [Каталог подключений](integrations/README.md), [направления обмена](integrations/capability-matrix.csv), [общий интеграционный контракт](integrations/contract.md). Приоритетные паспорта: [Авито](integrations/passports/INT-AVITO.md), [Суточно.ру](integrations/passports/INT-SUTOCHNO.md).
+6. [Миграция](data/migration-spec.md), [правовые условия выпуска](research/legal/compliance.md), [открытые вопросы](plan/open-questions.md).
+7. [Порядок выпуска](plan/release-plan.md), [backlog](plan/backlog.json), [проверки](plan/test-cases.json), [трассировка REQ → SCR → TASK → TEST](requirements/traceability.csv).
 
-The project uses React, TypeScript, and Vinext. Install dependencies and run the development server with the package manager recorded in the lockfile.
+## Дизайн и ассеты
 
-## Documentation
+[Галерея](design/README.md) предназначена для просмотра. [Индекс SVG/PNG](design/README.md) ведет к редактируемым исходникам и экспорту. SVG содержат текст, фигуры и слои; это статические макеты, не интерфейс приложения. Данные на них синтетические.
 
-- [`docs/architecture.md`](docs/architecture.md) — production architecture and module boundaries.
-- [`docs/product-roadmap.md`](docs/product-roadmap.md) — staged delivery plan and MVP acceptance criteria.
-- [`docs/postgres-schema.sql`](docs/postgres-schema.sql) — initial PostgreSQL domain schema.
+Используемые элементы перечислены в [ассетах и лицензиях](assets/README.md) и [манифесте](assets/manifest.csv). В набор входят собственные SVG-иконки и знак, favicon и Golos Text с лицензией. Результат визуальной проверки описан в [visual-qa.md](design/visual-qa.md).
+
+## Статус и границы
+
+В текущем этапе подготовлены материалы передачи. Frontend, backend, работающие коннекторы и промышленная инфраструктура не реализованы. Галерея, SVG, JSON, OpenAPI и скрипты генерации являются материалами, а не готовым SaaS.
+
+Существующий сервис исследован в режиме чтения: исходные записи, настройки, роли, тарифы и подключения не менялись. Сообщения не отправлялись; платежи и синхронизации не запускались. Перенос клиентских данных не выполнялся. ВМ и расположенный рядом SkySend в этом этапе не изменялись.
+
+Получен ограниченный штатный Excel-экспорт. Закрытый набор хранится вне репозитория; в Git нет исходных клиентских строк, паспортов, паролей, токенов, feed-ссылок или кодов доступа. Экспорту недостает устойчивых ID, статусов, валюты и журнала денег, поэтому его нельзя считать готовым импортом активной базы.
+
+Партнерские доступы, полная правовая проверка, merchant/ККТ, география хранения и коммерческие цены остаются конкретными воротами выпуска. Подробности и следующие действия: [открытые вопросы](plan/open-questions.md).
+
+## Проверка комплекта
+
+[validation-report.json](plan/validation-report.json) проверяет файлы, связи, форматы и признаки утечек. [Визуальный протокол](design/visual-qa.md) дополняет его проверкой макетов. Прохождение статической проверки материалов не доказывает корректность будущего приложения или доступ к API.
+
+Из корня репозитория:
+
+```powershell
+python tools/verify_materials.py
+```
+
+Для обновления статического отчета используйте `--write-report`. Генераторы, зависимости и порядок повторной сборки описаны в [tools/README.md](tools/README.md).
+
+## Восстановимость прежнего прототипа
+
+Рабочее дерево очищено от прежнего приложения и противоречащих материалов. Точка восстановления в Git: тег **`archive/pre-saas-handoff-20260924`**, коммит **`f3367a07138c0a1f5c4fd769ee788c174ea0b705`**. Это ссылка на историю, а не вторая устаревшая копия внутри проекта. Наличие локального тега не является утверждением о его публикации на GitHub.
+
+Следующая модель начинает с отдельного задания на реализацию и первой доступной задачи DAG. Она не должна восстанавливать старый прототип поверх спецификаций автоматически.

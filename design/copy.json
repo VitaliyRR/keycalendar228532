@@ -1,0 +1,980 @@
+{
+  "locale": "ru-RU",
+  "version": "1.0",
+  "messages": [
+    {
+      "id": "COMMON.SAVE",
+      "context": "action",
+      "text": "Сохранить",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.CANCEL",
+      "context": "action",
+      "text": "Отмена",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.CLOSE",
+      "context": "action",
+      "text": "Закрыть",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.RETRY",
+      "context": "action",
+      "text": "Повторить",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.BACK",
+      "context": "action",
+      "text": "Назад",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.NEXT",
+      "context": "action",
+      "text": "Продолжить",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.FILTER_RESET",
+      "context": "action",
+      "text": "Сбросить фильтры",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.EXPORT",
+      "context": "action",
+      "text": "Экспортировать выбранный период",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.SAVING",
+      "context": "status",
+      "text": "Сохранение…",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.SAVED",
+      "context": "status",
+      "text": "Изменения сохранены.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.LOADING",
+      "context": "status",
+      "text": "Загружаем данные…",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.EMPTY",
+      "context": "empty",
+      "text": "Пока нет записей.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.EMPTY_FILTER",
+      "context": "empty",
+      "text": "По выбранным фильтрам ничего не найдено.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.NETWORK",
+      "context": "error",
+      "text": "Не удалось загрузить данные. Проверьте соединение и повторите запрос.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.OFFLINE",
+      "context": "warning",
+      "text": "Нет соединения. Показана сохранённая занятость, изменение недоступно.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.STALE",
+      "context": "warning",
+      "text": "Данные обновлялись {time}. Перед изменением проверим их ещё раз.",
+      "placeholders": [
+        "time"
+      ]
+    },
+    {
+      "id": "COMMON.FORBIDDEN",
+      "context": "error",
+      "text": "Для этого действия недостаточно прав. Обратитесь к администратору организации.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.NOT_FOUND",
+      "context": "error",
+      "text": "Запись недоступна или удалена.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.DIRTY_TITLE",
+      "context": "dialog",
+      "text": "Закрыть без сохранения?",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.DIRTY_BODY",
+      "context": "dialog",
+      "text": "Внесённые изменения будут потеряны.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.KEEP_EDITING",
+      "context": "action",
+      "text": "Продолжить редактирование",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.DISCARD",
+      "context": "action",
+      "text": "Закрыть без сохранения",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.VERSION",
+      "context": "error",
+      "text": "Запись уже изменена. Сравните текущие данные со своим черновиком.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.COMPARE",
+      "context": "action",
+      "text": "Сравнить версии",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.RATE_LIMIT",
+      "context": "error",
+      "text": "Слишком много запросов. Повторите через {duration}.",
+      "placeholders": [
+        "duration"
+      ]
+    },
+    {
+      "id": "COMMON.REQUIRED",
+      "context": "field_error",
+      "text": "Заполните поле «{label}».",
+      "placeholders": [
+        "label"
+      ]
+    },
+    {
+      "id": "COMMON.INVALID_DATE",
+      "context": "field_error",
+      "text": "Такой даты нет. Укажите дату в формате ДД.ММ.ГГГГ.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.INVALID_MONEY",
+      "context": "field_error",
+      "text": "Введите сумму больше нуля с точностью до копеек.",
+      "placeholders": []
+    },
+    {
+      "id": "COMMON.REQUEST_ID",
+      "context": "help",
+      "text": "Код обращения: {support_code}.",
+      "placeholders": [
+        "support_code"
+      ]
+    },
+    {
+      "id": "CAL.TODAY",
+      "context": "action",
+      "text": "Сегодня",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.NEW",
+      "context": "action",
+      "text": "Новое бронирование",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.RANGE",
+      "context": "status",
+      "text": "{checkin}–{checkout} · {nights}",
+      "placeholders": [
+        "checkin",
+        "checkout",
+        "nights"
+      ]
+    },
+    {
+      "id": "CAL.AVAILABLE",
+      "context": "status",
+      "text": "Даты свободны",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.UNASSIGNED",
+      "context": "status",
+      "text": "Номер не выбран, квота категории занята.",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.CONTINUES",
+      "context": "help",
+      "text": "Проживание продолжается за пределами видимого периода.",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.BUFFER",
+      "context": "help",
+      "text": "Время подготовки. Не входит в оплаченные ночи.",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.CONFLICT",
+      "context": "error",
+      "text": "Даты уже заняты. Выберите другой объект или измените период.",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.FIND_ALTERNATIVE",
+      "context": "action",
+      "text": "Подобрать объект",
+      "placeholders": []
+    },
+    {
+      "id": "CAL.MOVE_PREVIEW",
+      "context": "dialog",
+      "text": "Проверьте новые даты, объект и стоимость перед переносом.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.REQUEST",
+      "context": "status",
+      "text": "Заявка",
+      "placeholders": []
+    },
+    {
+      "id": "RES.REQUEST_HELP",
+      "context": "help",
+      "text": "Заявка не блокирует даты.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.HOLD",
+      "context": "status",
+      "text": "Даты удерживаются до {time}.",
+      "placeholders": [
+        "time"
+      ]
+    },
+    {
+      "id": "RES.CONFIRMED",
+      "context": "status",
+      "text": "Подтверждена",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CHECKED_IN",
+      "context": "status",
+      "text": "Проживает",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CHECKED_OUT",
+      "context": "status",
+      "text": "Выехал",
+      "placeholders": []
+    },
+    {
+      "id": "RES.NO_SHOW",
+      "context": "status",
+      "text": "Не заехал",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CANCELLED",
+      "context": "status",
+      "text": "Отменена",
+      "placeholders": []
+    },
+    {
+      "id": "RES.ARCHIVED",
+      "context": "status",
+      "text": "В архиве",
+      "placeholders": []
+    },
+    {
+      "id": "RES.DATE_ORDER",
+      "context": "field_error",
+      "text": "Выезд должен быть позже заезда.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CAPACITY",
+      "context": "field_error",
+      "text": "Для этого объекта превышено число гостей. Измените состав или выберите другой объект.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CHILD_AGE",
+      "context": "field_error",
+      "text": "Укажите возраст каждого ребёнка на дату заезда.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CREATE_REQUEST",
+      "context": "action",
+      "text": "Сохранить заявку",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CONFIRM",
+      "context": "action",
+      "text": "Подтвердить бронь",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CHANGE",
+      "context": "action",
+      "text": "Изменить проживание",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CANCEL_TITLE",
+      "context": "dialog",
+      "text": "Отменить бронирование?",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CANCEL_BODY",
+      "context": "dialog",
+      "text": "Проверьте новый расчёт. Даты освободятся после подтверждения. Возврат оплаты оформляется отдельно.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.RESTORE",
+      "context": "dialog",
+      "text": "Восстановить бронь? Проверим доступность и пересчитаем условия.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.UNARCHIVE",
+      "context": "help",
+      "text": "Возврат из архива не меняет состояние бронирования.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.OTA_CANCEL",
+      "context": "warning",
+      "text": "Отмена ожидает подтверждения канала.",
+      "placeholders": []
+    },
+    {
+      "id": "RES.CHECKOUT_EARLY",
+      "context": "dialog",
+      "text": "Проверьте фактическую дату выезда, начисления и возможный возврат.",
+      "placeholders": []
+    },
+    {
+      "id": "RATE.QUOTE_EXPIRED",
+      "context": "warning",
+      "text": "Расчёт устарел. Обновите стоимость перед подтверждением.",
+      "placeholders": []
+    },
+    {
+      "id": "RATE.QUOTE_UPDATED",
+      "context": "dialog",
+      "text": "Стоимость изменилась с {old_amount} на {new_amount}. Проверьте состав цены.",
+      "placeholders": [
+        "old_amount",
+        "new_amount"
+      ]
+    },
+    {
+      "id": "RATE.RESTRICTION",
+      "context": "error",
+      "text": "Для выбранных дат требуется не менее {min_nights}. Измените период.",
+      "placeholders": [
+        "min_nights"
+      ]
+    },
+    {
+      "id": "RATE.STOP_SELL",
+      "context": "error",
+      "text": "Продажи на выбранные даты закрыты.",
+      "placeholders": []
+    },
+    {
+      "id": "RATE.MIN_MAX",
+      "context": "field_error",
+      "text": "Минимальное проживание не может превышать максимальное.",
+      "placeholders": []
+    },
+    {
+      "id": "RATE.PREVIEW",
+      "context": "action",
+      "text": "Показать изменения",
+      "placeholders": []
+    },
+    {
+      "id": "RATE.BULK_CONFIRM",
+      "context": "dialog",
+      "text": "Будут изменены цены для {units} на {nights}. Подтверждённые брони сохранят стоимость.",
+      "placeholders": [
+        "units",
+        "nights"
+      ]
+    },
+    {
+      "id": "RATE.UNSUPPORTED",
+      "context": "warning",
+      "text": "Этот канал не поддерживает выбранное ограничение. Оно не будет отправлено.",
+      "placeholders": []
+    },
+    {
+      "id": "OBJ.ARCHIVE_BLOCK",
+      "context": "error",
+      "text": "У объекта есть будущие бронирования. Сначала решите вопрос с размещением.",
+      "placeholders": []
+    },
+    {
+      "id": "OBJ.TIMEZONE",
+      "context": "help",
+      "text": "Даты проживания и время уведомлений рассчитываются по часовому поясу объекта.",
+      "placeholders": []
+    },
+    {
+      "id": "OBJ.PHOTOS",
+      "context": "help",
+      "text": "Загрузите фотографии объекта, на использование которых у вас есть права.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.DUPLICATE",
+      "context": "warning",
+      "text": "Найдены похожие контакты. Совпадение телефона не доказывает, что это один человек.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.MERGE",
+      "context": "dialog",
+      "text": "Проверьте профили и связанные бронирования перед объединением.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.DOCUMENT_PRIVATE",
+      "context": "help",
+      "text": "Документ доступен только сотрудникам с соответствующим правом. Просмотр фиксируется в истории.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.FILE_SCAN",
+      "context": "status",
+      "text": "Проверяем файл. Просмотр станет доступен после завершения проверки.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.FILE_REJECTED",
+      "context": "error",
+      "text": "Файл не принят. Проверьте формат и выберите другой файл.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.CONSENT",
+      "context": "help",
+      "text": "Согласие на предложения по email необязательно для бронирования.",
+      "placeholders": []
+    },
+    {
+      "id": "GST.PORTAL_EXPIRED",
+      "context": "error",
+      "text": "Срок действия ссылки истёк. Запросите новую ссылку для своей брони.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.UNPAID",
+      "context": "status",
+      "text": "Не оплачено",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.PARTIAL",
+      "context": "status",
+      "text": "Частично оплачено",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.PAID",
+      "context": "status",
+      "text": "Оплачено",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.OVERPAID",
+      "context": "status",
+      "text": "Переплата {amount}",
+      "placeholders": [
+        "amount"
+      ]
+    },
+    {
+      "id": "FIN.NO_CHARGE",
+      "context": "status",
+      "text": "Оплата не требуется",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEBT",
+      "context": "label",
+      "text": "К доплате",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.REFUND",
+      "context": "action",
+      "text": "Оформить возврат",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.REFUND_CONFIRM",
+      "context": "dialog",
+      "text": "Вернуть {amount} по исходному способу оплаты?",
+      "placeholders": [
+        "amount"
+      ]
+    },
+    {
+      "id": "FIN.REFUND_PENDING",
+      "context": "status",
+      "text": "Возврат выполняется.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.REFUND_UNKNOWN",
+      "context": "warning",
+      "text": "Проверяем результат возврата. Не повторяйте операцию до завершения сверки.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.REFUND_TOO_LARGE",
+      "context": "field_error",
+      "text": "Сумма превышает доступный остаток с учётом уже созданных возвратов.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.PAYMENT_UNKNOWN",
+      "context": "warning",
+      "text": "Платёж ещё не подтверждён. Обновим состояние после ответа провайдера.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.LATE_PAYMENT",
+      "context": "warning",
+      "text": "Оплата поступила после окончания удержания дат. Менеджер проверит размещение.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.MANUAL_EVIDENCE",
+      "context": "help",
+      "text": "Подтвердите фактическое получение денег. Изображение перевода само по себе не меняет баланс.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.REVERSAL",
+      "context": "dialog",
+      "text": "Исправление создаст сторно и новую операцию. Исходная запись останется в истории.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEPOSIT",
+      "context": "label",
+      "text": "Возвратный залог",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEPOSIT_HELD",
+      "context": "status",
+      "text": "Средства заблокированы, но ещё не получены.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEPOSIT_RELEASE",
+      "context": "action",
+      "text": "Снять блокировку залога",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEPOSIT_RETURN",
+      "context": "action",
+      "text": "Вернуть полученный залог",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.DEPOSIT_RETAIN",
+      "context": "field_error",
+      "text": "Укажите основание и подтверждение удержания.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.RECEIPT_PENDING",
+      "context": "status",
+      "text": "Чек формируется.",
+      "placeholders": []
+    },
+    {
+      "id": "FIN.RECEIPT_FAILED",
+      "context": "error",
+      "text": "Чек не сформирован. Откройте причину и порядок исправления.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.ACCESS_REQUIRED",
+      "context": "warning",
+      "text": "Для подключения нужен допуск поставщика.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.MAPPING_REQUIRED",
+      "context": "error",
+      "text": "Сопоставьте объект и тариф перед запуском обмена.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.UNSUPPORTED",
+      "context": "warning",
+      "text": "Операция недоступна для этого способа подключения.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.ICAL",
+      "context": "help",
+      "text": "iCal передаёт календарные события. Цены, платежи и полные данные гостя не синхронизируются.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.LOCAL_SAVED",
+      "context": "status",
+      "text": "Сохранено в Кей Календаре. Доставка в канал ожидается.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.STALE",
+      "context": "warning",
+      "text": "Канал не подтвердил обновление с {time}. Проверьте журнал обмена.",
+      "placeholders": [
+        "time"
+      ]
+    },
+    {
+      "id": "INT.CONFLICT",
+      "context": "error",
+      "text": "Внешняя бронь пересекается с размещением. Назначьте ответственного и согласуйте решение.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.NO_DELETE",
+      "context": "help",
+      "text": "Входящее событие сохранено. Решение по конфликту будет записано отдельно.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.SECRET",
+      "context": "help",
+      "text": "Секрет сохранён. Прочитать его обратно нельзя; можно заменить.",
+      "placeholders": []
+    },
+    {
+      "id": "INT.RETRY",
+      "context": "action",
+      "text": "Повторить разрешённую попытку",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.DRY_RUN",
+      "context": "help",
+      "text": "Проверка создаёт отчёт и не меняет рабочую организацию.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.STATUS_MISSING",
+      "context": "error",
+      "text": "В исходных строках нет статуса. Активная занятость не определена.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.ID_MISSING",
+      "context": "error",
+      "text": "Нет устойчивого ID бронирования. Автоматическое объединение запрещено.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.CURRENCY_MISSING",
+      "context": "error",
+      "text": "Для суммы не указана валюта. Требуется подтверждение источника.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.PAYMENTS_MISSING",
+      "context": "warning",
+      "text": "История платежей не предоставлена. Сумма брони не является оплатой.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.BLOCKED",
+      "context": "warning",
+      "text": "Переключение недоступно, пока не закрыты расхождения.",
+      "placeholders": []
+    },
+    {
+      "id": "MIG.APPROVE",
+      "context": "action",
+      "text": "Подтвердить протокол сверки",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.RECOVERY_SENT",
+      "context": "status",
+      "text": "Если для этого адреса есть аккаунт, мы отправим инструкцию по восстановлению.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.LOGIN_FAILED",
+      "context": "error",
+      "text": "Не удалось войти. Проверьте данные и повторите попытку.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.EMAIL_PENDING",
+      "context": "warning",
+      "text": "Подтвердите рабочую почту, чтобы продолжить.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.INVITE_EXPIRED",
+      "context": "error",
+      "text": "Приглашение истекло. Обратитесь к администратору за новым.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.MFA_INVALID",
+      "context": "field_error",
+      "text": "Код не подошёл. Введите текущий код из приложения.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.BACKUP_CODE",
+      "context": "help",
+      "text": "Резервный код используется один раз.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.LAST_OWNER",
+      "context": "error",
+      "text": "Сначала назначьте другого владельца организации.",
+      "placeholders": []
+    },
+    {
+      "id": "IAM.REVOKED",
+      "context": "warning",
+      "text": "Доступ к организации прекращён.",
+      "placeholders": []
+    },
+    {
+      "id": "ORG.SWITCH_DIRTY",
+      "context": "dialog",
+      "text": "Перед переходом в другую организацию сохраните или закройте текущий черновик.",
+      "placeholders": []
+    },
+    {
+      "id": "ORG.EMPTY",
+      "context": "empty",
+      "text": "Добавьте первый объект или начните с импорта.",
+      "placeholders": []
+    },
+    {
+      "id": "BILL.LIMIT",
+      "context": "error",
+      "text": "Достигнут лимит плана. Измените план, чтобы добавить ещё один объект.",
+      "placeholders": []
+    },
+    {
+      "id": "BILL.GRACE",
+      "context": "warning",
+      "text": "Оплата подписки просрочена. Льготный период действует до {date}.",
+      "placeholders": [
+        "date"
+      ]
+    },
+    {
+      "id": "BILL.READ_ONLY",
+      "context": "warning",
+      "text": "Подписка ограничена. Просмотр и экспорт данных доступны.",
+      "placeholders": []
+    },
+    {
+      "id": "BILL.PAYMENT_PENDING",
+      "context": "status",
+      "text": "Проверяем оплату подписки.",
+      "placeholders": []
+    },
+    {
+      "id": "BILL.RENEW_CONSENT",
+      "context": "label",
+      "text": "Разрешаю автопродление на условиях выбранного плана.",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.PREVIEW",
+      "context": "action",
+      "text": "Предпросмотр сообщения",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.CONFIRM_SEND",
+      "context": "dialog",
+      "text": "Отправить сообщение выбранному получателю по каналу {channel}?",
+      "placeholders": [
+        "channel"
+      ]
+    },
+    {
+      "id": "MSG.SENT",
+      "context": "status",
+      "text": "Передано провайдеру.",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.DELIVERED",
+      "context": "status",
+      "text": "Доставка подтверждена.",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.UNKNOWN",
+      "context": "warning",
+      "text": "Результат отправки неизвестен. Перед повтором требуется проверка.",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.FAILED",
+      "context": "error",
+      "text": "Сообщение не доставлено. Откройте журнал попыток.",
+      "placeholders": []
+    },
+    {
+      "id": "MSG.UNSUBSCRIBED",
+      "context": "warning",
+      "text": "Получатель отказался от этой категории сообщений.",
+      "placeholders": []
+    },
+    {
+      "id": "OPS.CLEANING_DONE",
+      "context": "action",
+      "text": "Передать уборку на проверку",
+      "placeholders": []
+    },
+    {
+      "id": "OPS.REWORK",
+      "context": "field_error",
+      "text": "Укажите пункты, которые нужно исправить.",
+      "placeholders": []
+    },
+    {
+      "id": "OPS.SUPPORT_SCOPE",
+      "context": "dialog",
+      "text": "Разрешить поддержку для указанной цели, операций и срока?",
+      "placeholders": []
+    },
+    {
+      "id": "OPS.SUPPORT_ENDED",
+      "context": "status",
+      "text": "Временный доступ поддержки завершён.",
+      "placeholders": []
+    },
+    {
+      "id": "REP.DEFINITIONS",
+      "context": "help",
+      "text": "Определения показателей и параметры периода входят в экспорт.",
+      "placeholders": []
+    },
+    {
+      "id": "REP.EXPORT_READY",
+      "context": "status",
+      "text": "Отчёт готов. Скачать файл можно до {time}.",
+      "placeholders": [
+        "time"
+      ]
+    },
+    {
+      "id": "EMAIL.BOOKING_SUBJECT",
+      "context": "template",
+      "text": "Подтверждение бронирования {booking_number}",
+      "placeholders": [
+        "booking_number"
+      ]
+    },
+    {
+      "id": "EMAIL.BOOKING_BODY",
+      "context": "template",
+      "text": "Здравствуйте, {guest_name}. Ваше бронирование подтверждено: {property_name}, {checkin}–{checkout}. Стоимость {total}, оплачено {paid}, к доплате {balance}. Условия и документы: {secure_booking_link}.",
+      "placeholders": [
+        "guest_name",
+        "property_name",
+        "checkin",
+        "checkout",
+        "total",
+        "paid",
+        "balance",
+        "secure_booking_link"
+      ]
+    },
+    {
+      "id": "EMAIL.INVITE_SUBJECT",
+      "context": "template",
+      "text": "Приглашение в {organization_name}",
+      "placeholders": [
+        "organization_name"
+      ]
+    },
+    {
+      "id": "EMAIL.INVITE_BODY",
+      "context": "template",
+      "text": "Вас приглашают в рабочее пространство {organization_name}. Проверьте роль и объекты после входа. Принять приглашение: {invite_link}. Ссылка действует до {expires_at}.",
+      "placeholders": [
+        "organization_name",
+        "invite_link",
+        "expires_at"
+      ]
+    },
+    {
+      "id": "EMAIL.RECOVERY_SUBJECT",
+      "context": "template",
+      "text": "Восстановление доступа в Кей Календарь",
+      "placeholders": []
+    },
+    {
+      "id": "EMAIL.RECOVERY_BODY",
+      "context": "template",
+      "text": "Для восстановления доступа откройте {recovery_link}. Ссылка действует 30 минут. Если вы не запрашивали восстановление, ничего делать не нужно.",
+      "placeholders": [
+        "recovery_link"
+      ]
+    },
+    {
+      "id": "PUSH.EVENT",
+      "context": "template",
+      "text": "В рабочем пространстве появилось событие. Откройте Кей Календарь.",
+      "placeholders": []
+    }
+  ],
+  "format_rules": {
+    "dates": "ДД.ММ.ГГГГ в поле; 24–27 сентября в компактном чтении; год обязателен вне текущего года; часовой пояс объекта рядом со спорным временем",
+    "money": "Целые minor units → локальное отображение 12 600 ₽; копейки показывать при ненулевой дроби; отрицательный баланс подписать Переплата, не скрывать",
+    "plural": "Russian one: n%10=1 и n%100!=11; few:2..4 кроме12..14; many:0,5..9,11..14; other:дробные. night=ночь/ночи/ночей; object=объект/объекта/объектов.",
+    "placeholders": "Экранировать как текст; URL только созданные системой и разрешённые по назначению. Шаблон не выполняет выражения.",
+    "privacy": "В уведомлении ОС/почтовой теме нет паспорта, кода замка, суммы долга или полного контакта. Данные письма только необходимому проверенному получателю.",
+    "errors": "Код внутреннего исключения не показывать. support_code случайный идентификатор обращения без ПД.",
+    "source": "Собственные тексты проекта. Юридические условия в них не подменяют согласованные документы."
+  }
+}

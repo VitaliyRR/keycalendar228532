@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-09-24",
+  "scope": "architecture,data,plan,requirements/saas.json,requirements/traceability.csv",
+  "status": "static_material_validation_passed",
+  "counts": {
+    "requirements": 107,
+    "tasks": 182,
+    "tests": 182,
+    "openapi_operations": 56,
+    "openapi_schemas": 74
+  },
+  "checks": {
+    "json_parse": "passed",
+    "requirement_task_test_links": "passed",
+    "dependency_dag": "passed",
+    "mandatory_not_blocked_by_optional": "passed",
+    "openapi_refs_required_properties_path_parameters": "passed",
+    "local_markdown_links": "passed"
+  },
+  "errors": [],
+  "missing_links": [],
+  "content_qa_fixes": [
+    "Локальный lifecycle отделён от внешнего commercial status и архива",
+    "Досрочный checked_out освобождает будущий остаток; историческая occupancy сохраняется",
+    "База занятости учитывает целодневный buffer без оплаты лишних ночей",
+    "Fee определяется financial preview по принятой политике и версиям",
+    "Deposit authorization/capture/release/return разделены",
+    "Баланс C−P без двойного суммирования услуг; deferred revenue отделён от earned",
+    "15 fiscal profiles не трактуются как 15 прямых adapter",
+    "Estimate mandatory/optional и provider wait разделены"
+  ],
+  "not_executed": [
+    "Runtime/application tests",
+    "Provider sandbox/live integration tests",
+    "Production migration/cutover",
+    "Restore running SaaS"
+  ],
+  "external_dependencies": [
+    "Официальный API/партнёрский доступ KeyCalendar",
+    "Merchant, фискальная и юридическая модель",
+    "Полные данные первого клиента с active statuses/IDs/платежами",
+    "RF production environment и измеренное восстановление"
+  ]
+}

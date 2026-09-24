@@ -1,0 +1,37 @@
+﻿label,evidence,checked_at,meaning,related_passport,next_step
+Яндекс Карты,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+Roomook,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-ROOMOOK,Inspect actual channel card; match provider documentation; do not activate during research
+Ариви Ру,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+PrivetTur,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-PRIVETTUR,Inspect actual channel card; match provider documentation; do not activate during research
+DomClick,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-DOMKLIK24,Inspect actual channel card; match provider documentation; do not activate during research
+Tripvenue,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-TRIPVENUE,Inspect actual channel card; match provider documentation; do not activate during research
+Tutu,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-TUTU,Inspect actual channel card; match provider documentation; do not activate during research
+МирТурбаз,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-KURORTIX,Inspect actual channel card; match provider documentation; do not activate during research
+Алеан,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-ALEAN,Inspect actual channel card; match provider documentation; do not activate during research
+Roomlink (ранее Забронируй.ру),ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-ROOMLINK,Inspect actual channel card; match provider documentation; do not activate during research
+Ozon Travel,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-OZONTRAVEL,Inspect actual channel card; match provider documentation; do not activate during research
+Т-Путешествия,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+EmergingTravel,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-EMERGINGTRAVEL,Inspect actual channel card; match provider documentation; do not activate during research
+Glamping,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+Avito,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-AVITO,Inspect actual channel card; match provider documentation; do not activate during research
+Sutochno,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-SUTOCHNO,Inspect actual channel card; match provider documentation; do not activate during research
+Яндекс Путешествия,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-YANDEXTRAVEL,Inspect actual channel card; match provider documentation; do not activate during research
+Ostrovok,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-OSTROVOK,Inspect actual channel card; match provider documentation; do not activate during research
+Отелло,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-OTELLO,Inspect actual channel card; match provider documentation; do not activate during research
+cian,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-CIAN,Inspect actual channel card; match provider documentation; do not activate during research
+Bronevik,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-BRONEVIK,Inspect actual channel card; match provider documentation; do not activate during research
+OneTwoTrip,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-ONETWOTRIP,Inspect actual channel card; match provider documentation; do not activate during research
+Tvil,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-TVIL,Inspect actual channel card; match provider documentation; do not activate during research
+Авито Звонки,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+Яндекс Недвижимость,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+kvartirka,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-KVARTIRKA,Inspect actual channel card; match provider documentation; do not activate during research
+101Hotels,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-101HOTELS,Inspect actual channel card; match provider documentation; do not activate during research
+МТС тревел,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+Hotelbook,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,INT-HOTELBOOK,Inspect actual channel card; match provider documentation; do not activate during research
+2ГИС,ACCOUNT-SOURCE,2026-09-24,source label; native connection and health not proven,,Inspect actual channel card; match provider documentation; do not activate during research
+Продление,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied
+Корзина,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied
+Постоянный гость,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied
+Партнёрство,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied
+Рекомендация,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied
+Модуль бронирования,ACCOUNT-SOURCE,2026-09-24,manual/internal source,,Preserve as booking_source taxonomy; no connector implied

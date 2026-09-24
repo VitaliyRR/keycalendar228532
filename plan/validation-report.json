@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "checked_at": "2026-09-24T08:16:12.541313+00:00",
+  "scope": "Static documentation and artifact consistency only; no network or application execution.",
+  "status": "passed",
+  "counts": {
+    "files_scanned": 405,
+    "json_files": 16,
+    "csv_files": 9,
+    "svg_files": 146,
+    "png_files": 115,
+    "design_png_files": 108,
+    "asset_png_files": 2,
+    "local_markdown_links_checked": 696,
+    "requirements": 107,
+    "screens": 77,
+    "shared_states": 6,
+    "variants": 20,
+    "tasks": 182,
+    "test_cases": 182,
+    "integrations": 75,
+    "parity_requirements": 78,
+    "detailed_screen_specs": 77,
+    "copy_entries": 152,
+    "assets_manifested": 41,
+    "openapi_operations": 56,
+    "application_file_candidates": 0,
+    "secret_pattern_findings": 0,
+    "errors": 0,
+    "warnings": 0
+  },
+  "findings": [],
+  "limitations": [
+    "No live connector, booking, payment, migration, tenant isolation, performance, or production test was executed.",
+    "Secret scan is heuristic; it neither proves absence of secrets nor inspects Git history, external files, ignored dependency folders, or text inside raster images.",
+    "Application absence check uses file and directory heuristics; artifact generators in tools/ and ignored dependencies need separate human scope review.",
+    "Markdown checks validate local destinations, not remote URL availability or heading-anchor semantics.",
+    "PNG/SFNT checks validate structural headers and dimensions/table bounds, not full visual layout or font license authenticity.",
+    "Specification semantics, source accuracy, legal applicability and visual quality still require human review."
+  ]
+}
