@@ -1,0 +1,42 @@
+﻿id,path,purpose,format,dimensions,variant,source,license
+ICON-CALENDAR,icons/calendar.svg,Интерфейс / calendar,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-BOOKING,icons/booking.svg,Интерфейс / booking,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-BUILDING,icons/building.svg,Интерфейс / building,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-GUEST,icons/guest.svg,Интерфейс / guest,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-MONEY,icons/money.svg,Интерфейс / money,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHART,icons/chart.svg,Интерфейс / chart,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHANNELS,icons/channels.svg,Интерфейс / channels,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-MESSAGE,icons/message.svg,Интерфейс / message,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-SETTINGS,icons/settings.svg,Интерфейс / settings,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-SEARCH,icons/search.svg,Интерфейс / search,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-PLUS,icons/plus.svg,Интерфейс / plus,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CLOSE,icons/close.svg,Интерфейс / close,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHEVRON-LEFT,icons/chevron-left.svg,Интерфейс / chevron-left,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHEVRON-RIGHT,icons/chevron-right.svg,Интерфейс / chevron-right,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHEVRON-DOWN,icons/chevron-down.svg,Интерфейс / chevron-down,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CHECK,icons/check.svg,Интерфейс / check,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-WARNING,icons/warning.svg,Интерфейс / warning,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-LOCK,icons/lock.svg,Интерфейс / lock,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-REFRESH,icons/refresh.svg,Интерфейс / refresh,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-DOWNLOAD,icons/download.svg,Интерфейс / download,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-UPLOAD,icons/upload.svg,Интерфейс / upload,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-EDIT,icons/edit.svg,Интерфейс / edit,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-TRASH,icons/trash.svg,Интерфейс / trash,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-CLOCK,icons/clock.svg,Интерфейс / clock,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-FILTER,icons/filter.svg,Интерфейс / filter,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-BELL,icons/bell.svg,Интерфейс / bell,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-EYE,icons/eye.svg,Интерфейс / eye,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-LINK,icons/link.svg,Интерфейс / link,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-COPY,icons/copy.svg,Интерфейс / copy,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-MORE,icons/more.svg,Интерфейс / more,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-MAP,icons/map.svg,Интерфейс / map,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-KEY,icons/key.svg,Интерфейс / key,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-TASK,icons/task.svg,Интерфейс / task,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+ICON-INFO,icons/info.svg,Интерфейс / info,SVG,24×24,currentColor,Оригинальная геометрия этого проекта,Собственный материал проекта
+BRAND-DARK,brand/wordmark-dark.svg,Логотип в шапке,SVG,276×48,dark,Оригинальный знак и набор Golos Text,Знак: материал проекта; шрифт: OFL 1.1
+BRAND-LIGHT,brand/wordmark-light.svg,Логотип в шапке,SVG,276×48,light,Оригинальный знак и набор Golos Text,Знак: материал проекта; шрифт: OFL 1.1
+BRAND-BLUE,brand/wordmark-blue.svg,Логотип в шапке,SVG,276×48,blue,Оригинальный знак и набор Golos Text,Знак: материал проекта; шрифт: OFL 1.1
+BRAND-FAVICON,brand/favicon.svg,Иконка вкладки,SVG,32×32,Синий,Оригинальный знак,Материал проекта
+BRAND-FAVICON-32,brand/favicon-32.png,Растровая иконка вкладки,PNG,32×32,Синий,Оригинальный знак,Материал проекта
+BRAND-FAVICON-180,brand/favicon-180.png,Иконка домашнего экрана,PNG,180×180,Синий,Оригинальный знак,Материал проекта
+FONT-GOLOS,fonts/GolosText-variable.ttf,Основной интерфейсный шрифт,TTF,wght 400–900,Кириллица + латиница,https://github.com/google/fonts/tree/main/ofl/golostext,SIL OFL 1.1; fonts/OFL.txt

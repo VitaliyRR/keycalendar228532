@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+chgrp keycalendar-saas /etc/keycalendar-saas/tls.key /etc/keycalendar-saas/tls.crt
+chmod 0640 /etc/keycalendar-saas/tls.key
+chmod 0644 /etc/keycalendar-saas/tls.crt
+systemctl try-restart keycalendar-saas.service

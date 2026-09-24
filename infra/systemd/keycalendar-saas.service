@@ -1,0 +1,23 @@
+[Unit]
+Description=KeyCalendar SaaS API and web UI
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=keycalendar-saas
+Group=keycalendar-saas
+WorkingDirectory=/opt/keycalendar-saas/current
+EnvironmentFile=/etc/keycalendar-saas/app.env
+ExecStart=/opt/keycalendar-saas/node/bin/node /opt/keycalendar-saas/current/apps/api/dist/server.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+MemoryMax=512M
+LimitNOFILE=8192
+
+[Install]
+WantedBy=multi-user.target

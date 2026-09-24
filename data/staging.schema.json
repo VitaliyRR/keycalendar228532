@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keycalendar.example/spec/staging.schema.json",
+  "title": "Private staging record (specification only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "package_id",
+    "source_locator",
+    "source_checksum",
+    "worksheet",
+    "row_number",
+    "raw",
+    "candidate",
+    "review_flags",
+    "disposition"
+  ],
+  "properties": {
+    "package_id": {
+      "type": "string"
+    },
+    "source_locator": {
+      "type": "string",
+      "description": "Checksum+worksheet+physical row, не устойчивый ID между снимками"
+    },
+    "source_checksum": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "worksheet": {
+      "type": "string"
+    },
+    "row_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "raw": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "object_label",
+        "checkin",
+        "checkout",
+        "contacts",
+        "note",
+        "guests",
+        "amount",
+        "source_label",
+        "manager_label"
+      ],
+      "properties": {
+        "object_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checkin": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checkout": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contacts": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "guests": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "amount": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "manager_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "currency",
+        "identity_confidence"
+      ],
+      "properties": {
+        "target_unit_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "from": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "guest_display_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "guest_phone": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "adults": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "declared_total_minor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^-?[0-9]+$"
+        },
+        "currency": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "RUB",
+            null
+          ]
+        },
+        "currency_evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "unknown",
+            "confirmed",
+            "cancelled",
+            "checked_in",
+            "checked_out",
+            "no_show",
+            "draft"
+          ]
+        },
+        "status_evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identity_confidence": {
+          "enum": [
+            "unreviewed",
+            "candidate_match",
+            "reviewed"
+          ]
+        }
+      }
+    },
+    "review_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "UNKNOWN_STATUS",
+          "UNKNOWN_CURRENCY",
+          "MISSING_EXTERNAL_ID",
+          "AMBIGUOUS_CONTACT",
+          "INVALID_DATE",
+          "INVALID_AMOUNT",
+          "UNMAPPED_PROPERTY",
+          "POSSIBLE_DUPLICATE",
+          "OVERLAP",
+          "NOTE_FINANCE_MENTION",
+          "GUEST_COUNT_UNKNOWN",
+          "SOURCE_UNMAPPED"
+        ]
+      }
+    },
+    "disposition": {
+      "enum": [
+        "staged",
+        "quarantine",
+        "reviewed",
+        "excluded_with_reason",
+        "ready"
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "reviewer_ref",
+        "reviewed_at",
+        "reason",
+        "evidence_refs"
+      ],
+      "properties": {
+        "reviewer_ref": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "synthetic": true,
+  "warning": "Все имена, суммы, даты и ID вымышлены. Не образец реального клиента.",
+  "organization": {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "name": "Демо: Городские квартиры",
+    "timezone": "Europe/Moscow",
+    "currency": "RUB"
+  },
+  "scenarios": [
+    {
+      "id": "SYN-01",
+      "title": "Соседние проживания",
+      "unit": "Демо — Студия 12",
+      "reservations": [
+        {
+          "reference": "DEMO-101",
+          "guest": "Гость А",
+          "from": "2026-10-10",
+          "to": "2026-10-12",
+          "status": "confirmed",
+          "total_minor": "960000",
+          "paid_minor": "480000"
+        },
+        {
+          "reference": "DEMO-102",
+          "guest": "Гость Б",
+          "from": "2026-10-12",
+          "to": "2026-10-15",
+          "status": "confirmed",
+          "total_minor": "1440000",
+          "paid_minor": "0"
+        }
+      ],
+      "expected": "Нет пересечения, выезд/заезд в один день показаны раздельно"
+    },
+    {
+      "id": "SYN-02",
+      "title": "Конкурирующие продажи",
+      "unit": "Демо — Лофт 7",
+      "commands": [
+        {
+          "from": "2026-10-15",
+          "to": "2026-10-18"
+        },
+        {
+          "from": "2026-10-17",
+          "to": "2026-10-19"
+        }
+      ],
+      "expected": "Одна транзакция получает AVAILABILITY_CONFLICT; внешнее подтверждение второго канала сохраняется в conflict queue"
+    },
+    {
+      "id": "SYN-03",
+      "title": "Залог и возврат",
+      "reservation": "DEMO-103",
+      "stay_charge_minor": "1500000",
+      "stay_paid_minor": "1500000",
+      "deposit_received_minor": "500000",
+      "deposit_returned_minor": "400000",
+      "deposit_retained_minor": "100000",
+      "expected": "Залог не входит в выручку проживания, удержание с основанием отдельно; остаток liability=0"
+    },
+    {
+      "id": "SYN-04",
+      "title": "Неизвестный статус в миграции",
+      "raw_columns": {
+        "object_label": "Демо — Квартира 4",
+        "checkin": "20.10.2026",
+        "checkout": "22.10.2026",
+        "contacts": "Гость В",
+        "note": "Возможно продление; внесён залог",
+        "guests": "2",
+        "amount": "10000,00",
+        "source_label": "Другой канал",
+        "manager_label": "Демо менеджер"
+      },
+      "expected": "status=unknown,currency=null,NOTE_FINANCE_MENTION; никаких созданных платежей"
+    },
+    {
+      "id": "SYN-05",
+      "title": "Просроченная подписка",
+      "subscription": "read_only",
+      "incoming_external_booking": "confirmed",
+      "expected": "Новая ручная продажа запрещена, входящая бронь сохраняется, экспорт и оплата подписки доступны"
+    },
+    {
+      "id": "SYN-06",
+      "title": "Отозванный сотрудник",
+      "role": "manager",
+      "property_scope": [
+        "Демо — Студия 12"
+      ],
+      "export_link_issued_before_revocation": true,
+      "expected": "Старая ссылка скачивания не выдаёт файл после отзыва"
+    },
+    {
+      "id": "SYN-07",
+      "title": "Уборка между заездами",
+      "checkout": "2026-10-12T09:00:00Z",
+      "next_checkin": "2026-10-12T12:00:00Z",
+      "task_state": "in_progress",
+      "expected": "Риск неготовности показывается менеджеру; housekeeper не получает телефон следующего гостя"
+    },
+    {
+      "id": "SYN-08",
+      "title": "Прерванная синхронизация",
+      "local_inventory_version": 12,
+      "channel_applied_version": 10,
+      "outbox_oldest_age_minutes": 7,
+      "expected": "Видимое предупреждение задержки, retry отправляет актуальный snapshot версии 12"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+umask 077
+backup_dir=/var/backups/keycalendar-saas
+install -d -o postgres -g postgres -m 0700 "$backup_dir"
+stamp=$(date -u +%Y%m%dT%H%M%SZ)
+final="$backup_dir/keycalendar-$stamp.dump"
+temporary="$final.tmp"
+trap 'rm -f "$temporary"' EXIT
+runuser -u postgres -- /usr/bin/pg_dump --format=custom --no-owner --no-acl --file="$temporary" keycalendar_saas
+/usr/bin/pg_restore --list "$temporary" >/dev/null
+mv "$temporary" "$final"
+find "$backup_dir" -maxdepth 1 -type f -name 'keycalendar-*.dump' -mtime +14 -delete
+printf 'KeyCalendar PostgreSQL backup verified: %s\n' "$final"

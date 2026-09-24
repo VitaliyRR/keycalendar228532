@@ -1,0 +1,2168 @@
+{
+  "schema_version": "1.0",
+  "as_of": "2026-09-24",
+  "scope": "SaaS foundation, operations and integration infrastructure; no implemented app",
+  "source_category_note": "source_behavior alone describes the reference product; detailed rules and UI are KeyCalendar design proposals.",
+  "requirements": [
+    {
+      "id": "REQ-IAM-001",
+      "title": "Регистрация и подтверждение email",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Регистрация и подтверждение email; пользователь verified и может создать организацию",
+      "screen_ids": [
+        "SCR-IAM-01"
+      ],
+      "roles": [
+        "guest"
+      ],
+      "inputs": [
+        "email, пароль, имя"
+      ],
+      "actions": [
+        "Создать личный вход",
+        "подтвердить одноразовую ссылку"
+      ],
+      "outcomes": [
+        "Пользователь verified и может создать организацию"
+      ],
+      "rules": [
+        "Email normalize",
+        "одноразовый token 24 ч",
+        "одинаковый ответ при повторном адресе"
+      ],
+      "dependencies": [],
+      "states": [
+        "idle",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "expired",
+        "rate_limited"
+      ],
+      "errors": [
+        "EMAIL_VERIFICATION_PENDING: подтвердить адрес",
+        "VERIFICATION_EXPIRED: запросить новую ссылку",
+        "RATE_LIMITED: повторить после указанного срока"
+      ],
+      "edges": [
+        "Регистрация без verified email не открывает данные; просроченная ссылка предлагает повтор",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Регистрация без verified email не открывает данные",
+        "просроченная ссылка предлагает повтор"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-IAM-001",
+      "test_id": "TEST-IAM-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "IAM",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-IAM-002",
+      "title": "Вход, сессии и выход",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Вход, сессии и выход; управляемая защищённая сессия",
+      "screen_ids": [
+        "SCR-IAM-01"
+      ],
+      "roles": [
+        "all"
+      ],
+      "inputs": [
+        "email, пароль, MFA при наличии"
+      ],
+      "actions": [
+        "Войти",
+        "просмотреть устройства",
+        "завершить сессию"
+      ],
+      "outcomes": [
+        "Управляемая защищённая сессия"
+      ],
+      "rules": [
+        "Secure HttpOnly SameSite cookie",
+        "CSRF",
+        "rate limits",
+        "idle 12 ч и absolute 7 дней"
+      ],
+      "dependencies": [
+        "REQ-IAM-001"
+      ],
+      "states": [
+        "idle",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "expired",
+        "rate_limited"
+      ],
+      "errors": [
+        "INVALID_CREDENTIALS: адрес или пароль не подошли",
+        "MFA_REQUIRED: ввести второй фактор",
+        "SESSION_EXPIRED: войти снова"
+      ],
+      "edges": [
+        "Неверный пароль не раскрывает аккаунт; logout отзывает серверную сессию",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Неверный пароль не раскрывает аккаунт",
+        "logout отзывает серверную сессию"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-IAM-002",
+      "test_id": "TEST-IAM-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "IAM",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-IAM-003",
+      "title": "Восстановление доступа и MFA",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Восстановление доступа и MFA; доступ восстановлен с отзывом других сессий",
+      "screen_ids": [
+        "SCR-IAM-02"
+      ],
+      "roles": [
+        "all"
+      ],
+      "inputs": [
+        "email",
+        "одноразовый token",
+        "MFA/recovery code"
+      ],
+      "actions": [
+        "Запросить восстановление",
+        "сменить пароль",
+        "подключить MFA"
+      ],
+      "outcomes": [
+        "Доступ восстановлен с отзывом других сессий"
+      ],
+      "rules": [
+        "Recovery 30 мин, token hash",
+        "MFA обязательно перед критическими действиями владельца/админа"
+      ],
+      "dependencies": [
+        "REQ-IAM-002"
+      ],
+      "states": [
+        "idle",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "expired",
+        "rate_limited"
+      ],
+      "errors": [
+        "RECOVERY_TOKEN_EXPIRED: запросить новое письмо",
+        "TOKEN_ALREADY_USED: повтор запрещён",
+        "MFA_RECOVERY_INVALID: код не подходит"
+      ],
+      "edges": [
+        "Повтор token отвергается; ответ восстановления одинаковый для неизвестного email",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор token отвергается",
+        "ответ восстановления одинаковый для неизвестного email"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-IAM-003",
+      "test_id": "TEST-IAM-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "IAM",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-IAM-004",
+      "title": "Приглашения и отзыв сотрудников",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Приглашения и отзыв сотрудников; сотрудник имеет только выданный scope",
+      "screen_ids": [
+        "SCR-IAM-03"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "email, роль, объекты"
+      ],
+      "actions": [
+        "Пригласить",
+        "принять",
+        "отозвать",
+        "повторить приглашение"
+      ],
+      "outcomes": [
+        "Сотрудник имеет только выданный scope"
+      ],
+      "rules": [
+        "TTL 72 ч",
+        "новый invite отзывает старый",
+        "лимит на принятии",
+        "последнего owner не удалять"
+      ],
+      "dependencies": [
+        "REQ-ORG-001"
+      ],
+      "states": [
+        "idle",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "expired",
+        "rate_limited"
+      ],
+      "errors": [
+        "INVITATION_EXPIRED: новая ссылка",
+        "MEMBER_LIMIT_REACHED: изменить тариф или число активных сотрудников",
+        "LAST_OWNER: сначала передать владение"
+      ],
+      "edges": [
+        "Отозванный сотрудник сразу теряет API и download доступ; invite другого email нельзя принять",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Отозванный сотрудник сразу теряет API и download доступ",
+        "invite другого email нельзя принять"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-IAM-004",
+      "test_id": "TEST-IAM-004",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "IAM",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-IAM-005",
+      "title": "Роли, права на объекты и операции",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Роли, права на объекты и операции; доступ одинаково действует в ui/api/export/jobs",
+      "screen_ids": [
+        "SCR-IAM-03"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "role, permission codes, property grants"
+      ],
+      "actions": [
+        "Настроить права",
+        "проверить предварительный просмотр"
+      ],
+      "outcomes": [
+        "Доступ одинаково действует в UI/API/export/jobs"
+      ],
+      "rules": [
+        "Deny by default",
+        "пустой scope=нет объектов",
+        "нельзя выдать больше собственных прав"
+      ],
+      "dependencies": [
+        "REQ-IAM-004"
+      ],
+      "states": [
+        "idle",
+        "validating",
+        "submitting",
+        "success",
+        "error",
+        "expired",
+        "rate_limited"
+      ],
+      "errors": [
+        "PERMISSION_ESCALATION: нельзя выдать больше собственных прав",
+        "EMPTY_SCOPE: сотрудник не получит объектов",
+        "VERSION_CHANGED: роль уже изменилась"
+      ],
+      "edges": [
+        "Manager объекта A не читает и не изменяет B; tenant B всегда недоступен",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Manager объекта A не читает и не изменяет B",
+        "tenant B всегда недоступен"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-IAM-005",
+      "test_id": "TEST-IAM-005",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "IAM",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-ORG-001",
+      "title": "Создание организации и первый запуск",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Создание организации и первый запуск; изолированная организация, owner и trial",
+      "screen_ids": [
+        "SCR-ORG-01"
+      ],
+      "roles": [
+        "owner"
+      ],
+      "inputs": [
+        "название, зона, валюта, юридические сведения при наличии"
+      ],
+      "actions": [
+        "Создать workspace",
+        "пройти checklist"
+      ],
+      "outcomes": [
+        "Изолированная организация, owner и trial"
+      ],
+      "rules": [
+        "Одна org=tenant",
+        "RUB старт",
+        "timezone IANA",
+        "setup возобновляемый"
+      ],
+      "dependencies": [
+        "REQ-IAM-001"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "INVALID_TIMEZONE: выбрать IANA зону",
+        "ORGANIZATION_LIMIT: обратиться к owner тарифа",
+        "EMAIL_UNVERIFIED: сначала подтвердить email"
+      ],
+      "edges": [
+        "Два параллельных создания с одним idempotency key дают одну org",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Два параллельных создания с одним idempotency key дают одну org"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-ORG-001",
+      "test_id": "TEST-ORG-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "ORG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-ORG-002",
+      "title": "Переключение организаций и изоляция",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Переключение организаций и изоляция; календарь, поиск, файлы и отчёты относятся к текущему tenant",
+      "screen_ids": [
+        "SCR-ORG-01"
+      ],
+      "roles": [
+        "all"
+      ],
+      "inputs": [
+        "membership, выбранная организация"
+      ],
+      "actions": [
+        "Переключить рабочее пространство"
+      ],
+      "outcomes": [
+        "Календарь, поиск, файлы и отчёты относятся к текущему tenant"
+      ],
+      "rules": [
+        "Context из membership",
+        "RLS и composite FK",
+        "cache keys включают org"
+      ],
+      "dependencies": [
+        "REQ-ORG-001"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "MEMBERSHIP_REVOKED: текущая организация недоступна",
+        "RESOURCE_NOT_FOUND: запись недоступна",
+        "SESSION_EXPIRED: повторный вход"
+      ],
+      "edges": [
+        "Запрос с чужим UUID даёт 404; предыдущий tenant не виден в cache после switch",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Запрос с чужим UUID даёт 404",
+        "предыдущий tenant не виден в cache после switch"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-ORG-002",
+      "test_id": "TEST-ORG-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "ORG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-ORG-003",
+      "title": "Настройки, архив и удаление организации",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Настройки, архив и удаление организации; версионированные настройки и контролируемый lifecycle",
+      "screen_ids": [
+        "SCR-ORG-02"
+      ],
+      "roles": [
+        "owner"
+      ],
+      "inputs": [
+        "название, timezone, политика хранения, запрос удаления"
+      ],
+      "actions": [
+        "Изменить общие настройки",
+        "запросить экспорт/удаление"
+      ],
+      "outcomes": [
+        "Версионированные настройки и контролируемый lifecycle"
+      ],
+      "rules": [
+        "История currency/timezone не переписывается",
+        "delete требует MFA, срока ожидания и legal hold checks"
+      ],
+      "dependencies": [
+        "REQ-ORG-002",
+        "REQ-MIG-004"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "ACTIVE_OBLIGATIONS: есть будущие брони/платежи",
+        "LEGAL_HOLD: часть данных сохраняется по основанию",
+        "MFA_REQUIRED: подтвердить действие"
+      ],
+      "edges": [
+        "Удаление с будущими бронями/неурегулированными платежами блокируется с конкретной причиной",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Удаление с будущими бронями/неурегулированными платежами блокируется с конкретной причиной"
+      ],
+      "phase": "P4",
+      "task_id": "TASK-ORG-003",
+      "test_id": "TEST-ORG-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "ORG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-BILL-001",
+      "title": "Тарифы, trial и лимиты SaaS",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Тарифы, trial и лимиты SaaS; явные entitlements без потери данных",
+      "screen_ids": [
+        "SCR-BILL-01"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "plan version, active units, active employees"
+      ],
+      "actions": [
+        "Смотреть лимиты",
+        "выбрать тариф",
+        "сравнить использование"
+      ],
+      "outcomes": [
+        "Явные entitlements без потери данных"
+      ],
+      "rules": [
+        "Trial 14 дней проектно",
+        "цены коммерческий владелец утверждает",
+        "check limit атомарен"
+      ],
+      "dependencies": [
+        "REQ-ORG-001"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "PLAN_NOT_PUBLISHED: цена ещё не утверждена",
+        "LIMIT_REACHED: действие не создаёт лишний объект",
+        "PLAN_CHANGED: повторно подтвердить условия"
+      ],
+      "edges": [
+        "При двух одновременных добавлениях последний слот получает один запрос; существующие данные читаются",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "При двух одновременных добавлениях последний слот получает один запрос",
+        "существующие данные читаются"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-BILL-001",
+      "test_id": "TEST-BILL-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "BILL",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-BILL-002",
+      "title": "Оплата и продление подписки",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Оплата и продление подписки; оплата подтверждена и период продлён один раз",
+      "screen_ids": [
+        "SCR-BILL-02",
+        "SCR-BILL-03"
+      ],
+      "roles": [
+        "owner",
+        "accountant"
+      ],
+      "inputs": [
+        "invoice, merchant checkout, payment reference"
+      ],
+      "actions": [
+        "Получить счёт",
+        "оплатить",
+        "увидеть историю"
+      ],
+      "outcomes": [
+        "Оплата подтверждена и период продлён один раз"
+      ],
+      "rules": [
+        "SaaS merchant отдельно от гостевых оплат",
+        "webhook verify",
+        "idempotency"
+      ],
+      "dependencies": [
+        "REQ-BILL-001",
+        "REQ-INT-004"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "PAYMENT_PENDING: дождаться проверки",
+        "PAYMENT_UNKNOWN: сверка провайдера без второго списания",
+        "CHECKOUT_UNAVAILABLE: оставить счёт и возможность повторить"
+      ],
+      "edges": [
+        "Повтор webhook не продлевает дважды; неопределённый timeout не запускает второе списание",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор webhook не продлевает дважды",
+        "неопределённый timeout не запускает второе списание"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-BILL-002",
+      "test_id": "TEST-BILL-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "BILL",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-BILL-003",
+      "title": "Просрочка, read-only и восстановление",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Просрочка, read-only и восстановление; поведение ограничений предсказуемо",
+      "screen_ids": [
+        "SCR-BILL-04"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager"
+      ],
+      "inputs": [
+        "subscription state, grace end"
+      ],
+      "actions": [
+        "Получить предупреждение",
+        "оплатить",
+        "восстановить доступ"
+      ],
+      "outcomes": [
+        "Поведение ограничений предсказуемо"
+      ],
+      "rules": [
+        "Grace 7 дней",
+        "затем read-only",
+        "экспорт/безопасность доступны",
+        "inbound брони/платежи работают",
+        "public sales закрываются"
+      ],
+      "dependencies": [
+        "REQ-BILL-002"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "SUBSCRIPTION_READ_ONLY: доступ только на чтение",
+        "RENEWAL_PENDING: платёж ещё проверяется",
+        "LIMIT_DOWNGRADE_CONFLICT: активных объектов больше нового лимита"
+      ],
+      "edges": [
+        "После оплаты доступ возвращается; отсутствие оплаты не удаляет данные; входящий external event не теряется",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "После оплаты доступ возвращается",
+        "отсутствие оплаты не удаляет данные",
+        "входящий external event не теряется"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-BILL-003",
+      "test_id": "TEST-BILL-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "BILL",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-MIG-001",
+      "title": "Импорт и сопоставление данных",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Импорт и сопоставление данных; нормализованные кандидаты с provenance и review flags",
+      "screen_ids": [
+        "SCR-MIG-01"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "файл, schema, mapping, source manifest"
+      ],
+      "actions": [
+        "Загрузить в private staging",
+        "проверить типы",
+        "сопоставить объекты"
+      ],
+      "outcomes": [
+        "Нормализованные кандидаты с provenance и review flags"
+      ],
+      "rules": [
+        "Макросы/XML entities не исполняются",
+        "нет статуса/ID=unknown",
+        "ПД вне repo"
+      ],
+      "dependencies": [
+        "REQ-ORG-002",
+        "REQ-IAM-005"
+      ],
+      "states": [
+        "uploaded",
+        "mapping",
+        "validating",
+        "review_required",
+        "ready",
+        "applying",
+        "completed",
+        "failed",
+        "rolled_back"
+      ],
+      "errors": [
+        "INVALID_FILE: формат/размер не поддерживается",
+        "AMBIGUOUS_IDENTITY: требуется решение человека",
+        "UNKNOWN_STATUS: нельзя считать строку активной бронью"
+      ],
+      "edges": [
+        "Все исходные строки имеют disposition; сумма не становится оплатой; разные snapshots не дедупятся по имени",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Все исходные строки имеют disposition",
+        "сумма не становится оплатой",
+        "разные snapshots не дедупятся по имени"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-MIG-001",
+      "test_id": "TEST-MIG-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "MIG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-MIG-002",
+      "title": "Dry-run и сверка миграции",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Dry-run и сверка миграции; отчёт различий и blockers до production apply",
+      "screen_ids": [
+        "SCR-MIG-02"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "ImportBatch, approved mapping"
+      ],
+      "actions": [
+        "Запустить без исходящих действий",
+        "сравнить строки, суммы и связи"
+      ],
+      "outcomes": [
+        "Отчёт различий и blockers до production apply"
+      ],
+      "rules": [
+        "Egress deny",
+        "orphan=0",
+        "future unknown status=0 перед допуском",
+        "финансы по валютам"
+      ],
+      "dependencies": [
+        "REQ-MIG-001"
+      ],
+      "states": [
+        "uploaded",
+        "mapping",
+        "validating",
+        "review_required",
+        "ready",
+        "applying",
+        "completed",
+        "failed",
+        "rolled_back"
+      ],
+      "errors": [
+        "UNMAPPED_PROPERTY: заполнить mapping",
+        "RECONCILIATION_DIFF: устранить расхождение",
+        "UNKNOWN_ACTIVE_OBLIGATION: допуск закрыт"
+      ],
+      "edges": [
+        "Повтор того же snapshot создаёт 0 новых сущностей; unresolved будущая бронь блокирует gate",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор того же snapshot создаёт 0 новых сущностей",
+        "unresolved будущая бронь блокирует gate"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-MIG-002",
+      "test_id": "TEST-MIG-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "MIG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-MIG-003",
+      "title": "Переключение первого клиента и откат",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Переключение первого клиента и откат; один writer и подтверждённая сохранность активных обязательств",
+      "screen_ids": [
+        "SCR-MIG-03"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "утверждённый manifest, cutover window, delta, rollback plan"
+      ],
+      "actions": [
+        "В будущем: применить",
+        "сверить",
+        "включить по одному каналу"
+      ],
+      "outcomes": [
+        "Один writer и подтверждённая сохранность активных обязательств"
+      ],
+      "rules": [
+        "В этой работе не выполнять",
+        "rollback учитывает новые платежи/брони после cutover"
+      ],
+      "dependencies": [
+        "REQ-MIG-002",
+        "REQ-INT-003",
+        "REQ-OPS-001"
+      ],
+      "states": [
+        "uploaded",
+        "mapping",
+        "validating",
+        "review_required",
+        "ready",
+        "applying",
+        "completed",
+        "failed",
+        "rolled_back"
+      ],
+      "errors": [
+        "CUTOVER_NOT_APPROVED: нет утверждённого manifest/окна",
+        "SECOND_WRITER_ACTIVE: переключение остановлено",
+        "POST_CUTOVER_DELTA: откат требует сверки новых событий"
+      ],
+      "edges": [
+        "Нельзя включить два outbound writer; rehearsal rollback сохраняет все post-cutover события",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Нельзя включить два outbound writer",
+        "rehearsal rollback сохраняет все post-cutover события"
+      ],
+      "phase": "P4",
+      "task_id": "TASK-MIG-003",
+      "test_id": "TEST-MIG-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "MIG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-MIG-004",
+      "title": "Экспорт и права на скачивание",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Экспорт и права на скачивание; файл с теми же фильтрами/правами, версия schema и checksum",
+      "screen_ids": [
+        "SCR-MIG-01"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "accountant"
+      ],
+      "inputs": [
+        "scope, фильтры, формат CSV/XLSX, date range"
+      ],
+      "actions": [
+        "Заказать экспорт",
+        "скачать по временной ссылке"
+      ],
+      "outcomes": [
+        "Файл с теми же фильтрами/правами, версия schema и checksum"
+      ],
+      "rules": [
+        "Повторная проверка прав",
+        "TTL ссылки 10 мин, файла 24 ч",
+        "escaping формул"
+      ],
+      "dependencies": [
+        "REQ-IAM-005"
+      ],
+      "states": [
+        "uploaded",
+        "mapping",
+        "validating",
+        "review_required",
+        "ready",
+        "applying",
+        "completed",
+        "failed",
+        "rolled_back"
+      ],
+      "errors": [
+        "EXPORT_SCOPE_CHANGED: права изменились",
+        "EXPORT_EXPIRED: создать новый файл",
+        "EXPORT_TOO_LARGE: фоновая обработка/сузить период"
+      ],
+      "edges": [
+        "Сотрудник с отозванной ролью не скачивает старую ссылку; 0 чужих tenant строк",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Сотрудник с отозванной ролью не скачивает старую ссылку",
+        "0 чужих tenant строк"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-MIG-004",
+      "test_id": "TEST-MIG-004",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "MIG",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-001",
+      "title": "Резервное копирование и восстановление",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Резервное копирование и восстановление; измеренные rpo/rto и сверка целостности",
+      "screen_ids": [
+        "SCR-OPS-01"
+      ],
+      "roles": [
+        "platform_operator"
+      ],
+      "inputs": [
+        "backup manifest, PITR point, isolated restore env"
+      ],
+      "actions": [
+        "Контролировать freshness",
+        "выполнить учебное restore"
+      ],
+      "outcomes": [
+        "Измеренные RPO/RTO и сверка целостности"
+      ],
+      "rules": [
+        "RPO 15 мин/RTO 4 ч проектно",
+        "отдельный RF account",
+        "ежемесячное упражнение"
+      ],
+      "dependencies": [
+        "REQ-ORG-002"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "Восстановлены tenant scopes, ledger и files; outbound выключен до reconcile",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Восстановлены tenant scopes, ledger и files",
+        "outbound выключен до reconcile"
+      ],
+      "phase": "P4",
+      "task_id": "TASK-OPS-001",
+      "test_id": "TEST-OPS-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-002",
+      "title": "Мониторинг и очередь ошибок",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Мониторинг и очередь ошибок; ошибка имеет owner, correlation id и понятный пользователю статус",
+      "screen_ids": [
+        "SCR-OPS-01"
+      ],
+      "roles": [
+        "platform_operator",
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "metrics, traces, failed jobs, channel health"
+      ],
+      "actions": [
+        "Изучить сбой",
+        "открыть runbook",
+        "исправить или повторить разрешённую job"
+      ],
+      "outcomes": [
+        "Ошибка имеет owner, correlation ID и понятный пользователю статус"
+      ],
+      "rules": [
+        "Без ПД/секретов в общих логах",
+        "alert на outbox age>5 мин",
+        "доступ tenant scoped"
+      ],
+      "dependencies": [
+        "REQ-ORG-002"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "Остановка worker даёт alert и stale badge; после старта не дублируются брони/платежи",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Остановка worker даёт alert и stale badge",
+        "после старта не дублируются брони/платежи"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-OPS-002",
+      "test_id": "TEST-OPS-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-003",
+      "title": "Аудит и доступ поддержки",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Аудит и доступ поддержки; проверяемый автор, время, причина и изменения",
+      "screen_ids": [
+        "SCR-OPS-07"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "platform_operator"
+      ],
+      "inputs": [
+        "фильтры audit, support grant, причина"
+      ],
+      "actions": [
+        "Посмотреть историю",
+        "временно разрешить поддержку"
+      ],
+      "outcomes": [
+        "Проверяемый автор, время, причина и изменения"
+      ],
+      "rules": [
+        "Append-only redacted diff",
+        "grant ≤1ч, read-only default",
+        "все действия поддержки аудируются"
+      ],
+      "dependencies": [
+        "REQ-IAM-005"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "Истёкший grant не действует; секреты и паспорта отсутствуют в audit",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Истёкший grant не действует",
+        "секреты и паспорта отсутствуют в audit"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-003",
+      "test_id": "TEST-OPS-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-004",
+      "title": "Персональные данные, хранение и инциденты",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Персональные данные, хранение и инциденты; минимально необходимые пд с управляемым жизненным циклом",
+      "screen_ids": [
+        "SCR-OPS-04"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "platform_operator"
+      ],
+      "inputs": [
+        "legal basis, retention policy, legal hold, subject request"
+      ],
+      "actions": [
+        "Настроить срок",
+        "обработать запрос",
+        "расследовать инцидент"
+      ],
+      "outcomes": [
+        "Минимально необходимые ПД с управляемым жизненным циклом"
+      ],
+      "rules": [
+        "RF locality",
+        "separate secrets",
+        "удаление с legal hold исключением",
+        "проверка compliance перед launch"
+      ],
+      "dependencies": [
+        "REQ-OPS-003",
+        "REQ-MIG-004"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "ПД не попадают в shared logs/design/fixtures; запрос удаления формирует проверяемый отчёт",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "ПД не попадают в shared logs/design/fixtures",
+        "запрос удаления формирует проверяемый отчёт"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-OPS-004",
+      "test_id": "TEST-OPS-004",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-005",
+      "title": "Окружения, выпуск и безопасные миграции схемы",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Окружения, выпуск и безопасные миграции схемы; повторяемый release и ограниченный blast radius",
+      "screen_ids": [
+        "SCR-OPS-01"
+      ],
+      "roles": [
+        "platform_operator"
+      ],
+      "inputs": [
+        "release manifest, migration plan, feature flags"
+      ],
+      "actions": [
+        "Поднять local/CI/staging/pilot/prod",
+        "выполнить rollout"
+      ],
+      "outcomes": [
+        "Повторяемый release и ограниченный blast radius"
+      ],
+      "rules": [
+        "Expand/contract",
+        "разные secrets",
+        "SkySend не затрагивать",
+        "runtime без DDL"
+      ],
+      "dependencies": [],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "Откат совместимого приложения проверен; staging не отправляет реальные сообщения и оплаты",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Откат совместимого приложения проверен",
+        "staging не отправляет реальные сообщения и оплаты"
+      ],
+      "phase": "P1",
+      "task_id": "TASK-OPS-005",
+      "test_id": "TEST-OPS-005",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-006",
+      "title": "Производительность и доступность",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Производительность и доступность; известная вместимость и показатели без заявлений о реальном бизнесе",
+      "screen_ids": [
+        "SCR-OPS-01"
+      ],
+      "roles": [
+        "platform_operator"
+      ],
+      "inputs": [
+        "synthetic load profile, SLO windows"
+      ],
+      "actions": [
+        "Нагрузить календарь/бронь",
+        "измерить p95",
+        "проверить failover"
+      ],
+      "outcomes": [
+        "Известная вместимость и показатели без заявлений о реальном бизнесе"
+      ],
+      "rules": [
+        "100 org,1000 units max,2m reservations synthetic",
+        "42 дня×50 строк initial",
+        "cursor/virtualization"
+      ],
+      "dependencies": [
+        "REQ-OPS-002"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "VALIDATION_FAILED: сохранить введённые значения и показать поле",
+        "ACCESS_DENIED: скрыть данные и объяснить ограничение",
+        "VERSION_CHANGED: обновить контекст без потери пользовательского черновика"
+      ],
+      "edges": [
+        "p95 calendar≤800мс,write≤700мс; 100 concurrent claims one unit дают одно подтверждение",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "p95 calendar≤800мс,write≤700мс",
+        "100 concurrent claims one unit дают одно подтверждение"
+      ],
+      "phase": "P4",
+      "task_id": "TASK-OPS-006",
+      "test_id": "TEST-OPS-006",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-INT-001",
+      "title": "Каталог подключений и доступ к провайдерам",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Каталог подключений и доступ к провайдерам; статусы external_access_pending/sandbox/ready/connected честно различаются",
+      "screen_ids": [
+        "SCR-INT-01"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "service, capability, access evidence, credentials reference"
+      ],
+      "actions": [
+        "Изучить условия",
+        "отправить запрос провайдеру позднее",
+        "ввести выданные реквизиты"
+      ],
+      "outcomes": [
+        "Статусы external_access_pending/sandbox/ready/connected честно различаются"
+      ],
+      "rules": [
+        "Не считать API публичным по наличию RC-интеграции",
+        "секрет в vault",
+        "текущая работа read-only"
+      ],
+      "dependencies": [
+        "REQ-IAM-005",
+        "REQ-OPS-005"
+      ],
+      "states": [
+        "external_access_pending",
+        "sandbox",
+        "ready",
+        "connected",
+        "degraded",
+        "reconnect_required",
+        "disabled"
+      ],
+      "errors": [
+        "ACCESS_NOT_GRANTED: получить официальный доступ",
+        "SECRET_INVALID: повторная авторизация",
+        "PROVIDER_STATUS_UNKNOWN: подключение не подтверждено"
+      ],
+      "edges": [
+        "Без подтверждённых прав кнопка production activation недоступна с next step",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Без подтверждённых прав кнопка production activation недоступна с next step"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-INT-001",
+      "test_id": "TEST-INT-001",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "INT",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-INT-002",
+      "title": "Сопоставление объектов, тарифов и источников истины",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Сопоставление объектов, тарифов и источников истины; однозначная карта и источник каждого значения",
+      "screen_ids": [
+        "SCR-INT-02"
+      ],
+      "roles": [
+        "owner",
+        "admin"
+      ],
+      "inputs": [
+        "external listings/rates, unit mapping, capabilities"
+      ],
+      "actions": [
+        "Сопоставить",
+        "проверить preview",
+        "назначить направления полей"
+      ],
+      "outcomes": [
+        "Однозначная карта и источник каждого значения"
+      ],
+      "rules": [
+        "One mapping per external resource",
+        "неизвестные поля не отправлять",
+        "iCal отдельно"
+      ],
+      "dependencies": [
+        "REQ-INT-001"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "MAPPING_AMBIGUOUS: выбрать один target",
+        "CAPABILITY_UNSUPPORTED: поле не отправляется",
+        "MAPPING_STALE: обновить справочник провайдера"
+      ],
+      "edges": [
+        "Неоднозначный mapping блокирует publish; drift не стирает ручной комментарий/контакт",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Неоднозначный mapping блокирует publish",
+        "drift не стирает ручной комментарий/контакт"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-INT-002",
+      "test_id": "TEST-INT-002",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "INT",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-INT-003",
+      "title": "Надёжный обмен и конфликты каналов",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Надёжный обмен и конфликты каналов; подтверждённые внешние факты не теряются; конфликты видны",
+      "screen_ids": [
+        "SCR-INT-04"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager"
+      ],
+      "inputs": [
+        "inbox/outbox, external versions, availability"
+      ],
+      "actions": [
+        "Видеть статус",
+        "расследовать коллизию",
+        "сверить",
+        "повторить разрешённую доставку"
+      ],
+      "outcomes": [
+        "Подтверждённые внешние факты не теряются; конфликты видны"
+      ],
+      "rules": [
+        "At-least-once/idempotent",
+        "database allocation constraint",
+        "401 reconnect,429 Retry-After",
+        "no silent overwrite"
+      ],
+      "dependencies": [
+        "REQ-INT-002",
+        "REQ-OPS-002"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "EXTERNAL_OVERLAP: открыть конфликт",
+        "SYNC_STALE: канал ещё не подтвердил обновление",
+        "RATE_LIMITED: соблюсти Retry-After",
+        "EXTERNAL_STATE_UNKNOWN: сверка до повтора"
+      ],
+      "edges": [
+        "Дубль события создаёт одну бронь; late cancel не отменяет новую версию; external overlap создаёт incident",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Дубль события создаёт одну бронь",
+        "late cancel не отменяет новую версию",
+        "external overlap создаёт incident"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-INT-003",
+      "test_id": "TEST-INT-003",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "INT",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-INT-004",
+      "title": "Платёжные адаптеры и сверка статусов",
+      "source_category": "proposed",
+      "source_urls": [],
+      "source_ids": [],
+      "source_behavior": "Проектное требование самостоятельного SaaS по заданию; не утверждение о RealtyCalendar.",
+      "verification_status": "proposed_not_implemented",
+      "purpose": "Платёжные адаптеры и сверка статусов; оплаты и возвраты отражаются по подтверждённым фактам",
+      "screen_ids": [
+        "SCR-INT-03"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "accountant"
+      ],
+      "inputs": [
+        "merchant account, payment/refund/receipt refs"
+      ],
+      "actions": [
+        "Подключить после договора",
+        "проверить sandbox",
+        "сверить unknown status"
+      ],
+      "outcomes": [
+        "Оплаты и возвраты отражаются по подтверждённым фактам"
+      ],
+      "rules": [
+        "Hosted checkout",
+        "PAN не хранить",
+        "signature",
+        "один эффект",
+        "фискализация отдельно"
+      ],
+      "dependencies": [
+        "REQ-INT-001"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "PAYMENT_UNKNOWN: запрос статуса",
+        "REFUND_EXCEEDS_AVAILABLE: уменьшить сумму",
+        "RECEIPT_FAILED: отдельная задача фискализации"
+      ],
+      "edges": [
+        "Повтор callback создаёт одну проводку; refund≤остатка; receipt error не отменяет успешную оплату",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор callback создаёт одну проводку",
+        "refund≤остатка",
+        "receipt error не отменяет успешную оплату"
+      ],
+      "phase": "P3",
+      "task_id": "TASK-INT-004",
+      "test_id": "TEST-INT-004",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "INT",
+      "source_checked_at": "2026-09-24",
+      "parity_required": false,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_platform"
+    },
+    {
+      "id": "REQ-OPS-010",
+      "title": "Расписание уборок и готовность объекта",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Публичная страница описывает расписание и выполнение уборок.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Расписание уборок и готовность объекта; менеджер видит готовность, исполнитель своё расписание",
+      "screen_ids": [
+        "SCR-OPS-02"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager",
+        "housekeeper"
+      ],
+      "inputs": [
+        "выезд, новый заезд, исполнитель, checklist"
+      ],
+      "actions": [
+        "Назначить",
+        "принять",
+        "выполнить",
+        "проверить уборку"
+      ],
+      "outcomes": [
+        "Менеджер видит готовность, исполнитель своё расписание"
+      ],
+      "rules": [
+        "Бронь создаёт deduped task",
+        "перенос/отмена корректирует будущую задачу",
+        "нет ПД лишнего гостя"
+      ],
+      "dependencies": [
+        "REQ-IAM-005"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "ASSIGNEE_UNAVAILABLE: назначить другого",
+        "TASK_STALE: бронь перенесена",
+        "ARRIVAL_AT_RISK: объект ещё не готов"
+      ],
+      "edges": [
+        "Повтор reservation event не создаёт вторую уборку; непринятая уборка видна как риск заезда",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор reservation event не создаёт вторую уборку",
+        "непринятая уборка видна как риск заезда"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-010",
+      "test_id": "TEST-OPS-010",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    },
+    {
+      "id": "REQ-OPS-011",
+      "title": "Поломки, закупки и дополнительные задания",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Описаны сообщения о поломках и покупках.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Поломки, закупки и дополнительные задания; работа сохраняется в очереди до завершения",
+      "screen_ids": [
+        "SCR-OPS-03"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager",
+        "housekeeper"
+      ],
+      "inputs": [
+        "объект, тип проблемы, фото, приоритет, due date"
+      ],
+      "actions": [
+        "Сообщить",
+        "назначить",
+        "выполнить",
+        "закрыть с доказательством"
+      ],
+      "outcomes": [
+        "Работа сохраняется в очереди до завершения"
+      ],
+      "rules": [
+        "Вложения private/virus scan",
+        "расход подтверждается отдельно",
+        "closed нельзя менять без reopen"
+      ],
+      "dependencies": [
+        "REQ-OPS-010"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "ATTACHMENT_REJECTED: недопустимый файл",
+        "TASK_ALREADY_CLOSED: сначала возобновить",
+        "PROPERTY_SCOPE_DENIED: нет доступа к объекту"
+      ],
+      "edges": [
+        "Исполнитель видит только свои объекты; новая проблема сохраняет автора и статус",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Исполнитель видит только свои объекты",
+        "новая проблема сохраняет автора и статус"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-011",
+      "test_id": "TEST-OPS-011",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    },
+    {
+      "id": "REQ-OPS-012",
+      "title": "Начисления и оценки уборок",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Описаны рейтинг горничных и отчёт зарплаты.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Начисления и оценки уборок; версионированный отчёт оплаты и качества",
+      "screen_ids": [
+        "SCR-OPS-05"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "accountant",
+        "housekeeper"
+      ],
+      "inputs": [
+        "completed cleanings, rate version, guest rating"
+      ],
+      "actions": [
+        "Рассчитать черновик",
+        "проверить",
+        "утвердить",
+        "увидеть собственные начисления"
+      ],
+      "outcomes": [
+        "Версионированный отчёт оплаты и качества"
+      ],
+      "rules": [
+        "Оценка не меняет выплату без явной формулы",
+        "completed task засчитывается один раз",
+        "персонал видит своё"
+      ],
+      "dependencies": [
+        "REQ-OPS-010"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "PAYROLL_ALREADY_APPROVED: новая корректировка",
+        "RULE_VERSION_CHANGED: повторный preview",
+        "DUPLICATE_TASK_REWARD: повтор начисления запрещён"
+      ],
+      "edges": [
+        "Повтор расчёта не удваивает начисление; изменение ставки не меняет утверждённый прошлый период",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Повтор расчёта не удваивает начисление",
+        "изменение ставки не меняет утверждённый прошлый период"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-012",
+      "test_id": "TEST-OPS-012",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    },
+    {
+      "id": "REQ-OPS-013",
+      "title": "Показания счётчиков",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Названы показания счётчиков.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Показания счётчиков; история потребления с автором и единицей измерения",
+      "screen_ids": [
+        "SCR-OPS-06"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager",
+        "housekeeper"
+      ],
+      "inputs": [
+        "unit, meter, reading, date, photo?"
+      ],
+      "actions": [
+        "Снять показание",
+        "проверить отклонение",
+        "исправить новой версией"
+      ],
+      "outcomes": [
+        "История потребления с автором и единицей измерения"
+      ],
+      "rules": [
+        "Неубывание кроме reset/replacement",
+        "decimal по единице",
+        "фото optional"
+      ],
+      "dependencies": [
+        "REQ-OPS-011"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "READING_DECREASED: указать замену/сброс",
+        "INVALID_MEASUREMENT_UNIT: проверить прибор",
+        "READING_VERSION_CHANGED: открыть последнее значение"
+      ],
+      "edges": [
+        "Меньшее значение требует причины reset; исправление сохраняет прежнюю версию",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Меньшее значение требует причины reset",
+        "исправление сохраняет прежнюю версию"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-013",
+      "test_id": "TEST-OPS-013",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    },
+    {
+      "id": "REQ-OPS-014",
+      "title": "Защищённые коды доступа и инструкции персонала",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Названы инструкции уборки и смена кода сейфа.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Защищённые коды доступа и инструкции персонала; актуальный секрет доступен только в нужном контексте",
+      "screen_ids": [
+        "SCR-OPS-03"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager",
+        "housekeeper"
+      ],
+      "inputs": [
+        "unit, instruction version, secret code, validity"
+      ],
+      "actions": [
+        "Обновить код",
+        "подтвердить",
+        "открыть разрешённую инструкцию"
+      ],
+      "outcomes": [
+        "Актуальный секрет доступен только в нужном контексте"
+      ],
+      "rules": [
+        "Код зашифрован, не в audit/общем уведомлении",
+        "показ гостю по условиям и времени"
+      ],
+      "dependencies": [
+        "REQ-OPS-010"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "SECRET_ACCESS_DENIED: условия выдачи не выполнены",
+        "ACCESS_TOKEN_EXPIRED: обновить разрешённую ссылку",
+        "SECRET_ROTATION_PENDING: старый код недействителен"
+      ],
+      "edges": [
+        "Старый/истёкший guest token не читает код; смена пишет audit без значения",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Старый/истёкший guest token не читает код",
+        "смена пишет audit без значения"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-014",
+      "test_id": "TEST-OPS-014",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    },
+    {
+      "id": "REQ-OPS-015",
+      "title": "Панель операционных задач менеджера",
+      "source_category": "documented",
+      "source_urls": [
+        "https://new.realtycalendar.ru/products/autopilot"
+      ],
+      "source_ids": [
+        "DOC-024"
+      ],
+      "source_behavior": "Описана панель задач менеджера по брони, оплате и залогу.",
+      "verification_status": "public_page_read_account_workflow_not_tested",
+      "purpose": "Панель операционных задач менеджера; работы по каждому заезду и выезду проверяемы",
+      "screen_ids": [
+        "SCR-OPS-02"
+      ],
+      "roles": [
+        "owner",
+        "admin",
+        "manager"
+      ],
+      "inputs": [
+        "бронь, паспорт/оплата/залог/допуслуга, status"
+      ],
+      "actions": [
+        "Фильтровать просроченное",
+        "назначить",
+        "открыть источник",
+        "закрыть основанную на факте задачу"
+      ],
+      "outcomes": [
+        "Работы по каждому заезду и выезду проверяемы"
+      ],
+      "rules": [
+        "Оплата закрывается по Payment, не по кнопке task complete",
+        "ручное подтверждение имеет audit"
+      ],
+      "dependencies": [
+        "REQ-OPS-010",
+        "REQ-OPS-011"
+      ],
+      "states": [
+        "loading",
+        "empty",
+        "ready",
+        "saving",
+        "success",
+        "error",
+        "permission_denied"
+      ],
+      "errors": [
+        "SOURCE_TASK_STALE: перечитать связанную бронь",
+        "PAYMENT_NOT_CONFIRMED: задачу оплаты нельзя закрыть вручную без основания",
+        "TASK_SCOPE_DENIED: нет доступа"
+      ],
+      "edges": [
+        "Неполная оплата не скрывается после закрытия нерелевантной задачи; права по объектам действуют",
+        "Повтор запроса после сетевого timeout проверяет фактический результат перед новым эффектом"
+      ],
+      "acceptance": [
+        "Неполная оплата не скрывается после закрытия нерелевантной задачи",
+        "права по объектам действуют"
+      ],
+      "phase": "P2",
+      "task_id": "TASK-OPS-015",
+      "test_id": "TEST-OPS-015",
+      "priority": "required",
+      "implementation_status": "specified",
+      "domain": "OPS",
+      "source_checked_at": "2026-09-24",
+      "parity_required": true,
+      "spec_scope": "source_behavior подтверждает ориентир; подробные правила и интерфейс проектируются для KeyCalendar.",
+      "delivery_class": "mandatory_parity"
+    }
+  ]
+}

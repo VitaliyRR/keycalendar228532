@@ -1,0 +1,3107 @@
+{
+  "version": "1.0",
+  "screens": [
+    {
+      "id": "SCR-CAL-01",
+      "title": "Шахматка",
+      "kind": "calendar",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Быстро найти свободный объект и открыть бронь.",
+      "detail": "Ночь задается полуинтервалом [заезд,выезд) по часовому поясу объекта Цвет дополняется подписью/иконкой Блокировка и бронь имеют различимый рисунок",
+      "requirement_ids": [
+        "REQ-CAL-001",
+        "REQ-CAL-002",
+        "REQ-CAL-003",
+        "REQ-CAL-005",
+        "REQ-CAL-008",
+        "REQ-CAL-009"
+      ],
+      "source": "source/SCR-CAL-01.svg",
+      "preview": "exports/SCR-CAL-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-CAL-02",
+      "title": "Вид календаря и фильтры",
+      "kind": "calfilters",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Настроить объем видимой информации под задачу.",
+      "detail": "Скрытые разрешениями поля не включаются настройками Источник показывается полным текстом в подсказке Индикатор оплаты визуально ограничен 100%, переплата подписана",
+      "requirement_ids": [
+        "REQ-CAL-004"
+      ],
+      "source": "source/SCR-CAL-02.svg",
+      "preview": "exports/SCR-CAL-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-CAL-03",
+      "title": "Блокировка дат",
+      "kind": "block",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Закрывать ремонт и время подготовки без фиктивного гостя.",
+      "detail": "Блок отдельная сущность, не доходная бронь Буфер участвует в проверке пересечений Закрытие категории явно отличается от номера",
+      "requirement_ids": [
+        "REQ-CAL-006"
+      ],
+      "source": "source/SCR-CAL-03.svg",
+      "preview": "exports/SCR-CAL-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-CAL-04",
+      "title": "Конфликт занятости",
+      "kind": "conflict",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Защитить доступность и разобрать конфликт без потери фактов.",
+      "detail": "Локальная двойная бронь запрещена транзакцией Входящая внешняя бронь не теряется: сохраняется incident Решение требует причины и повторной проверки",
+      "requirement_ids": [
+        "REQ-CAL-007"
+      ],
+      "source": "source/SCR-CAL-04.svg",
+      "preview": "exports/SCR-CAL-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-01",
+      "title": "Реестр бронирований",
+      "kind": "bookings",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Спланировать работу смены и найти бронь.",
+      "detail": "Период даты явно подписан Отмена исключена из оперативных прибытий Время неизвестно отображается отдельно",
+      "requirement_ids": [
+        "REQ-RES-006"
+      ],
+      "source": "source/SCR-RES-01.svg",
+      "preview": "exports/SCR-RES-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-02",
+      "title": "Новое бронирование",
+      "kind": "reservation-new",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Зафиксировать договоренность с гостем.",
+      "detail": "Заявка не уменьшает доступность Бронь проверяет вместимость, правила и конфликт Цена сохраняется отдельной калькуляцией по ночам",
+      "requirement_ids": [
+        "REQ-RES-001"
+      ],
+      "source": "source/SCR-RES-02.svg",
+      "preview": "exports/SCR-RES-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-03",
+      "title": "Бронирование КК-1042",
+      "kind": "reservation",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Исправить бронь и увидеть последствия изменения.",
+      "detail": "Optimistic concurrency: старая версия возвращает 412 VERSION_CHANGED Сохранение атомарно меняет старую и новую доступность Пересчет стоимости только по явному выбору",
+      "requirement_ids": [
+        "REQ-RES-002",
+        "REQ-RES-004"
+      ],
+      "source": "source/SCR-RES-03.svg",
+      "preview": "exports/SCR-RES-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-04",
+      "title": "Отмена и восстановление",
+      "kind": "cancel",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Снять бронь с продажи, сохранив историю и финансовые связи.",
+      "detail": "Мягкое удаление; платежи не стираются Возврат денег отдельная операция Восстановление проверяет конфликт",
+      "requirement_ids": [
+        "REQ-RES-003"
+      ],
+      "source": "source/SCR-RES-04.svg",
+      "preview": "exports/SCR-RES-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-05",
+      "title": "История бронирования",
+      "kind": "history",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Разобраться, кто и почему изменил условия.",
+      "detail": "События неизменяемые Контакты и секреты маскируются по роли Технический дубль интеграции не создает бизнес-изменение",
+      "requirement_ids": [
+        "REQ-RES-005"
+      ],
+      "source": "source/SCR-RES-05.svg",
+      "preview": "exports/SCR-RES-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-06",
+      "title": "Заезды и выезды",
+      "kind": "arrivals",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Спланировать работу смены и найти бронь.",
+      "detail": "Период даты явно подписан Отмена исключена из оперативных прибытий Время неизвестно отображается отдельно",
+      "requirement_ids": [
+        "REQ-RES-006",
+        "REQ-RES-013"
+      ],
+      "source": "source/SCR-RES-06.svg",
+      "preview": "exports/SCR-RES-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-07",
+      "title": "Источники бронирования",
+      "kind": "sources",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Анализировать происхождение обращения.",
+      "detail": "origin_channel неизменяем и отделен от attribution_source Архивный источник сохраняется в истории Использованный источник не удаляется физически",
+      "requirement_ids": [
+        "REQ-RES-007"
+      ],
+      "source": "source/SCR-RES-07.svg",
+      "preview": "exports/SCR-RES-07.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-08",
+      "title": "Подборка для гостя",
+      "kind": "selection",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Предложить доступные варианты в одном месте.",
+      "detail": "Подборка не резервирует даты Цена предложения фиксируется до указанного срока, доступность перепроверяется Отправка сообщения отдельное подтвержденное действие",
+      "requirement_ids": [
+        "REQ-RES-008"
+      ],
+      "source": "source/SCR-RES-08.svg",
+      "preview": "exports/SCR-RES-08.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-09",
+      "title": "Прямое бронирование",
+      "kind": "public",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Принимать прямое бронирование с сайта.",
+      "detail": "Сумма и условия фиксируются серверным quote Удержание инвентаря имеет TTL, повтор платежа идемпотентен Платежный провайдер определяет доступные способы",
+      "requirement_ids": [
+        "REQ-RES-009"
+      ],
+      "source": "source/SCR-RES-09.svg",
+      "preview": "exports/SCR-RES-09.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-10",
+      "title": "Модуль бронирования",
+      "kind": "storefront",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Разместить ограниченный набор объектов в нужном канале.",
+      "detail": "Только опубликованные объекты Никаких секретов и внутренней цены в embed-конфигурации Изменение состава фиксируется в аудите",
+      "requirement_ids": [
+        "REQ-RES-010"
+      ],
+      "source": "source/SCR-RES-10.svg",
+      "preview": "exports/SCR-RES-10.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-11",
+      "title": "Партнёры и доступ",
+      "kind": "partners",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Передать спрос партнеру при отсутствии своих вариантов.",
+      "detail": "Прямое партнерское соглашение обязательно Контакты чужих гостей и внутренние финансы запрещены Отзыв немедленно прекращает новые чтения",
+      "requirement_ids": [
+        "REQ-RES-011"
+      ],
+      "source": "source/SCR-RES-11.svg",
+      "preview": "exports/SCR-RES-11.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RES-12",
+      "title": "Дополнительные услуги",
+      "kind": "services",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Учитывать допуслуги в проживании и исполнении.",
+      "detail": "Заказ не равен оплате Цена фиксируется при подтверждении Отмена и возврат услуги связаны с исходной строкой",
+      "requirement_ids": [
+        "REQ-RES-012"
+      ],
+      "source": "source/SCR-RES-12.svg",
+      "preview": "exports/SCR-RES-12.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-01",
+      "title": "Объекты и номера",
+      "kind": "objects",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Закончить использование объекта без потери истории.",
+      "detail": "Физическое удаление связанного объекта запрещено Перед архивом требуются нулевые будущие обязательства и отключенные продажи Восстановление не включает каналы автоматически",
+      "requirement_ids": [
+        "REQ-OBJ-006"
+      ],
+      "source": "source/SCR-OBJ-01.svg",
+      "preview": "exports/SCR-OBJ-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-02",
+      "title": "Карточка объекта",
+      "kind": "object",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Вести надежный каталог размещения.",
+      "detail": "Одинаковый адрес допустим при уникальном внутреннем коде Часовой пояс хранится явно Создание не подключает OTA автоматически",
+      "requirement_ids": [
+        "REQ-OBJ-001",
+        "REQ-OBJ-002"
+      ],
+      "source": "source/SCR-OBJ-02.svg",
+      "preview": "exports/SCR-OBJ-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-03",
+      "title": "Правила проживания",
+      "kind": "rules",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Снизить ошибки заселения и объяснить ограничения.",
+      "detail": "Условия на момент брони сохраняются снимком Код доступа не попадает в публичное описание Неизвестное время не считается нулевым",
+      "requirement_ids": [
+        "REQ-OBJ-003"
+      ],
+      "source": "source/SCR-OBJ-03.svg",
+      "preview": "exports/SCR-OBJ-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-04",
+      "title": "Номерной фонд и распределение",
+      "kind": "allocation",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Учитывать квартиры и гостиничные категории единой моделью.",
+      "detail": "Категория не бронируется как дополнительный номер Цены наследуются от категории Изменение числа номеров предваряет просмотр последствий",
+      "requirement_ids": [
+        "REQ-OBJ-004",
+        "REQ-OBJ-005"
+      ],
+      "source": "source/SCR-OBJ-04.svg",
+      "preview": "exports/SCR-OBJ-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-05",
+      "title": "Объекты на карте",
+      "kind": "map",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Выбирать размещение по расположению.",
+      "detail": "Карта не единственный способ выбора Неточные координаты отмечены до публикации Чужая занятость и сведения о гостях не выводятся",
+      "requirement_ids": [
+        "REQ-OBJ-007"
+      ],
+      "source": "source/SCR-OBJ-05.svg",
+      "preview": "exports/SCR-OBJ-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OBJ-06",
+      "title": "Реквизиты объекта",
+      "kind": "requisites",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Подготовить объект к финансовым и договорным сценариям.",
+      "detail": "Применимость юридических полей задается правилом юрисдикции Исторический платеж использует снимок реквизитов Секреты платежных систем хранятся отдельно",
+      "requirement_ids": [
+        "REQ-OBJ-008"
+      ],
+      "source": "source/SCR-OBJ-06.svg",
+      "preview": "exports/SCR-OBJ-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-01",
+      "title": "Базовые цены и скидки",
+      "kind": "rates",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Задать цену продажи по умолчанию.",
+      "detail": "Деньги в minor units без float Ночь относится к дате заезда в эту ночь Существующая бронь сохраняет калькуляцию",
+      "requirement_ids": [
+        "REQ-RTE-001",
+        "REQ-RTE-007"
+      ],
+      "source": "source/SCR-RTE-01.svg",
+      "preview": "exports/SCR-RTE-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-02",
+      "title": "Сезоны",
+      "kind": "seasons",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Настроить праздничный и сезонный спрос.",
+      "detail": "Пересечения сезонов разрешаются явно заданным приоритетом Повтор ежегодно только по явному выбору Високосный день проверяется отдельно",
+      "requirement_ids": [
+        "REQ-RTE-002",
+        "REQ-RTE-007"
+      ],
+      "source": "source/SCR-RTE-02.svg",
+      "preview": "exports/SCR-RTE-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-03",
+      "title": "Ограничения проживания",
+      "kind": "restrictions",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Изменить ограниченный период без правки базы.",
+      "detail": "Пустое значение означает наследование, а не ноль Каждое поле хранит собственный override Для паритета поддержать не менее 350 дней за одну операцию desktop",
+      "requirement_ids": [
+        "REQ-RTE-003",
+        "REQ-RTE-004"
+      ],
+      "source": "source/SCR-RTE-03.svg",
+      "preview": "exports/SCR-RTE-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-04",
+      "title": "Массовое изменение цен",
+      "kind": "massrates",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Обновить портфель одной проверяемой операцией.",
+      "detail": "Явный список объектов и диапазон до подтверждения Округление после расчета каждой ночи Повтор по operation_id не применяет процент второй раз",
+      "requirement_ids": [
+        "REQ-RTE-005"
+      ],
+      "source": "source/SCR-RTE-04.svg",
+      "preview": "exports/SCR-RTE-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-05",
+      "title": "Динамика, окна и горизонт",
+      "kind": "dynamic",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Ограничивать короткие дальние брони и заполнять разрывы.",
+      "detail": "Порядок: база, сезон, динамика, override, окно Окно применимо только к целиком свободному разрыву Поддержка фонда сначала запрещена как ограничение паритета",
+      "requirement_ids": [
+        "REQ-RTE-006",
+        "REQ-RTE-012"
+      ],
+      "source": "source/SCR-RTE-05.svg",
+      "preview": "exports/SCR-RTE-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-06",
+      "title": "Состав гостей и детские тарифы",
+      "kind": "guests-rates",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Получать точную цену по составу гостей.",
+      "detail": "Взрослые и дети не превышают общий лимит Правила возраста непересекающиеся Наценка канала на доплату применяется только при подтвержденном механизме",
+      "requirement_ids": [
+        "REQ-RTE-008"
+      ],
+      "source": "source/SCR-RTE-06.svg",
+      "preview": "exports/SCR-RTE-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-07",
+      "title": "Тарифы каналов",
+      "kind": "channel-rates",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Настроить соответствие прямой цены внешним тарифам.",
+      "detail": "Каждый внешний rate_id связан однозначно Исходная цена и итог канала показаны раздельно Без доступа к API статус требует подключения",
+      "requirement_ids": [
+        "REQ-RTE-009"
+      ],
+      "source": "source/SCR-RTE-07.svg",
+      "preview": "exports/SCR-RTE-07.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-08",
+      "title": "Промокоды",
+      "kind": "promocodes",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Управлять адресными предложениями с проверяемыми пределами.",
+      "detail": "Применение лимита транзакционно Код не раскрывает наличие чужих броней Совместимость с длительностью задана явно",
+      "requirement_ids": [
+        "REQ-RTE-010"
+      ],
+      "source": "source/SCR-RTE-08.svg",
+      "preview": "exports/SCR-RTE-08.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-RTE-09",
+      "title": "Расчёт стоимости",
+      "kind": "quote",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Понять расчет до подтверждения и расследовать расхождение.",
+      "detail": "Quote содержит версию и срок жизни Комиссия OTA не смешана с ценой гостю При смене правил новый quote требует повторного принятия",
+      "requirement_ids": [
+        "REQ-RTE-011"
+      ],
+      "source": "source/SCR-RTE-09.svg",
+      "preview": "exports/SCR-RTE-09.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-GST-01",
+      "title": "Гости",
+      "kind": "guests",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Быстро найти постоянного гостя.",
+      "detail": "Телефон нормализуется, исходный формат сохраняется Поиск ограничен организацией По умолчанию только минимально необходимые данные",
+      "requirement_ids": [
+        "REQ-GST-001",
+        "REQ-GST-003"
+      ],
+      "source": "source/SCR-GST-01.svg",
+      "preview": "exports/SCR-GST-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-GST-02",
+      "title": "Профиль гостя",
+      "kind": "guest",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Оценить историю взаимодействия перед повторной бронью.",
+      "detail": "Отмены показаны отдельно Платежные показатели зависят от прав Общая сумма не равна фактическим платежам",
+      "requirement_ids": [
+        "REQ-GST-002",
+        "REQ-GST-004",
+        "REQ-GST-008",
+        "REQ-GST-009"
+      ],
+      "source": "source/SCR-GST-02.svg",
+      "preview": "exports/SCR-GST-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-GST-03",
+      "title": "Кабинет гостя",
+      "kind": "guest-portal",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Дать гостю данные и действия по своему проживанию.",
+      "detail": "Ссылка отзывная и ограничена сроком Чувствительные действия требуют дополнительной проверки В URL нет телефона/номера документа",
+      "requirement_ids": [
+        "REQ-GST-005"
+      ],
+      "source": "source/SCR-GST-03.svg",
+      "preview": "exports/SCR-GST-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-GST-04",
+      "title": "Документы и согласия",
+      "kind": "documents",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Подготовить заселение с контролем доступа к документам.",
+      "detail": "Сбор только при необходимом правовом основании Отдельное защищенное хранилище и краткие download URL Документ не попадает в обычный лог/аналитику/макет",
+      "requirement_ids": [
+        "REQ-GST-006"
+      ],
+      "source": "source/SCR-GST-04.svg",
+      "preview": "exports/SCR-GST-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-GST-05",
+      "title": "Договор с гостем",
+      "kind": "contract",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Зафиксировать версию условий и действие гостя.",
+      "detail": "Юридическая модель подписи согласуется отдельно Текст подтвержденного документа неизменяем Перенос дат при необходимости формирует дополнение",
+      "requirement_ids": [
+        "REQ-GST-007"
+      ],
+      "source": "source/SCR-GST-05.svg",
+      "preview": "exports/SCR-GST-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-01",
+      "title": "Платежи и счета",
+      "kind": "payments",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Отразить реально полученные деньги.",
+      "detail": "Учетный счет не является банковским доступом Платеж имеет idempotency key Исправление денежной истории через обратную проводку",
+      "requirement_ids": [
+        "REQ-FIN-001",
+        "REQ-FIN-004"
+      ],
+      "source": "source/SCR-FIN-01.svg",
+      "preview": "exports/SCR-FIN-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-02",
+      "title": "Ручной платёж",
+      "kind": "manual-pay",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Отразить реально полученные деньги.",
+      "detail": "Учетный счет не является банковским доступом Платеж имеет idempotency key Исправление денежной истории через обратную проводку",
+      "requirement_ids": [
+        "REQ-FIN-001",
+        "REQ-FIN-002"
+      ],
+      "source": "source/SCR-FIN-02.svg",
+      "preview": "exports/SCR-FIN-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-03",
+      "title": "Ссылки и возвраты",
+      "kind": "refund",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Получить деньги по проверяемому платежному сценарию.",
+      "detail": "Оплачено только после проверенного события провайдера Оплата и чек имеют независимые статусы Ссылка истекает и не раскрывает учетные секреты",
+      "requirement_ids": [
+        "REQ-FIN-003",
+        "REQ-FIN-009"
+      ],
+      "source": "source/SCR-FIN-03.svg",
+      "preview": "exports/SCR-FIN-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-04",
+      "title": "Залоги",
+      "kind": "deposits",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Контролировать возвратные средства гостя.",
+      "detail": "Залог не входит в доход от проживания Hold, transfer и receipt различимы Оплаченную сумму не редактируют задним числом",
+      "requirement_ids": [
+        "REQ-FIN-005",
+        "REQ-FIN-006"
+      ],
+      "source": "source/SCR-FIN-04.svg",
+      "preview": "exports/SCR-FIN-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-05",
+      "title": "Расходы",
+      "kind": "expenses",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Учитывать себестоимость портфеля.",
+      "detail": "Округленный остаток присваивается детерминированно Коррекция оставляет аудит Доступ добавления отличается от исправления",
+      "requirement_ids": [
+        "REQ-FIN-007"
+      ],
+      "source": "source/SCR-FIN-05.svg",
+      "preview": "exports/SCR-FIN-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-06",
+      "title": "Комиссии каналов",
+      "kind": "commissions",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Отделить доход гостя от расходов на продажи.",
+      "detail": "Факт провайдера имеет отдельный статус от расчетной оценки Комиссия не уменьшает договорную цену гостя Распределение по ночам фиксировано в report policy",
+      "requirement_ids": [
+        "REQ-FIN-008"
+      ],
+      "source": "source/SCR-FIN-06.svg",
+      "preview": "exports/SCR-FIN-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-07",
+      "title": "Чеки",
+      "kind": "receipts",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Завершить денежную операцию и проверить документ.",
+      "detail": "Возврат денег и чек возврата отдельные процессы Сумма ограничена net исходной операции Конкретные фискальные обязанности определяет legal-документ",
+      "requirement_ids": [
+        "REQ-FIN-009"
+      ],
+      "source": "source/SCR-FIN-07.svg",
+      "preview": "exports/SCR-FIN-07.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-FIN-08",
+      "title": "Проверка перевода",
+      "kind": "transfer",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Отличать присланный скриншот от факта получения.",
+      "detail": "Файл сам не создает оплату Проверка имеет автора/время Файлы проходят антивирус и ограничение доступа",
+      "requirement_ids": [
+        "REQ-FIN-010"
+      ],
+      "source": "source/SCR-FIN-08.svg",
+      "preview": "exports/SCR-FIN-08.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-REP-01",
+      "title": "Финансы и загрузка",
+      "kind": "report",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Оценить результат по объектам и периоду.",
+      "detail": "Прибыль = доход − расходы − комиссии Заявки не доход; отмена по выбранной учетной политике Частичное попадание проживания распределяется по ночам",
+      "requirement_ids": [
+        "REQ-REP-001",
+        "REQ-REP-002",
+        "REQ-REP-005"
+      ],
+      "source": "source/SCR-REP-01.svg",
+      "preview": "exports/SCR-REP-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-REP-02",
+      "title": "Источники и каналы",
+      "kind": "report-channels",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Сравнить каналы привлечения без смешения дат.",
+      "detail": "Тип даты всегда указан в заголовке Пустой источник отдельная группа origin_channel и attribution_source доступны как разные группировки",
+      "requirement_ids": [
+        "REQ-REP-003"
+      ],
+      "source": "source/SCR-REP-02.svg",
+      "preview": "exports/SCR-REP-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-REP-03",
+      "title": "Статистика модуля",
+      "kind": "report-module",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Проверить результат ссылок и витрин.",
+      "detail": "Определение уникальности и cookie-согласия фиксировано Источники системного модуля не заменяются меткой Боты/повторные события исключаются по задокументированной методике",
+      "requirement_ids": [
+        "REQ-REP-004"
+      ],
+      "source": "source/SCR-REP-03.svg",
+      "preview": "exports/SCR-REP-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-REP-04",
+      "title": "Показатели и экспорт",
+      "kind": "metrics",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Передать отчет с теми же фильтрами и формулами.",
+      "detail": "Дополнение KC, не подтвержденный паритет Снимок неизменяем Отдельное право export_finance; доступ к объектам перепроверяется",
+      "requirement_ids": [
+        "REQ-REP-006",
+        "REQ-REP-007"
+      ],
+      "source": "source/SCR-REP-04.svg",
+      "preview": "exports/SCR-REP-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-01",
+      "title": "Уведомления",
+      "kind": "notifications",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Собрать изменения, требующие внимания.",
+      "detail": "Уведомление не содержит скрытых ролью данных Повтор одного business event дедуплицируется Критический конфликт отделен от информационного события",
+      "requirement_ids": [
+        "REQ-MSG-001"
+      ],
+      "source": "source/SCR-MSG-01.svg",
+      "preview": "exports/SCR-MSG-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-02",
+      "title": "Правила доставки",
+      "kind": "delivery-rules",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Настроить полезные оповещения на разрешенные каналы.",
+      "detail": "Правило не расширяет права на объекты Критические предупреждения остаются в центре Тестовая отправка требует явного нажатия",
+      "requirement_ids": [
+        "REQ-MSG-002"
+      ],
+      "source": "source/SCR-MSG-02.svg",
+      "preview": "exports/SCR-MSG-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-03",
+      "title": "Подтверждение бронирования",
+      "kind": "confirmation",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Передать гостю согласованные параметры проживания.",
+      "detail": "Сохранение брони не повторяет ранее отправленное письмо Отправка и бронь имеют разные статусы В письме только разрешенные публичные реквизиты",
+      "requirement_ids": [
+        "REQ-MSG-003"
+      ],
+      "source": "source/SCR-MSG-03.svg",
+      "preview": "exports/SCR-MSG-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-04",
+      "title": "Автосообщения и шаблоны",
+      "kind": "templates",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Создать понятные сообщения с данными конкретной брони.",
+      "detail": "HTML и ссылки проходят sanitization Неизвестная переменная блокирует публикацию Доступ к коду замка отдельный и обусловленный политикой",
+      "requirement_ids": [
+        "REQ-MSG-004",
+        "REQ-MSG-005",
+        "REQ-MSG-008"
+      ],
+      "source": "source/SCR-MSG-04.svg",
+      "preview": "exports/SCR-MSG-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-05",
+      "title": "Диалог с гостем",
+      "kind": "chat",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Работать с историей сообщения в контексте гостя.",
+      "detail": "Отправка внешнее действие с явной кнопкой Неизвестный контакт не объединяется с гостем автоматически Паспорт канала определяет вложения и начало диалога",
+      "requirement_ids": [
+        "REQ-MSG-006"
+      ],
+      "source": "source/SCR-MSG-05.svg",
+      "preview": "exports/SCR-MSG-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MSG-06",
+      "title": "Журнал доставки",
+      "kind": "delivery-log",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Разобрать недоставку и безопасно повторить.",
+      "detail": "Неопределенный результат сначала проверяется у провайдера Fallback учитывает согласие и стоимость Ошибки не раскрывают токены/полный личный payload",
+      "requirement_ids": [
+        "REQ-MSG-007"
+      ],
+      "source": "source/SCR-MSG-06.svg",
+      "preview": "exports/SCR-MSG-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-IAM-01",
+      "title": "Вход и регистрация",
+      "kind": "auth",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Регистрация и подтверждение email; пользователь verified и может создать организацию",
+      "detail": "Email normalize одноразовый token 24 ч одинаковый ответ при повторном адресе",
+      "requirement_ids": [
+        "REQ-IAM-001",
+        "REQ-IAM-002"
+      ],
+      "source": "source/SCR-IAM-01.svg",
+      "preview": "exports/SCR-IAM-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-IAM-02",
+      "title": "Восстановление и MFA",
+      "kind": "recovery",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Восстановление доступа и MFA; доступ восстановлен с отзывом других сессий",
+      "detail": "Recovery 30 мин, token hash MFA обязательно перед критическими действиями владельца/админа",
+      "requirement_ids": [
+        "REQ-IAM-003"
+      ],
+      "source": "source/SCR-IAM-02.svg",
+      "preview": "exports/SCR-IAM-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-IAM-03",
+      "title": "Сотрудники и права",
+      "kind": "access",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Приглашения и отзыв сотрудников; сотрудник имеет только выданный scope",
+      "detail": "TTL 72 ч новый invite отзывает старый лимит на принятии последнего owner не удалять",
+      "requirement_ids": [
+        "REQ-IAM-004",
+        "REQ-IAM-005"
+      ],
+      "source": "source/SCR-IAM-03.svg",
+      "preview": "exports/SCR-IAM-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-ORG-01",
+      "title": "Рабочие пространства",
+      "kind": "onboarding",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Создание организации и первый запуск; изолированная организация, owner и trial",
+      "detail": "Одна org=tenant RUB старт timezone IANA setup возобновляемый",
+      "requirement_ids": [
+        "REQ-ORG-001",
+        "REQ-ORG-002"
+      ],
+      "source": "source/SCR-ORG-01.svg",
+      "preview": "exports/SCR-ORG-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-ORG-02",
+      "title": "Настройки организации",
+      "kind": "organization",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Настройки, архив и удаление организации; версионированные настройки и контролируемый lifecycle",
+      "detail": "История currency/timezone не переписывается delete требует MFA, срока ожидания и legal hold checks",
+      "requirement_ids": [
+        "REQ-ORG-003"
+      ],
+      "source": "source/SCR-ORG-02.svg",
+      "preview": "exports/SCR-ORG-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-INT-01",
+      "title": "Подключения",
+      "kind": "channels",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Каталог подключений и доступ к провайдерам; статусы external_access_pending/sandbox/ready/connected честно различаются",
+      "detail": "Не считать API публичным по наличию RC-интеграции секрет в vault текущая работа read-only",
+      "requirement_ids": [
+        "REQ-INT-001"
+      ],
+      "source": "source/SCR-INT-01.svg",
+      "preview": "exports/SCR-INT-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-INT-02",
+      "title": "Сопоставление объектов и тарифов",
+      "kind": "mapping",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Сопоставление объектов, тарифов и источников истины; однозначная карта и источник каждого значения",
+      "detail": "One mapping per external resource неизвестные поля не отправлять iCal отдельно",
+      "requirement_ids": [
+        "REQ-INT-002"
+      ],
+      "source": "source/SCR-INT-02.svg",
+      "preview": "exports/SCR-INT-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-INT-03",
+      "title": "Платёжные системы",
+      "kind": "payment-provider",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Платёжные адаптеры и сверка статусов; оплаты и возвраты отражаются по подтверждённым фактам",
+      "detail": "Hosted checkout PAN не хранить signature один эффект фискализация отдельно",
+      "requirement_ids": [
+        "REQ-INT-004"
+      ],
+      "source": "source/SCR-INT-03.svg",
+      "preview": "exports/SCR-INT-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-INT-04",
+      "title": "Ошибки обмена и конфликты",
+      "kind": "sync-conflicts",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Надёжный обмен и конфликты каналов; подтверждённые внешние факты не теряются; конфликты видны",
+      "detail": "At-least-once/idempotent database allocation constraint 401 reconnect,429 Retry-After no silent overwrite",
+      "requirement_ids": [
+        "REQ-INT-003"
+      ],
+      "source": "source/SCR-INT-04.svg",
+      "preview": "exports/SCR-INT-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MIG-01",
+      "title": "Импорт и экспорт",
+      "kind": "import",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Импорт и сопоставление данных; нормализованные кандидаты с provenance и review flags",
+      "detail": "Макросы/XML entities не исполняются нет статуса/ID=unknown ПД вне repo",
+      "requirement_ids": [
+        "REQ-MIG-001",
+        "REQ-MIG-004"
+      ],
+      "source": "source/SCR-MIG-01.svg",
+      "preview": "exports/SCR-MIG-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MIG-02",
+      "title": "Проверка переноса",
+      "kind": "reconcile",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Dry-run и сверка миграции; отчёт различий и blockers до production apply",
+      "detail": "Egress deny orphan=0 future unknown status=0 перед допуском финансы по валютам",
+      "requirement_ids": [
+        "REQ-MIG-002"
+      ],
+      "source": "source/SCR-MIG-02.svg",
+      "preview": "exports/SCR-MIG-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-MIG-03",
+      "title": "Пилот и переключение",
+      "kind": "cutover",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Переключение первого клиента и откат; один writer и подтверждённая сохранность активных обязательств",
+      "detail": "В этой работе не выполнять rollback учитывает новые платежи/брони после cutover",
+      "requirement_ids": [
+        "REQ-MIG-003"
+      ],
+      "source": "source/SCR-MIG-03.svg",
+      "preview": "exports/SCR-MIG-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-01",
+      "title": "Состояние сервиса",
+      "kind": "operations",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Резервное копирование и восстановление; измеренные rpo/rto и сверка целостности",
+      "detail": "RPO 15 мин/RTO 4 ч проектно отдельный RF account ежемесячное упражнение",
+      "requirement_ids": [
+        "REQ-OPS-001",
+        "REQ-OPS-002",
+        "REQ-OPS-005",
+        "REQ-OPS-006"
+      ],
+      "source": "source/SCR-OPS-01.svg",
+      "preview": "exports/SCR-OPS-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-02",
+      "title": "Задачи на сегодня",
+      "kind": "tasks",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Расписание уборок и готовность объекта; менеджер видит готовность, исполнитель своё расписание",
+      "detail": "Бронь создаёт deduped task перенос/отмена корректирует будущую задачу нет ПД лишнего гостя",
+      "requirement_ids": [
+        "REQ-OPS-010",
+        "REQ-OPS-015"
+      ],
+      "source": "source/SCR-OPS-02.svg",
+      "preview": "exports/SCR-OPS-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-03",
+      "title": "Карточка задачи",
+      "kind": "task",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Поломки, закупки и дополнительные задания; работа сохраняется в очереди до завершения",
+      "detail": "Вложения private/virus scan расход подтверждается отдельно closed нельзя менять без reopen",
+      "requirement_ids": [
+        "REQ-OPS-011",
+        "REQ-OPS-014"
+      ],
+      "source": "source/SCR-OPS-03.svg",
+      "preview": "exports/SCR-OPS-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-04",
+      "title": "Данные и инциденты",
+      "kind": "privacy",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Персональные данные, хранение и инциденты; минимально необходимые пд с управляемым жизненным циклом",
+      "detail": "RF locality separate secrets удаление с legal hold исключением проверка compliance перед launch",
+      "requirement_ids": [
+        "REQ-OPS-004"
+      ],
+      "source": "source/SCR-OPS-04.svg",
+      "preview": "exports/SCR-OPS-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-05",
+      "title": "Начисления сотрудникам",
+      "kind": "payroll",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Начисления и оценки уборок; версионированный отчёт оплаты и качества",
+      "detail": "Оценка не меняет выплату без явной формулы completed task засчитывается один раз персонал видит своё",
+      "requirement_ids": [
+        "REQ-OPS-012"
+      ],
+      "source": "source/SCR-OPS-05.svg",
+      "preview": "exports/SCR-OPS-05.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-06",
+      "title": "Показания счётчиков",
+      "kind": "meters",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Показания счётчиков; история потребления с автором и единицей измерения",
+      "detail": "Неубывание кроме reset/replacement decimal по единице фото optional",
+      "requirement_ids": [
+        "REQ-OPS-013"
+      ],
+      "source": "source/SCR-OPS-06.svg",
+      "preview": "exports/SCR-OPS-06.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-OPS-07",
+      "title": "Аудит и доступ поддержки",
+      "kind": "audit",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Аудит и доступ поддержки; проверяемый автор, время, причина и изменения",
+      "detail": "Append-only redacted diff grant ≤1ч, read-only default все действия поддержки аудируются",
+      "requirement_ids": [
+        "REQ-OPS-003"
+      ],
+      "source": "source/SCR-OPS-07.svg",
+      "preview": "exports/SCR-OPS-07.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-BILL-01",
+      "title": "Подписка и лимиты",
+      "kind": "subscription",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Тарифы, trial и лимиты SaaS; явные entitlements без потери данных",
+      "detail": "Trial 14 дней проектно цены коммерческий владелец утверждает check limit атомарен",
+      "requirement_ids": [
+        "REQ-BILL-001"
+      ],
+      "source": "source/SCR-BILL-01.svg",
+      "preview": "exports/SCR-BILL-01.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-BILL-02",
+      "title": "Оплата подписки",
+      "kind": "billing-pay",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Оплата и продление подписки; оплата подтверждена и период продлён один раз",
+      "detail": "SaaS merchant отдельно от гостевых оплат webhook verify idempotency",
+      "requirement_ids": [
+        "REQ-BILL-002"
+      ],
+      "source": "source/SCR-BILL-02.svg",
+      "preview": "exports/SCR-BILL-02.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-BILL-03",
+      "title": "Счета подписки",
+      "kind": "billing-invoices",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Оплата и продление подписки; оплата подтверждена и период продлён один раз",
+      "detail": "SaaS merchant отдельно от гостевых оплат webhook verify idempotency",
+      "requirement_ids": [
+        "REQ-BILL-002"
+      ],
+      "source": "source/SCR-BILL-03.svg",
+      "preview": "exports/SCR-BILL-03.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    },
+    {
+      "id": "SCR-BILL-04",
+      "title": "Подписка закончилась",
+      "kind": "expired",
+      "subtitle": "Дом у парка · демонстрационное рабочее пространство",
+      "scenario": "Просрочка, read-only и восстановление; поведение ограничений предсказуемо",
+      "detail": "Grace 7 дней затем read-only экспорт/безопасность доступны inbound брони/платежи работают public sales закрываются",
+      "requirement_ids": [
+        "REQ-BILL-003"
+      ],
+      "source": "source/SCR-BILL-04.svg",
+      "preview": "exports/SCR-BILL-04.png",
+      "viewport": {
+        "width": 1440,
+        "height": 960
+      },
+      "state_refs": [
+        "STATE-01",
+        "STATE-02",
+        "STATE-03",
+        "STATE-04",
+        "STATE-05",
+        "STATE-06"
+      ],
+      "responsive_refs": [
+        "SCR-MOBILE-01",
+        "SCR-MOBILE-02",
+        "SCR-TABLET-01"
+      ],
+      "component_refs": [
+        "CMP-TABLE",
+        "CMP-FIELD",
+        "CMP-BUTTON",
+        "CMP-STATUS",
+        "CMP-DIALOG"
+      ]
+    }
+  ],
+  "shared_states": [
+    {
+      "id": "STATE-01",
+      "title": "Загрузка",
+      "source": "source/STATE-01.svg",
+      "preview": "exports/STATE-01.png",
+      "message": "Получаем актуальную занятость.",
+      "recovery": "Скелетон сохраняет ширины колонок. Повторный запрос не очищает фильтры."
+    },
+    {
+      "id": "STATE-02",
+      "title": "Пока нет бронирований",
+      "source": "source/STATE-02.svg",
+      "preview": "exports/STATE-02.png",
+      "message": "Добавьте первую бронь или импортируйте данные.",
+      "recovery": "Пустой поиск предлагает сброс фильтров; пустая организация ведёт к первому объекту."
+    },
+    {
+      "id": "STATE-03",
+      "title": "Не удалось загрузить данные",
+      "source": "source/STATE-03.svg",
+      "preview": "exports/STATE-03.png",
+      "message": "Проверьте соединение и повторите запрос.",
+      "recovery": "Черновик сохранён. Время последнего успешного чтения видно; запись офлайн запрещена."
+    },
+    {
+      "id": "STATE-04",
+      "title": "Недостаточно прав",
+      "source": "source/STATE-04.svg",
+      "preview": "exports/STATE-04.png",
+      "message": "Обратитесь к администратору организации.",
+      "recovery": "Не показывать гостевые данные, сумму или название скрытого объекта."
+    },
+    {
+      "id": "STATE-05",
+      "title": "Запись уже изменена",
+      "source": "source/STATE-05.svg",
+      "preview": "exports/STATE-05.png",
+      "message": "Сравните текущую версию со своим черновиком.",
+      "recovery": "Автоматическое затирание запрещено. Повторное сохранение проходит новую проверку."
+    },
+    {
+      "id": "STATE-06",
+      "title": "Подключение требует доступа",
+      "source": "source/STATE-06.svg",
+      "preview": "exports/STATE-06.png",
+      "message": "Договор или права поставщика ещё не подтверждены.",
+      "recovery": "Кнопка синхронизации недоступна. Показаны конкретное условие и ответственный."
+    }
+  ],
+  "variants": [
+    {
+      "id": "VAR-IAM-REGISTER",
+      "parent_screen": "SCR-IAM-01",
+      "title": "Создать аккаунт",
+      "source": "source/VAR-IAM-REGISTER.svg",
+      "preview": "exports/VAR-IAM-REGISTER.png"
+    },
+    {
+      "id": "VAR-IAM-MFA",
+      "parent_screen": "SCR-IAM-02",
+      "title": "Подтвердите вход",
+      "source": "source/VAR-IAM-MFA.svg",
+      "preview": "exports/VAR-IAM-MFA.png"
+    },
+    {
+      "id": "VAR-IAM-VERIFY",
+      "parent_screen": "SCR-IAM-01",
+      "title": "Подтвердите рабочую почту",
+      "source": "source/VAR-IAM-VERIFY.svg",
+      "preview": "exports/VAR-IAM-VERIFY.png"
+    },
+    {
+      "id": "VAR-RES-VALIDATION",
+      "parent_screen": "SCR-RES-02",
+      "title": "Проверьте даты проживания",
+      "message": "Выезд должен быть позже заезда. Исправьте дату, остальные поля сохранены.",
+      "primary_action": "Исправить дату",
+      "source": "source/VAR-RES-VALIDATION.svg",
+      "preview": "exports/VAR-RES-VALIDATION.png"
+    },
+    {
+      "id": "VAR-RES-VERSION",
+      "parent_screen": "SCR-RES-03",
+      "title": "Бронирование уже изменено",
+      "message": "Другой менеджер изменил дату выезда на 28 сентября. Сравните версии перед сохранением.",
+      "primary_action": "Сравнить версии",
+      "source": "source/VAR-RES-VERSION.svg",
+      "preview": "exports/VAR-RES-VERSION.png"
+    },
+    {
+      "id": "VAR-RTE-PREVIEW",
+      "parent_screen": "SCR-RTE-04",
+      "title": "Подтвердите изменение цен",
+      "message": "2 объекта · 25–27 сентября. Старая цена 4 200 ₽, новая 4 500 ₽. Подтверждённые брони сохраняют свою стоимость.",
+      "primary_action": "Применить к 6 ночам",
+      "source": "source/VAR-RTE-PREVIEW.svg",
+      "preview": "exports/VAR-RTE-PREVIEW.png"
+    },
+    {
+      "id": "VAR-RTE-INVALID",
+      "parent_screen": "SCR-RTE-03",
+      "title": "Ограничения противоречат друг другу",
+      "message": "Минимум 3 ночи превышает максимум 2 ночи. Цены и доступность не изменены.",
+      "primary_action": "Исправить ограничения",
+      "source": "source/VAR-RTE-INVALID.svg",
+      "preview": "exports/VAR-RTE-INVALID.png"
+    },
+    {
+      "id": "VAR-FIN-UNKNOWN",
+      "parent_screen": "SCR-FIN-03",
+      "title": "Проверяем результат возврата",
+      "message": "Провайдер не подтвердил результат. Не повторяйте возврат: операция сверяется автоматически.",
+      "primary_action": "Открыть операцию",
+      "source": "source/VAR-FIN-UNKNOWN.svg",
+      "preview": "exports/VAR-FIN-UNKNOWN.png"
+    },
+    {
+      "id": "VAR-FIN-DEPOSIT",
+      "parent_screen": "SCR-FIN-04",
+      "title": "Вернуть залог полностью?",
+      "message": "К возврату 3 000 ₽. Удержаний нет. Получатель и способ совпадают с исходной операцией.",
+      "primary_action": "Подтвердить возврат",
+      "source": "source/VAR-FIN-DEPOSIT.svg",
+      "preview": "exports/VAR-FIN-DEPOSIT.png"
+    },
+    {
+      "id": "VAR-INT-STALE",
+      "parent_screen": "SCR-INT-01",
+      "title": "Доступность канала устарела",
+      "message": "Последнее подтверждение было 18 минут назад. Доставка повторяется; проверьте новые продажи в канале.",
+      "primary_action": "Открыть журнал",
+      "source": "source/VAR-INT-STALE.svg",
+      "preview": "exports/VAR-INT-STALE.png"
+    },
+    {
+      "id": "VAR-MIG-UNKNOWN",
+      "parent_screen": "SCR-MIG-02",
+      "title": "Для строк не определён статус",
+      "message": "В исходном файле отсутствует статус брони. Эти строки нельзя включить в активную занятость без подтверждения.",
+      "primary_action": "Скачать расхождения",
+      "source": "source/VAR-MIG-UNKNOWN.svg",
+      "preview": "exports/VAR-MIG-UNKNOWN.png"
+    },
+    {
+      "id": "VAR-GST-MERGE",
+      "parent_screen": "SCR-GST-02",
+      "title": "Похожие контакты",
+      "message": "Совпадение номера телефона не доказывает, что это один человек. Сравните брони и документы перед объединением.",
+      "primary_action": "Сравнить профили",
+      "source": "source/VAR-GST-MERGE.svg",
+      "preview": "exports/VAR-GST-MERGE.png"
+    },
+    {
+      "id": "VAR-OPS-REJECT",
+      "parent_screen": "SCR-OPS-03",
+      "title": "Уборка требует доработки",
+      "message": "Укажите пункты чек-листа и комментарий. Объект останется неготовым к заезду.",
+      "primary_action": "Вернуть в работу",
+      "source": "source/VAR-OPS-REJECT.svg",
+      "preview": "exports/VAR-OPS-REJECT.png"
+    },
+    {
+      "id": "VAR-MSG-FAIL",
+      "parent_screen": "SCR-MSG-06",
+      "title": "Сообщение не доставлено",
+      "message": "Почтовый сервис временно недоступен. Подтверждённые отправки не повторяются. Неизвестный результат требует проверки перед повтором.",
+      "primary_action": "Открыть попытки",
+      "source": "source/VAR-MSG-FAIL.svg",
+      "preview": "exports/VAR-MSG-FAIL.png"
+    },
+    {
+      "id": "VAR-IAM-INVITE",
+      "parent_screen": "SCR-IAM-03",
+      "title": "Приглашение истекло",
+      "message": "Доступ сотруднику не выдан. Можно создать новое приглашение с теми же ограничениями по объектам.",
+      "primary_action": "Новое приглашение",
+      "source": "source/VAR-IAM-INVITE.svg",
+      "preview": "exports/VAR-IAM-INVITE.png"
+    },
+    {
+      "id": "VAR-BILL-LIMIT",
+      "parent_screen": "SCR-BILL-01",
+      "title": "Достигнут лимит объектов",
+      "message": "Добавление нового объекта недоступно на текущем плане. Существующие брони продолжают отображаться.",
+      "primary_action": "Посмотреть планы",
+      "source": "source/VAR-BILL-LIMIT.svg",
+      "preview": "exports/VAR-BILL-LIMIT.png"
+    },
+    {
+      "id": "VAR-RES-DRAWER",
+      "parent_screen": "SCR-CAL-01",
+      "title": "Карточка брони над шахматкой",
+      "source": "source/VAR-RES-DRAWER.svg",
+      "preview": "exports/VAR-RES-DRAWER.png"
+    },
+    {
+      "id": "VAR-FIN-LINK",
+      "parent_screen": "SCR-FIN-03",
+      "title": "Создание платёжной ссылки",
+      "source": "source/VAR-FIN-LINK.svg",
+      "preview": "exports/VAR-FIN-LINK.png"
+    },
+    {
+      "id": "VAR-FIN-AUTHORIZATION",
+      "parent_screen": "SCR-FIN-04",
+      "title": "Залог: авторизация и снятие блокировки",
+      "source": "source/VAR-FIN-AUTHORIZATION.svg",
+      "preview": "exports/VAR-FIN-AUTHORIZATION.png"
+    },
+    {
+      "id": "VAR-CAL-OFFLINE",
+      "parent_screen": "SCR-CAL-01",
+      "title": "Календарь без сети",
+      "source": "source/VAR-CAL-OFFLINE.svg",
+      "preview": "exports/VAR-CAL-OFFLINE.png"
+    }
+  ]
+}

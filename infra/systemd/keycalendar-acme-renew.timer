@@ -1,0 +1,11 @@
+[Unit]
+Description=Check KeyCalendar IP TLS renewal twice daily
+
+[Timer]
+OnCalendar=*-*-* 03,15:15:00 UTC
+RandomizedDelaySec=30m
+Persistent=true
+Unit=keycalendar-acme-renew.service
+
+[Install]
+WantedBy=timers.target

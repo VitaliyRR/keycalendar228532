@@ -1,0 +1,76 @@
+{
+  "as_of": "2026-09-24",
+  "png_count": 108,
+  "svg_text_nodes_checked": 6277,
+  "text_outside_canvas": [],
+  "semantic_text_contrast": [
+    {
+      "foreground": "ink",
+      "background": "paper",
+      "ratio": 14.38,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "muted",
+      "background": "paper",
+      "ratio": 5.8,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "muted",
+      "background": "canvas",
+      "ratio": 5.32,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "blue",
+      "background": "paper",
+      "ratio": 6.95,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "blue",
+      "background": "pale",
+      "ratio": 6.07,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "green",
+      "background": "greenbg",
+      "ratio": 6.2,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "amber",
+      "background": "amberbg",
+      "ratio": 5.85,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "red",
+      "background": "redbg",
+      "ratio": 6.14,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "muted",
+      "background": "slate",
+      "ratio": 4.93,
+      "normal_text_4_5": true
+    },
+    {
+      "foreground": "paper",
+      "background": "blue",
+      "ratio": 6.95,
+      "normal_text_4_5": true
+    }
+  ],
+  "contact_sheets": [
+    "design\\review\\contact-01.png",
+    "design\\review\\contact-02.png",
+    "design\\review\\contact-03.png",
+    "design\\review\\contact-04.png",
+    "design\\review\\contact-05.png"
+  ],
+  "scope": "Static artwork extents/color pairs only. Does not verify interactive accessibility or all overlaps."
+}

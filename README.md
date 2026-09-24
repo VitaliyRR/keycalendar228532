@@ -1,34 +1,83 @@
-# KeyCalendar
+# Кей Календарь
 
-KeyCalendar is a multi-tenant SaaS workspace for property managers: availability calendar, reservations, guests, payments, financial analytics, staff permissions, and channel synchronization.
+SaaS для управления посуточной арендой. В репозитории находятся исходные материалы передачи от **24 сентября 2026 года** и начатая по отдельному поручению реализация: веб-клиент, API, доменные пакеты, миграции PostgreSQL и инфраструктурные файлы. Наличие кода или экрана само по себе не означает завершения требования.
 
-## Current product slice
+Начните с [продуктовой](requirements/product-spec.md) и [функциональной](requirements/functional-spec.md) спецификаций, затем откройте [галерею макетов](design/README.md), [план реализации](plan/README.md) и [правила работы](AGENTS.md).
 
-The current implementation establishes the visual system and the main operational screen:
+## Что подготовлено
 
-- responsive occupancy calendar for properties and rentable units;
-- booking and payment statuses;
-- today's arrivals, departures, and outstanding payments;
-- booking details drawer and a new-reservation form;
-- company and staff navigation ready for multi-tenant data.
+| Материал | Объем и значение |
+|---|---|
+| Требования | **107**: 78 обязательного паритета, 26 обязательной платформы, 3 дополнительных |
+| Доказательства | Категории требований: 5 проверенных чтением аккаунта, 73 подтвержденных документацией, 29 предложенных для KC |
+| Дизайн | 77 канонических экранов, 6 общих состояний, 20 вариантов, 4 адаптивных листа, библиотека компонентов CMP: всего 108 SVG/PNG |
+| Подключения | 75 паспортов, включая 15 паспортов совместимости кассовых поставщиков |
+| План реализации и проверки | 182 задачи и 182 связанные проверки; это реестр ожидаемой приемки, а не отчет о прохождении runtime-тестов |
+| Внутренний API | 56 операций и 74 схемы OpenAPI; контракт для реализации, фактическое покрытие проверяется отдельно |
 
-Representative data is deliberately local in this first interface slice. The production data and service design is documented in [`docs/architecture.md`](docs/architecture.md).
+75 паспортов не означают 75 готовых прямых API-подключений. Они включают native/API-кандидатов, iCal, сообщения, CRM, платежи, кассовую совместимость и неподтвержденные названия, требующие discovery. Доступность каждого механизма и условия его активации указаны отдельно.
 
-## Product principles
+`account` означает точно названное наблюдение. Просмотр формы не доказывает успешное сохранение, платеж, отправку или синхронизацию. `proposed` может обозначать обязательное требование собственной SaaS-платформы: класс поставки задается отдельно полем `delivery_class`.
 
-- Every business record belongs to an organization.
-- A property may contain any number of rentable units.
-- Availability conflicts are rejected by PostgreSQL, not only by the UI.
-- Payments and expenses are recorded as separate ledger entries.
-- External channel events are idempotent and auditable.
-- The UI remains usable with large portfolios through pagination and calendar virtualization.
+## Текущая реализация
 
-## Local development
+- [Веб-клиент](apps/web/README.md) на React/Vite содержит рабочие маршруты и частичные представления из карты SCR-ID.
+- [API](apps/api/src/app.ts), [миграции PostgreSQL](apps/api/migrations/001_core.sql) и [интеграционные тесты](apps/api/test/README.md) реализуют часть внутренних операций с tenant scope, RLS, доступностью и финансовыми записями.
+- [Доменный пакет](packages/domain/README.md) содержит чистые правила дат, доступности, цены и денег. [Пакет коннекторов](packages/connectors/README.md) содержит общую модель событий и ограниченную обработку iCal; паспорт провайдера и разрешенный доступ по-прежнему обязательны.
+- [Инфраструктурное руководство](infra/README.md) описывает отдельную службу на порту 3000, выделенную PostgreSQL и порядок безопасного выпуска/отката.
 
-The project uses React, TypeScript, and Vinext. Install dependencies and run the development server with the package manager recorded in the lockfile.
+Развёрнутая версия доступна по адресу [https://31.129.98.28:3000](https://31.129.98.28:3000). Это рабочая база для нового «Кей Календаря»: 19 пакетов / 45 802 строки исходных свидетельств RealtyCalendar сохранены в закрытом staging, но действующие клиентские объекты, брони и платежи ещё не созданы. Рядом работающий SkySend использует собственные Apache и MariaDB. Первичный доступ владельца выдаётся одноразовой ссылкой для установки пароля. Отправка почты пока отключена.
 
-## Documentation
+Из корня репозитория с Node.js 24:
 
-- [`docs/architecture.md`](docs/architecture.md) — production architecture and module boundaries.
-- [`docs/product-roadmap.md`](docs/product-roadmap.md) — staged delivery plan and MVP acceptance criteria.
-- [`docs/postgres-schema.sql`](docs/postgres-schema.sql) — initial PostgreSQL domain schema.
+```powershell
+npm ci
+npm run build
+npm test
+```
+
+Для PostgreSQL-интеграционных тестов требуется отдельная тестовая БД и `TEST_DATABASE_URL`; при отсутствии переменной такие тесты пропускаются. Инструкции в [README тестов API](apps/api/test/README.md). Статические материалы и runtime-код проверяются разными средствами.
+
+## Порядок чтения
+
+1. [Исследование ориентира](research/reference-study.md), [наблюдения аккаунта](research/account-observations.md), [источники](research/reference-evidence.json), [пробелы проверки](research/verification-gaps.csv).
+2. [Продукт](requirements/product-spec.md), [функциональные правила](requirements/functional-spec.md), [реестр ориентира](requirements/reference.json), [SaaS-требования](requirements/saas.json), [паритет](requirements/parity.csv).
+3. [Правила дизайна](design/specification.md), [карта экранов](design/screens.json), [спецификации экранов](design/screen-specs.json), [тексты интерфейса](design/copy.json), [токены](design/tokens.json).
+4. [Архитектура](architecture/README.md), [модель данных](architecture/data-model.md), [цены и ledger](architecture/pricing-ledger.md), [права](architecture/access-control.md), [OpenAPI](architecture/openapi.json).
+5. [Каталог подключений](integrations/README.md), [направления обмена](integrations/capability-matrix.csv), [общий интеграционный контракт](integrations/contract.md). Приоритетные паспорта: [Авито](integrations/passports/INT-AVITO.md), [Суточно.ру](integrations/passports/INT-SUTOCHNO.md).
+6. [Миграция](data/migration-spec.md), [правовые условия выпуска](research/legal/compliance.md), [открытые вопросы](plan/open-questions.md).
+7. [Порядок выпуска](plan/release-plan.md), [backlog](plan/backlog.json), [проверки](plan/test-cases.json), [трассировка REQ → SCR → TASK → TEST](requirements/traceability.csv).
+
+## Дизайн и ассеты
+
+[Галерея](design/README.md) предназначена для просмотра. [Индекс SVG/PNG](design/README.md) ведет к редактируемым исходникам и экспорту. SVG содержат текст, фигуры и слои; это статические макеты, не интерфейс приложения. Данные на них синтетические.
+
+Используемые элементы перечислены в [ассетах и лицензиях](assets/README.md) и [манифесте](assets/manifest.csv). В набор входят собственные SVG-иконки и знак, favicon и Golos Text с лицензией. Результат визуальной проверки описан в [visual-qa.md](design/visual-qa.md).
+
+## Статус и границы
+
+Реализация продолжается. На 24 сентября 2026 года отдельная служба Кей Календаря на ВМ отвечает по HTTPS на порту 3000; это проверка доступности службы, а не прохождение всех ворот выпуска. Полные 107 требований и 77 канонических экранов не объявлены завершенными. Подключения к внешним площадкам, прием платежей провайдером и перенос первого клиента требуют подтвержденных доступов и отдельной приемки. Галерея, SVG и OpenAPI остаются проектными материалами, а не доказательством работающего сценария.
+
+Существующий сервис RealtyCalendar исследован в режиме чтения: исходные записи, настройки, роли, тарифы и подключения не менялись. Сообщения не отправлялись; платежи и синхронизации в его аккаунте не запускались. Исходные свидетельства сохранены в закрытом staging Кей Календаря; перенос в действующие таблицы не выполнен. Развертывание Кей Календаря использует собственную службу, порт и PostgreSQL; соседний SkySend не изменялся.
+
+Получен ограниченный штатный Excel-экспорт и в режиме чтения собраны отдельные UI-снимки с ID бронирований и карточками объектов. Закрытый набор хранится вне репозитория; в Git нет исходных клиентских строк, паспортов, паролей, токенов, feed-ссылок или кодов доступа. Excel не содержит устойчивых ID, статусов, валюты и журнала денег. Владелец подтвердил приоритет текущих карточек RealtyCalendar для четырёх расхождений будущих броней; перед переносом ещё нужна финальная дельта. У строк оплат шире охват ID, чем у месячного списка броней, но смысл финансовых операций и статусы исторических броней остаются непроверенными. Текущее покрытие и условия дальнейшего переноса описаны в [спецификации миграции](data/migration-spec.md).
+
+Партнерские доступы, полная правовая проверка, merchant/ККТ, география хранения и коммерческие цены остаются конкретными воротами выпуска. Подробности и следующие действия: [открытые вопросы](plan/open-questions.md).
+
+## Проверка комплекта
+
+[validation-report.json](plan/validation-report.json) — исторический снимок проверки комплекта передачи до появления `apps/`, `packages/` и `infra/`. Актуальную проверку файлов, связей, форматов и признаков утечек запускайте командой ниже. [Визуальный протокол](design/visual-qa.md) относится к статическим макетам. Статическая проверка не доказывает корректность приложения, изоляцию организаций на работающей БД или доступ к внешним API.
+
+Из корня репозитория:
+
+```powershell
+python tools/verify_materials.py
+```
+
+`--write-report` заменяет исторический снимок новым статическим отчетом; используйте его только при намеренном обновлении отчетности. Runtime-проверки запускаются отдельно через `npm test`, в том числе с изолированной тестовой PostgreSQL. Генераторы, зависимости и порядок повторной сборки описаны в [tools/README.md](tools/README.md).
+
+## Восстановимость прежнего прототипа
+
+Рабочее дерево очищено от прежнего приложения и противоречащих материалов. Точка восстановления в Git: тег **`archive/pre-saas-handoff-20260924`**, коммит **`f3367a07138c0a1f5c4fd769ee788c174ea0b705`**. Это ссылка на историю, а не вторая устаревшая копия внутри проекта. Наличие локального тега не является утверждением о его публикации на GitHub.
+
+Разработку продолжать по актуальному поручению и зависимостям DAG, сохраняя доменные инварианты. Старый прототип не восстанавливать поверх текущих исходников.
