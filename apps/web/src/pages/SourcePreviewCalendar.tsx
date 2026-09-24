@@ -23,8 +23,10 @@ export function SourcePreviewCalendar({orgId,start,end,days,search,explicitStart
   const data=resource.data;
   const bookings=useMemo(()=>[...(data?.reservations||[])].sort((a,b)=>a.arrivalDate.localeCompare(b.arrivalDate)||a.sourceBookingId.localeCompare(b.sourceBookingId)),[data]);
   const term=search.trim().toLocaleLowerCase('ru');
-  const properties=(data?.properties||[]).filter(item=>!term||item.label.toLocaleLowerCase('ru').includes(term)||item.sourceLotId.includes(term));
   const inPeriod=bookings.filter(item=>intersects(item,start,end));
+  const countByLot=new Map<string,number>();
+  inPeriod.forEach(item=>countByLot.set(item.sourceLotId,(countByLot.get(item.sourceLotId)||0)+1));
+  const properties=(data?.properties||[]).filter(item=>!term||item.label.toLocaleLowerCase('ru').includes(term)||item.sourceLotId.includes(term)).sort((a,b)=>(countByLot.get(b.sourceLotId)||0)-(countByLot.get(a.sourceLotId)||0)||a.label.localeCompare(b.label,'ru'));
   const nextBooking=bookings.find(item=>item.arrivalDate>=end);
 
   useEffect(()=>{
