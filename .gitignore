@@ -1,6 +1,10 @@
 # Local tools and caches, not part of the handoff.
 .artifact-tools/
 node_modules/
+apps/*/dist/
+packages/*/dist/
+apps/*/.vite/
+*.tsbuildinfo
 __pycache__/
 *.pyc
 *.log
@@ -9,6 +13,7 @@ Thumbs.db
 
 # Client data and credentials must stay outside the repository.
 .env*
+!apps/api/.env.example
 *.pem
 *.key
 *.pfx
@@ -17,3 +22,4 @@ Thumbs.db
 *private*
 bookings.xls
 bookings-staging.jsonl
+.deploy/

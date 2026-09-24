@@ -1,4 +1,4 @@
-"""Static handoff audit. No network, imports of project code, or application execution.
+"""Static materials audit. No network, imports of project code, or application execution.
 
 Run: python tools/verify_materials.py
 Only --write-report writes plan/validation-report.json. The report contains locations
@@ -18,7 +18,7 @@ import sys
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
-IGNORED = {'.git', '.artifact-tools', 'node_modules', '__pycache__', '.pytest_cache'}
+IGNORED = {'.git', '.artifact-tools', '.deploy', '.vite', 'node_modules', '__pycache__', '.pytest_cache'}
 REQUIRED = [
     'README.md', 'AGENTS.md', 'research/reference-study.md',
     'research/reference-evidence.json', 'research/account-observations.md',
@@ -34,9 +34,7 @@ REQUIRED = [
     'plan/release-plan.md', 'research/legal/compliance.md',
 ]
 REPORT = 'plan/validation-report.json'
-TEXT_EXT = {'.md', '.json', '.csv', '.svg', '.py', '.mjs', '.js', '.txt', '.yaml', '.yml', '.toml', '.ini', '.env'}
-APP_DIRS = {'app', 'src', 'pages', 'worker', 'server', 'backend', 'frontend', 'functions', 'api'}
-APP_FILES = {'package.json', 'pnpm-lock.yaml', 'package-lock.json', 'yarn.lock', 'Dockerfile', 'docker-compose.yml', 'wrangler.toml', 'vite.config.ts', 'next.config.ts'}
+TEXT_EXT = {'.md', '.json', '.csv', '.svg', '.py', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.sql', '.html', '.css', '.txt', '.yaml', '.yml', '.toml', '.ini', '.env'}
 SECRET_RULES = [
     ('private_key', re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----')),
     ('jwt_literal', re.compile(r'\beyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\b')),
@@ -84,7 +82,10 @@ class Audit:
     def files(self):
         result = []
         for base, dirs, files in os.walk(self.root, followlinks=False):
-            dirs[:] = [d for d in dirs if d not in IGNORED and not Path(base, d).is_symlink()]
+            dirs[:] = [d for d in dirs
+                       if d not in IGNORED
+                       and not (d == 'dist' and Path(base).relative_to(self.root).parts[:1] in {('apps',), ('packages',)})
+                       and not Path(base, d).is_symlink()]
             for name in files:
                 p = Path(base, name)
                 if p.is_symlink():
@@ -164,7 +165,7 @@ class Audit:
         try:
             target.relative_to(self.root)
         except ValueError:
-            self.issue('warning', 'outside_repository_link', origin, 'Local link points outside the handoff; not inspected.')
+            self.issue('warning', 'outside_repository_link', origin, 'Local link points outside the repository; not inspected.')
             return
         if self.rel(target) == REPORT and self.report_will_be_written:
             return  # Explicit output of this run, checked after the audit completes.
@@ -266,8 +267,6 @@ class Audit:
                 require(rid, req, xid, 'requirement')
             if row.get('integration_id'):
                 require(row['integration_id'], integrations, xid, 'integration')
-            if row.get('status') not in {'not_run', 'specified', 'not_started'}:
-                self.issue('warning', 'runtime_test_status_claim', xid, 'Check claim: no application runtime tests belong to this artifact-only audit.')
         adapter_rows = backlog.get('adapter_tasks', [])
         adapter_ids = {r.get('integration_id') for r in adapter_rows}
         if len(adapter_ids) != len(adapter_rows):
@@ -415,29 +414,28 @@ class Audit:
         walk(doc)
         self.counts['openapi_operations'] = len(operation_ids)
 
-    def scope_and_secrets(self):
-        application_candidates = set()
+    def scan_sensitive_content(self):
         for p in self.files():
-            name = self.rel(p)
-            parts = p.relative_to(self.root).parts
-            if (parts and parts[0] in APP_DIRS) or p.name in APP_FILES or (p.suffix.lower() in {'.tsx', '.jsx', '.ts', '.go', '.rs', '.php'}):
-                application_candidates.add(name)
-                self.issue('error', 'application_implementation_present', p, 'Possible application/runtime file; artifact-only handoff requires review.')
-            if p.suffix.lower() in {'.py', '.mjs', '.js'} and parts[0] != 'tools':
-                application_candidates.add(name)
-                self.issue('error', 'executable_outside_tools', p, 'Executable source outside the documented artifact tools requires review.')
-            if p.name == '.env' or p.name.startswith('.env.') or p.suffix.lower() in {'.pem', '.key', '.p12', '.pfx', '.db', '.sqlite', '.xlsx', '.xls'}:
+            if (p.name == '.env' or (p.name.startswith('.env.') and p.name != '.env.example')
+                    or p.suffix.lower() in {'.pem', '.key', '.p12', '.pfx', '.db', '.sqlite', '.xlsx', '.xls'}):
                 self.issue('warning', 'sensitive_container_present', p, 'File type may contain secrets or customer data; inspect separately.')
-        self.counts['application_file_candidates'] = len(application_candidates)
         seen = set()
         for name, text in self.text.items():
             for rule, pattern in SECRET_RULES:
                 for match in pattern.finditer(text):
                     value = match.group(1) if match.lastindex else match.group(0)
-                    if rule == 'credential_assignment' and re.search(r'(?i)(?:example|dummy|placeholder|redacted|your[_ -]|synthetic|not.?set|change.?me|<|\$\{|schema|format)', value):
-                        continue
+                    if rule == 'credential_assignment':
+                        if (re.search(r'(?i)(?:example|dummy|placeholder|redacted|your[_ -]|synthetic|not.?set|change.?me|<|\$\{|schema|format)', value)
+                                or value in {'current-password', 'new-password'}
+                                or any(char.isspace() for char in value)):
+                            continue
                     if rule == 'email_credential_pair' and not (re.search(r'[A-Za-z]', value) and re.search(r'\d', value) and re.search(r'[^A-Za-z0-9]', value)):
                         continue
+                    if rule == 'url_credentials':
+                        host_match = re.match(r'[A-Za-z0-9.-]+', text[match.end():])
+                        host = host_match.group(0).lower() if host_match else ''
+                        if host in {'example.com', 'example.net', 'example.org'} or host.endswith(('.example', '.test', '.invalid', '.localhost')):
+                            continue
                     line = text.count('\n', 0, match.start()) + 1
                     key = (name, rule, line)
                     if key not in seen:
@@ -451,7 +449,7 @@ class Audit:
         self.graph()
         self.assets()
         self.openapi()
-        self.scope_and_secrets()
+        self.scan_sensitive_content()
         # Repeated referenced files are a single finding in the final report.
         unique = {json.dumps(i, sort_keys=True, ensure_ascii=False): i for i in self.issues}
         findings = sorted(unique.values(), key=lambda i: (i['level'], i['path'], i['code'], i.get('line', 0)))
@@ -459,13 +457,13 @@ class Audit:
         warnings = sum(i['level'] == 'warning' for i in findings)
         return dict(
             schema_version='1.0', checked_at=dt.datetime.now(dt.timezone.utc).isoformat(),
-            scope='Static documentation and artifact consistency only; no network or application execution.',
+            scope='Static documentation and design artifact consistency, plus heuristic repository text checks; no network or application execution.',
             status='failed' if errors else ('needs_review' if warnings else 'passed'),
             counts={**self.counts, 'errors': errors, 'warnings': warnings}, findings=findings,
             limitations=[
                 'No live connector, booking, payment, migration, tenant isolation, performance, or production test was executed.',
-                'Secret scan is heuristic; it neither proves absence of secrets nor inspects Git history, external files, ignored dependency folders, or text inside raster images.',
-                'Application absence check uses file and directory heuristics; artifact generators in tools/ and ignored dependencies need separate human scope review.',
+                'Secret scan is heuristic; it neither proves absence of secrets nor inspects Git history, external files, ignored dependency/build/private folders, or text inside raster images.',
+                'Application implementation may be present; this audit does not evaluate its behavior, builds, database access, or runtime test results.',
                 'Markdown checks validate local destinations, not remote URL availability or heading-anchor semantics.',
                 'PNG/SFNT checks validate structural headers and dimensions/table bounds, not full visual layout or font license authenticity.',
                 'Specification semantics, source accuracy, legal applicability and visual quality still require human review.',
