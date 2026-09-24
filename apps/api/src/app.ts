@@ -15,6 +15,7 @@ import {registerReservations} from './reservations.js';
 import {registerFinance} from './finance.js';
 import {registerOperations} from './operations.js';
 import {registerConnections} from './connections.js';
+import {registerImportPreview} from './import-preview.js';
 
 export async function createApp(pool:pg.Pool,config:Config){
   const https=config.TLS_KEY_PATH&&config.TLS_CERT_PATH?{key:await readFile(config.TLS_KEY_PATH),cert:await readFile(config.TLS_CERT_PATH)}:undefined;
@@ -33,6 +34,7 @@ export async function createApp(pool:pg.Pool,config:Config){
   await registerFinance(app,pool,config);
   await registerOperations(app,pool,config);
   await registerConnections(app,pool,config);
+  await registerImportPreview(app,pool,config);
   if(config.WEB_DIST_DIR){await app.register(staticFiles,{root:resolve(config.WEB_DIST_DIR),prefix:'/',wildcard:false,decorateReply:true,maxAge:'1h'});
     app.setNotFoundHandler((req,reply)=>{if(req.method==='GET'&&!req.url.startsWith('/api/')&&!req.url.startsWith('/health/'))return reply.header('Cache-Control','no-store').sendFile('index.html');return reply.code(404).send({status:404,code:'RESOURCE_NOT_FOUND',title:'Маршрут не найден',correlation_id:req.id});});}
   return app;

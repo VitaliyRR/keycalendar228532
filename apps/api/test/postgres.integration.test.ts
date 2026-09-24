@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
 import {createHash,createHmac,randomUUID} from 'node:crypto';
+import {writeFile,unlink} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import test from 'node:test';
 import pg from 'pg';
 import type {FastifyRequest} from 'fastify';
@@ -191,6 +194,47 @@ if(!testDatabaseUrl){
           assert.equal(detail.statusCode,200);
           assert.equal(detail.json().paid_minor,'5000','successful refund must reduce credited stay payment');
         }finally{await app.close();}
+      });
+
+      await t.test('source preview stays private to its owner organization and leaves live bookings untouched',async()=>{
+        const filePath=join(tmpdir(),`kc-import-preview-${randomUUID()}.json`);
+        const preview={organizationId:first.organizationId,asOf:'2031-01-01T00:00:00Z',
+          properties:[{sourceLotId:'lot-1',label:'Synthetic property',city:null,timezone:null}],
+          reservations:[{sourceBookingId:'booking-1',sourceLotId:'lot-1',sourceLotLabel:'Synthetic property',
+            arrivalDate:'2031-02-01',departureDate:'2031-02-03',status:'Бронь',amountText:null,currency:null}]};
+        await writeFile(filePath,JSON.stringify(preview),{mode:0o600});
+        const config:Config={NODE_ENV:'test',HOST:'127.0.0.1',PORT:3001,DATABASE_URL:testDatabaseUrl,
+          WEB_ORIGIN:'http://127.0.0.1:5173',SESSION_COOKIE_SECURE:'false',
+          CSRF_SECRET:'synthetic-secret-used-only-for-db-integration-tests',EMAIL_DELIVERY:'disabled',
+          IMPORT_PREVIEW_PATH:filePath,IMPORT_PREVIEW_ORGANIZATION_ID:first.organizationId};
+        const app=await createApp(pool,config);
+        try{
+          const firstSession=await syntheticSession(pool,first.userId,config.CSRF_SECRET);
+          const secondSession=await syntheticSession(pool,second.userId,config.CSRF_SECRET);
+          const ownUrl=`/api/v1/organizations/${first.organizationId}/import-preview`;
+          const otherUrl=`/api/v1/organizations/${second.organizationId}/import-preview`;
+          const before=await withTenant(pool,first.organizationId,first.userId,async tx=>
+            (await tx.query<{count:string}>('SELECT count(*)::text AS count FROM reservations WHERE organization_id=$1',[first.organizationId])).rows[0]!.count);
+          const anonymous=await app.inject({method:'GET',url:ownUrl});
+          assert.equal(anonymous.statusCode,401);
+          const outsider=await app.inject({method:'GET',url:ownUrl,headers:{cookie:secondSession.cookie}});
+          assert.equal(outsider.statusCode,404);
+          const viewer=await app.inject({method:'GET',url:otherUrl,headers:{cookie:firstSession.cookie}});
+          assert.equal(viewer.statusCode,403);
+          const otherOwner=await app.inject({method:'GET',url:otherUrl,headers:{cookie:secondSession.cookie}});
+          assert.equal(otherOwner.statusCode,404,'a different owner cannot read the configured preview');
+          const own=await app.inject({method:'GET',url:ownUrl,headers:{cookie:firstSession.cookie}});
+          assert.equal(own.statusCode,200);
+          assert.equal(own.headers['cache-control'],'private, no-store');
+          assert.equal(own.json().mode,'source_preview');
+          assert.equal(own.json().coverage.reservationCount,1);
+          const after=await withTenant(pool,first.organizationId,first.userId,async tx=>
+            (await tx.query<{count:string}>('SELECT count(*)::text AS count FROM reservations WHERE organization_id=$1',[first.organizationId])).rows[0]!.count);
+          assert.equal(after,before);
+          await writeFile(filePath,JSON.stringify({...preview,organizationId:second.organizationId}));
+          const mismatched=await app.inject({method:'GET',url:ownUrl,headers:{cookie:firstSession.cookie}});
+          assert.equal(mismatched.statusCode,404,'the file organization must match the requested organization');
+        }finally{await app.close();await unlink(filePath);}
       });
 
       await t.test('property stay windows round-trip and reject inverted boundaries',async()=>{

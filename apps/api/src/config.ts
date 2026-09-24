@@ -15,6 +15,8 @@ const schema=z.object({
   SMTP_URL:z.string().url().optional(),
   MAIL_FROM:z.string().email().optional(),
   CONNECTION_SECRET_KEY:z.string().regex(/^[a-fA-F0-9]{64}$/).optional(),
+  IMPORT_PREVIEW_PATH:z.string().min(1).optional(),
+  IMPORT_PREVIEW_ORGANIZATION_ID:z.uuid().optional(),
   WEB_DIST_DIR:z.string().optional(),
   TLS_KEY_PATH:z.string().optional(),
   TLS_CERT_PATH:z.string().optional(),
