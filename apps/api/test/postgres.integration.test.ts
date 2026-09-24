@@ -193,6 +193,62 @@ if(!testDatabaseUrl){
         }finally{await app.close();}
       });
 
+      await t.test('property stay windows round-trip and reject inverted boundaries',async()=>{
+        const config:Config={NODE_ENV:'test',HOST:'127.0.0.1',PORT:3001,DATABASE_URL:testDatabaseUrl,
+          WEB_ORIGIN:'http://127.0.0.1:5173',SESSION_COOKIE_SECURE:'false',CSRF_SECRET:'synthetic-secret-used-only-for-db-integration-tests',EMAIL_DELIVERY:'disabled'};
+        const app=await createApp(pool,config);
+        try{
+          const session=await syntheticSession(pool,first.userId,config.CSRF_SECRET);
+          const url=`/api/v1/organizations/${first.organizationId}/properties`;
+          const headers={cookie:session.cookie,'x-csrf-token':session.csrf,'idempotency-key':randomUUID()};
+          const created=await app.inject({method:'POST',url,headers,payload:{
+            name:'Synthetic windowed property',timezone:'Europe/Volgograd',
+            checkin_time:'14:00',checkin_time_end:'22:00',checkout_time_start:'09:00',checkout_time:'12:00'
+          }});
+          assert.equal(created.statusCode,200);
+          const detail=await app.inject({method:'GET',url:`${url}/${created.json().id}`,headers:{cookie:session.cookie}});
+          assert.equal(detail.statusCode,200);
+          assert.deepEqual([
+            detail.json().checkin_time,detail.json().checkin_time_end,
+            detail.json().checkout_time_start,detail.json().checkout_time
+          ],['14:00:00','22:00:00','09:00:00','12:00:00']);
+          const list=await app.inject({method:'GET',url,headers:{cookie:session.cookie}});
+          assert.equal(list.statusCode,200);
+          const listed=list.json().items.find((item:{id:string})=>item.id===created.json().id);
+          assert.equal(listed.checkin_time_end,'22:00:00');
+          assert.equal(listed.checkout_time_start,'09:00:00');
+          const legacy=await app.inject({method:'GET',url:`${url}/${first.propertyId}`,headers:{cookie:session.cookie}});
+          assert.equal(legacy.statusCode,200);
+          assert.equal(legacy.json().checkin_time_end,null);
+          assert.equal(legacy.json().checkout_time_start,null);
+          const missingTimezone=await app.inject({method:'POST',url,
+            headers:{...headers,'idempotency-key':randomUUID()},
+            payload:{name:'Timezone omitted',checkin_time:'14:00',checkout_time:'12:00'}});
+          assert.equal(missingTimezone.statusCode,422);
+          const missingTimes=await app.inject({method:'POST',url,
+            headers:{...headers,'idempotency-key':randomUUID()},
+            payload:{name:'Stay times omitted',timezone:'Europe/Volgograd'}});
+          assert.equal(missingTimes.statusCode,422);
+          for(const invalid of [
+            {checkin_time:'14:00',checkin_time_end:'13:00',checkout_time:'12:00'},
+            {checkin_time:'14:00',checkout_time:'12:00',checkout_time_start:'13:00'},
+            {checkin_time:'14:00',checkout_time:'12:00',timezone:'Mars/Olympus_Mons'}
+          ]){
+            const response=await app.inject({method:'POST',url,headers:{...headers,'idempotency-key':randomUUID()},
+              payload:{name:'Invalid synthetic window',timezone:'Europe/Volgograd',...invalid}});
+            assert.equal(response.statusCode,422);
+          }
+          await withTenant(pool,first.organizationId,first.userId,async tx=>{
+            await tx.query('SAVEPOINT reject_inverted_window');
+            await assert.rejects(tx.query(`INSERT INTO properties(organization_id,name,checkin_time,checkin_time_end)
+              VALUES($1,'Inverted SQL window','14:00','13:00')`,[first.organizationId]),error=>{
+              assert.equal((error as {code?:string}).code,'23514');return true;
+            });
+            await tx.query('ROLLBACK TO SAVEPOINT reject_inverted_window');
+          });
+        }finally{await app.close();}
+      });
+
       await t.test('guest contacts require a linked reservation in a granted property',async()=>{
         const config:Config={NODE_ENV:'test',HOST:'127.0.0.1',PORT:3001,DATABASE_URL:testDatabaseUrl,
           WEB_ORIGIN:'http://127.0.0.1:5173',SESSION_COOKIE_SECURE:'false',CSRF_SECRET:'synthetic-secret-used-only-for-db-integration-tests',EMAIL_DELIVERY:'disabled'};
@@ -305,8 +361,8 @@ if(!testDatabaseUrl){
         assert.deepEqual(concurrent[0],concurrent[1]);
         assert.equal(executed,2,'only one execution for the concurrent duplicate');
         const records=await withTenant(pool,first.organizationId,first.userId,tx=>tx.query(
-          'SELECT operation,key,response_body FROM idempotency_records WHERE organization_id=$1 AND actor_id=$2',
-          [first.organizationId,first.userId]));
+          'SELECT operation,key,response_body FROM idempotency_records WHERE organization_id=$1 AND actor_id=$2 AND operation=$3 AND key=ANY($4::text[])',
+          [first.organizationId,first.userId,'property.create',[key,concurrentKey]]));
         assert.equal(records.rowCount,2);
       });
     }finally{

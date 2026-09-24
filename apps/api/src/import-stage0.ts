@@ -94,7 +94,10 @@ function validateRow(value:unknown,sourceChecksum:string,dataset:EvidenceDataset
     if(dataset==='properties_full_ui'&&(typeof value.lot_id!=='string'||
       typeof value.label!=='string'||!Array.isArray(value.sections)||value.sections.length!==8||
       value.sections.some(section=>!isObject(section)||typeof section.section!=='string'||
-        typeof section.snapshot!=='string'||
+        !(typeof section.snapshot==='string'||
+          (section.section==='photos'&&section.snapshot===null&&
+            section.capture_method==='css_gallery_dom'&&
+            Array.isArray(section.gallery)&&section.gallery.length>0))||
         (section.images!==undefined&&!Array.isArray(section.images)))))
       throw new StageError('ROW_INVALID_PROPERTY_EVIDENCE');
     if((dataset==='active_booking_cards_ui'||dataset==='booking_pages_ui')&&

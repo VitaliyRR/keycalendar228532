@@ -38,6 +38,10 @@ export interface Property {
   id: string;
   name: string;
   timezone?: string;
+  checkin_time?: string;
+  checkin_time_end?: string | null;
+  checkout_time_start?: string | null;
+  checkout_time?: string;
   units?: Unit[];
   version?: number;
   address?: string;

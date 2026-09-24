@@ -82,7 +82,10 @@ def jsonl_count(path: pathlib.Path, dataset: str) -> int:
                 not isinstance(row.get("sections"), list) or len(row["sections"]) != 8 or
                 any(not isinstance(section, dict) or
                     not isinstance(section.get("section"), str) or
-                    not isinstance(section.get("snapshot"), str) or
+                    not (isinstance(section.get("snapshot"), str) or
+                      (section.get("section") == "photos" and section.get("snapshot") is None and
+                       section.get("capture_method") == "css_gallery_dom" and
+                       isinstance(section.get("gallery"), list) and len(section["gallery"]) > 0)) or
                     ("images" in section and not isinstance(section["images"], list))
                     for section in row["sections"])
             ):

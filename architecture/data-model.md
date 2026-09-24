@@ -19,7 +19,7 @@
 | Subscription | plan_version_id, status, trial_end?, paid_through?, grace_end?, merchant_ref? | Отдельно от гостевых оплат; состояние меняется по проверенному платежу/ручной подтверждённой сверке |
 | PlanVersion | code, active_unit_limit?, active_member_limit?, enabled_features[], price_minor?, effective_from | Историческая версия неизменяема; пустая цена запрещает публичную продажу |
 | SaaSInvoice | subscription_id, period_from, period_to, total_minor, status, payment_ref? | Unique(org,period,plan_version); повтор webhook не продлевает дважды |
-| Property | name, address_private?, public_location?, timezone, checkin_time, checkout_time | Адрес приватен до явной публикации; только IANA timezone |
+| Property | name, address_private?, public_location?, timezone, checkin_time, checkin_time_end?, checkout_time_start?, checkout_time | Адрес приватен до явной публикации; только IANA timezone. `checkin_time` — начало окна заезда, `checkout_time` — конец окна выезда; NULL на дополнительных границах означает неизвестную границу, а не нулевое окно |
 | UnitCategory | property_id, name, capacity_adults, capacity_children, amenities[] | Не является самостоятельной продаваемой вместимостью |
 | Unit | property_id, category_id?, name, capacity, inventory_state, sort_key | Однозначная атомарная продаваемая единица; архив при будущих allocation запрещён |
 | ResourceLink | sold_unit_id, occupied_unit_id | Для продажи дома целиком вместе с комнатами резервируются все атомарные ресурсы; циклы запрещены |

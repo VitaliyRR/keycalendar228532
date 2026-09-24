@@ -9,7 +9,26 @@ import {problem} from './problem.js';
 import {assertProperty,audit,idempotent,inOrganization,outbox,type TenantContext} from './tenant.js';
 
 const id=z.uuid();const orgParam=z.object({orgId:id});
-const propertyBody=z.object({name:z.string().trim().min(1).max(150),timezone:z.string().min(3).max(100).default('Europe/Moscow'),checkin_time:z.string().regex(/^\d\d:\d\d$/).default('15:00'),checkout_time:z.string().regex(/^\d\d:\d\d$/).default('11:00'),address_private:z.string().max(500).optional()}).strict();
+const clockTime=z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+function validIanaTimezone(value:string):boolean{
+  if(!(value==='UTC'||/^[A-Za-z_]+(?:\/[A-Za-z0-9_+\-]+)+$/.test(value)))return false;
+  try{new Intl.DateTimeFormat('en-US',{timeZone:value});return true;}
+  catch{return false;}
+}
+const propertyBody=z.object({
+  name:z.string().trim().min(1).max(150),
+  timezone:z.string().trim().min(3).max(100).refine(validIanaTimezone,'Укажите действительный часовой пояс IANA'),
+  checkin_time:clockTime,
+  checkin_time_end:clockTime.optional(),
+  checkout_time_start:clockTime.optional(),
+  checkout_time:clockTime,
+  address_private:z.string().max(500).optional()
+}).strict().superRefine((input,context)=>{
+  if(input.checkin_time_end && input.checkin_time_end<=input.checkin_time)
+    context.addIssue({code:'custom',path:['checkin_time_end'],message:'Конец окна заезда должен быть позже его начала'});
+  if(input.checkout_time_start && input.checkout_time_start>=input.checkout_time)
+    context.addIssue({code:'custom',path:['checkout_time_start'],message:'Начало окна выезда должно быть раньше его конца'});
+});
 const unitBody=z.object({name:z.string().trim().min(1).max(120),capacity:z.coerce.number().int().min(1).max(100).optional(),capacity_adults:z.coerce.number().int().min(1).max(100).optional(),capacity_children:z.coerce.number().int().min(0).max(100).default(0),base_rate_minor:z.string().regex(/^\d+$/).default('0'),category_id:id.optional()}).strict();
 const guestBody=z.object({display_name:z.string().trim().min(1).max(150),email:z.email().optional(),phone:z.string().max(50).optional(),note:z.string().max(3000).optional(),legal_basis:z.enum(['contract','consent']).default('contract')}).strict();
 const rateInput=z.object({unit_ids:z.array(id).min(1).max(50),rate_plan_id:id,from:z.iso.date(),to:z.iso.date(),amount_minor:z.string().regex(/^\d+$/),reason:z.string().max(500).optional()}).strict();
@@ -33,7 +52,8 @@ async function rateSnapshot(c:TenantContext,input:z.infer<typeof rateInput>):Pro
 export async function registerInventory(app:FastifyInstance,pool:pg.Pool,config:Config):Promise<void>{
   app.get('/api/v1/organizations/:orgId/properties',async req=>{
     const {orgId}=orgParam.parse(req.params);return inOrganization(req,pool,config,orgId,'inventory.read',async c=>{
-      const s=scopeSql(c,'p.id');const rows=await c.tx.query(`SELECT p.id,p.name,p.timezone,p.checkin_time::text,p.checkout_time::text,p.version,p.created_at,
+      const s=scopeSql(c,'p.id');const rows=await c.tx.query(`SELECT p.id,p.name,p.timezone,p.checkin_time::text,p.checkin_time_end::text,
+        p.checkout_time_start::text,p.checkout_time::text,p.version,p.created_at,
         COALESCE((SELECT jsonb_agg(jsonb_build_object('id',u.id,'name',u.name,'state',u.state,'capacity',u.capacity_adults+u.capacity_children,
           'capacity_adults',u.capacity_adults,'capacity_children',u.capacity_children,'base_rate_minor',u.base_rate_minor::text,'currency',u.currency,'version',u.version) ORDER BY u.name)
           FROM units u WHERE u.organization_id=p.organization_id AND u.property_id=p.id AND u.state<>'archived'),'[]'::jsonb) AS units
@@ -44,16 +64,17 @@ export async function registerInventory(app:FastifyInstance,pool:pg.Pool,config:
   app.post('/api/v1/organizations/:orgId/properties',async req=>{
     const {orgId}=orgParam.parse(req.params),input=propertyBody.parse(req.body);
     return inOrganization(req,pool,config,orgId,'inventory.write',c=>idempotent(c,req,'property.create',async()=>{
-      const row=await one(c.tx,`INSERT INTO properties(organization_id,name,timezone,checkin_time,checkout_time,address_private)
-        VALUES($1,$2,$3,$4,$5,$6) RETURNING id,name,timezone,checkin_time::text,checkout_time::text,version`,
-        [orgId,input.name,input.timezone,input.checkin_time,input.checkout_time,input.address_private??null]);
+      const row=await one(c.tx,`INSERT INTO properties(organization_id,name,timezone,checkin_time,checkin_time_end,checkout_time_start,checkout_time,address_private)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8)
+        RETURNING id,name,timezone,checkin_time::text,checkin_time_end::text,checkout_time_start::text,checkout_time::text,version`,
+        [orgId,input.name,input.timezone,input.checkin_time,input.checkin_time_end??null,input.checkout_time_start??null,input.checkout_time,input.address_private??null]);
       await audit(c,'property.created','property',(row as {id:string}).id);return row;
     }),{write:true});
   });
   app.get('/api/v1/organizations/:orgId/properties/:propertyId',async req=>{
     const {orgId,propertyId}=z.object({orgId:id,propertyId:id}).parse(req.params);
     return inOrganization(req,pool,config,orgId,'inventory.read',async c=>{
-      assertProperty(c,propertyId);const row=await one(c.tx,'SELECT id,name,timezone,address_private,checkin_time::text,checkout_time::text,version FROM properties WHERE organization_id=$1 AND id=$2 AND archived_at IS NULL',[orgId,propertyId]);
+      assertProperty(c,propertyId);const row=await one(c.tx,'SELECT id,name,timezone,address_private,checkin_time::text,checkin_time_end::text,checkout_time_start::text,checkout_time::text,version FROM properties WHERE organization_id=$1 AND id=$2 AND archived_at IS NULL',[orgId,propertyId]);
       if(!row)problem(404,'RESOURCE_NOT_FOUND','Объект не найден');const units=await c.tx.query('SELECT id,name,state,capacity_adults,capacity_children,base_rate_minor::text,currency,version FROM units WHERE organization_id=$1 AND property_id=$2 AND state<>\'archived\' ORDER BY name',[orgId,propertyId]);return {...row,units:units.rows};
     },{scope:true});
   });
