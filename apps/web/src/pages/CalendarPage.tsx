@@ -1,5 +1,5 @@
 ﻿import { useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { orgPath, query } from '../api';
 import { Badge, Button, Empty, ErrorBox, Field, Loading, PageHeader, Panel, useResource } from '../components';
 import { addDays, dateRu, firstStay, guestName, money, reservationStatus } from '../format';
@@ -15,7 +15,7 @@ const today = () => {
   return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 };
 
-export function CalendarPage({ orgId, filtersOnly = false }: { orgId: string; filtersOnly?: boolean }) {
+export function CalendarPage({ orgId, filtersOnly = false, canPreview = false }: { orgId: string; filtersOnly?: boolean; canPreview?: boolean }) {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const start = params.get('from') || today();
@@ -102,12 +102,12 @@ export function CalendarPage({ orgId, filtersOnly = false }: { orgId: string; fi
   const visibleUnits = units.slice(visibleStart,visibleEnd);
 
   return <div className="calendar-page">
-    <PageHeader title={filtersOnly?'Вид календаря и фильтры':'Шахматка'} description="Занятость по локальным датам объектов. Заявка не удерживает даты." actions={<Button variant="primary" onClick={()=>openCreate()}>+ Бронирование</Button>} />
+    <PageHeader title={filtersOnly?'Вид календаря и фильтры':'Шахматка'} description="Занятость по локальным датам объектов. Заявка не удерживает даты." actions={<>{canPreview&&<Link className="button button-secondary" to="/import-preview">Предпросмотр импорта</Link>}<Button variant="primary" onClick={()=>openCreate()}>+ Бронирование</Button></>} />
     <div className="toolbar calendar-toolbar"><div className="toolbar-group"><Button onClick={()=>updateParams({from:today()})}>Сегодня</Button><Button aria-label="Предыдущие две недели" onClick={()=>updateParams({from:addDays(start,-DAY_COUNT)})}>‹</Button><Button aria-label="Следующие две недели" onClick={()=>updateParams({from:addDays(start,DAY_COUNT)})}>›</Button><strong>{dateRu(start)} — {dateRu(addDays(end,-1))}</strong></div><div className="toolbar-group"><Field label="Начало периода"><input type="date" value={start} onChange={event=>updateParams({from:event.target.value})}/></Field><Button onClick={()=>updateParams({search:null,status:null})}>Сбросить фильтры</Button></div></div>
     <div className="calendar-filters"><Field label="Поиск объекта"><input type="search" value={search} onChange={event=>{setSearch(event.target.value); updateParams({search:event.target.value || null});}} placeholder="Название или адрес"/></Field><Field label="Статус"><select value={status} onChange={event=>{setStatus(event.target.value);updateParams({status:event.target.value==='all'?null:event.target.value});}}><option value="all">Все записи</option><option value="confirmed">Подтверждённые</option><option value="request">Заявки</option><option value="cancelled">Отменённые</option></select></Field><span className="calendar-freshness">{payload?.as_of ? `Обновлено ${new Date(payload.as_of).toLocaleString('ru-RU')}` : 'Данные загружаются по запросу'}</span></div>
     {resource.loading && <Loading/>}
     {Boolean(resource.error) && <ErrorBox error={resource.error} retry={resource.reload}/>}
-    {!resource.loading && !resource.error && payload && units.length===0 && <Empty title={payload.units.length ? 'По фильтрам ничего не найдено' : 'Пока нет объектов'} detail={payload.units.length ? 'Измените поиск или сбросьте фильтры.' : 'Добавьте объект и номер, чтобы увидеть календарь.'} action={<Button onClick={()=>navigate(screenPath(orgId,'SCR-OBJ-01'))}>Открыть объекты</Button>}/>}
+    {!resource.loading && !resource.error && payload && units.length===0 && <Empty title={payload.units.length ? 'По фильтрам ничего не найдено' : 'Пока нет объектов'} detail={payload.units.length ? 'Измените поиск или сбросьте фильтры.' : 'Исходные записи для переноса доступны в отдельном предпросмотре. Рабочий календарь заполнится после сверки и переноса.'} action={canPreview&&!payload.units.length?<Link className="button button-primary" to="/import-preview">Показать исходные брони</Link>:<Button onClick={()=>navigate(screenPath(orgId,'SCR-OBJ-01'))}>Открыть объекты</Button>}/>}
     {!resource.loading && !resource.error && units.length>0 && <>
       <div className="calendar-scroll" ref={gridRef} onScroll={event=>setScrollTop(event.currentTarget.scrollTop)}>
         <div className="calendar-grid" style={{minWidth:LABEL_WIDTH+DAY_COUNT*CELL_WIDTH}} role="grid" aria-label="Календарь занятости">
