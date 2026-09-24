@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth';
-import { Button, Empty, Loading } from './components';
+import { orgPath } from './api';
+import { Button, Empty, Loading, useResource } from './components';
 import { groupScreens, primaryScreens, screenMap, screenPath } from './screens';
 import { MigrationPage, OrganizationPage, StaffPage, SubscriptionPage } from './pages/AdminPage';
 import { ImportPreviewPage } from './pages/ImportPreviewPage';
@@ -35,6 +36,15 @@ function ImportPreviewRedirect() {
     return role==='owner'||role==='admin';
   });
   return <Navigate to={organization?screenPath(organization.id,'SCR-MIG-02'):'/'} replace/>;
+}
+
+function SourcePreviewRibbon({orgId}:{orgId:string}) {
+  const preview=useResource<{coverage:{propertyCount:number;reservationCount:number}}>(orgPath(orgId,'import-preview'));
+  if(!preview.data)return null;
+  return <div className="notice notice-warning" role="status">
+    <strong>Данные RealtyCalendar для сверки:</strong> {preview.data.coverage.propertyCount} объектов, {preview.data.coverage.reservationCount} броней.{' '}
+    <Link to="/import-preview">Открыть предпросмотр</Link>. Эти записи ещё не являются рабочими данными Кей Календаря.
+  </div>;
 }
 
 function WorkspaceRoute() {
@@ -72,7 +82,7 @@ function WorkspaceRoute() {
     </aside>
     {menuOpen&&<button className="mobile-scrim" aria-label="Закрыть меню" onClick={()=>setMenuOpen(false)}/>}
     <div className="main-column"><header className="topbar"><button className="menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Закрыть меню':'Открыть меню'} aria-expanded={menuOpen}>☰</button><label className="org-select"><span className="sr-only">Организация</span><select value={orgId} onChange={event=>changeOrganization(event.target.value)}>{auth.organizations.map(item=><option key={item.id} value={item.id}>{item.display_name||item.name||'Организация'}</option>)}</select></label><form className="global-search" onSubmit={submitSearch}><input ref={searchRef} type="search" value={search} onChange={event=>setSearch(event.target.value)} placeholder="Поиск Ctrl K" aria-label="Поиск бронирования"/></form><span className="topbar-user" aria-label={`Роль: ${role}`}>{role.slice(0,2).toUpperCase()}</span></header>
-      <main id="main-content" className="content"><div className="section-tabs" aria-label="Разделы: экраны">{localScreens.map(item=><Link key={item.id} className={item.id===screen.id?'current':''} to={screenPath(orgId,item.id,entityId&&detailScreens.has(item.id)?entityId:undefined)}>{item.title}</Link>)}</div>{shellError&&<div className="notice notice-error" role="alert">{shellError}</div>}{readOnly&&<div className="notice notice-warning">Подписка ограничивает изменения. Доступны разрешённые данные и экспорт.</div>}
+      <main id="main-content" className="content"><div className="section-tabs" aria-label="Разделы: экраны">{localScreens.map(item=><Link key={item.id} className={item.id===screen.id?'current':''} to={screenPath(orgId,item.id,entityId&&detailScreens.has(item.id)?entityId:undefined)}>{item.title}</Link>)}</div>{canPreview&&screen.id!=='SCR-MIG-02'&&<SourcePreviewRibbon orgId={orgId}/>}{shellError&&<div className="notice notice-error" role="alert">{shellError}</div>}{readOnly&&<div className="notice notice-warning">Подписка ограничивает изменения. Доступны разрешённые данные и экспорт.</div>}
         {screen.id==='SCR-CAL-01'||screen.id==='SCR-CAL-02'?<CalendarPage orgId={orgId} filtersOnly={screen.id==='SCR-CAL-02'} canPreview={canPreview}/>:
          screen.id==='SCR-CAL-03'?<BlockPage orgId={orgId} canWrite={canBook}/>:
          screen.id==='SCR-RES-01'||screen.id==='SCR-RES-06'?<ReservationList orgId={orgId} mode={screen.id==='SCR-RES-06'?'arrivals':'all'} canWrite={canBook}/>:
